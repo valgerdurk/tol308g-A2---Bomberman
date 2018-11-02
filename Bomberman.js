@@ -30,37 +30,29 @@ function requestPreloads() {
     var requiredImages = {
 
         // Player sprite images
-        playerRight : "playerwalkright.png", playerRightStep : "playerwalkright2.png",
-        playerLeft : "playerwalkleft.png", playerLeftStep : "playerwalkleft2.png",
-        playerBack : "playerwalkup.png", playerBackStep : "playerwalkup2.png",
-        playerFront : "playerwalkdown.png", playerFrontStep : "playerwalkdown2.png"
+        0 : "playerwalkright.png", 1 : "playerwalkright2.png",
+        2 : "playerwalkleft.png", 3 : "playerwalkleft2.png",
+        4 : "playerwalkup.png", 5 : "playerwalkup2.png",
+        6 : "playerwalkdown.png", 7 : "playerwalkdown2.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
 }
 
 var g_sprites = {};
+var g_playerSprites = 8;
 
 function preloadDone() {
 
     // Player sprites
-    g_sprites.playerRight = new Sprite(g_images.playerRight);
-    g_sprites.playerRightStep = new Sprite(g_images.playerRightStep);
-    g_sprites.playerLeft = new Sprite(g_images.playerLeft);
-    g_sprites.playerLeftStep = new Sprite(g_images.playerLeftStep);
-    g_sprites.playerBack = new Sprite(g_images.playerBack);
-    g_sprites.playerBackStep = new Sprite(g_images.playerBackStep);
-    g_sprites.playerFront = new Sprite(g_images.playerFront);
-    g_sprites.playerFrontStep = new Sprite(g_images.playerFrontStep);
+    for (var i = 0; i < g_playerSprites; i++) {
+        g_sprites[i] = new Sprite(g_images[i]);
+    }
 
-    g_sprites.playerRight.scale = 2;
-    g_sprites.playerRightStep.scale = 2;
-    g_sprites.playerLeft.scale = 2;
-    g_sprites.playerLeftStep.scale = 2;
-    g_sprites.playerBack.scale = 2;
-    g_sprites.playerBackStep.scale = 2;
-    g_sprites.playerFront.scale = 2;
-    g_sprites.playerFrontStep.scale = 2;
+    // Player sprite images scaled
+    for (var i = 0; i < g_playerSprites; i++) {
+        g_sprites[i].scale = 2;
+    }
 
     entityManager.init();
 
