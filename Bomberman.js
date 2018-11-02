@@ -30,10 +30,10 @@ function requestPreloads() {
     var requiredImages = {
 
         // Player sprite images
-        0 : "playerwalkright.png", 1 : "playerwalkright2.png",
-        2 : "playerwalkleft.png", 3 : "playerwalkleft2.png",
-        4 : "playerwalkup.png", 5 : "playerwalkup2.png",
-        6 : "playerwalkdown.png", 7 : "playerwalkdown2.png"
+        0 : "https://notendur.hi.is/vak9/images/playerwalkright.png", 1 : "https://notendur.hi.is/vak9/images/playerwalkright2.png",
+        2 : "https://notendur.hi.is/vak9/images/playerwalkleft.png", 3 : "https://notendur.hi.is/vak9/images/playerwalkleft2.png",
+        4 : "https://notendur.hi.is/vak9/images/playerwalkup.png", 5 : "https://notendur.hi.is/vak9/images/playerwalkup2.png",
+        6 : "https://notendur.hi.is/vak9/images/playerwalkdown.png", 7 : "https://notendur.hi.is/vak9/images/playerwalkdown2.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
