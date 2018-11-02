@@ -9,24 +9,23 @@ function Player(descr) {
     // Common inherited setup logic from Entity
     this.setup(descr);
 
-    // Sprites
+     // Sprites
     this.sprite = this.sprite 
-    || g_sprites.playerRight 
-    || g_sprites.playerRightStep
-    || g_sprites.playerLeft
-    || g_sprites.playerLeftStep
-    || g_sprites.playerBack
-    || g_sprites.playerBackStep
-    || g_sprites.playerFront
-    || g_sprites.playerFrontStep;
-
+    || g_sprites[0]
+    || g_sprites[1]
+    || g_sprites[2]
+    || g_sprites[3]
+    || g_sprites[4]
+    || g_sprites[5]
+    || g_sprites[6]
+    || g_sprites[7];
 };
 
 Player.prototype = new Entity();
 
 // Movement keys
-Player.prototype.KEY_LEFT = 'A'.charCodeAt(0);
 Player.prototype.KEY_RIGHT = 'D'.charCodeAt(0);
+Player.prototype.KEY_LEFT = 'A'.charCodeAt(0);
 Player.prototype.KEY_UP = 'W'.charCodeAt(0);
 Player.prototype.KEY_DOWN = 'S'.charCodeAt(0);
 
@@ -51,38 +50,38 @@ Player.prototype.update = function () {
     // Movement stuff 
     // The Player changes sprites depending on the direction he is going 
 
+    if(keys[this.KEY_RIGHT]) {
+        if (g_step) {
+            this.sprite = g_sprites[0];
+        } else if (!g_step) {
+            this.sprite = g_sprites[1];
+        }
+        this.cx += 4;
+    }
+
     if (keys[this.KEY_LEFT]) {
         if (g_step) {
-            this.sprite = g_sprites.playerLeftStep;
+            this.sprite = g_sprites[2];
         } else if (!g_step) {
-            this.sprite = g_sprites.playerLeft;
+            this.sprite = g_sprites[3];
         }
         this.cx -= 4;
     }
 
-    if(keys[this.KEY_RIGHT]) {
-        if (g_step) {
-            this.sprite = g_sprites.playerRightStep;
-        } else if (!g_step) {
-            this.sprite = g_sprites.playerRight;
-        }
-        this.cx += 4;
-    }
-    
     if(keys[this.KEY_UP]) {
         if (g_step) {
-            this.sprite = g_sprites.playerBackStep;
+            this.sprite = g_sprites[4];
         } else if (!g_step) {
-            this.sprite = g_sprites.playerBack;
+            this.sprite = g_sprites[5];
         }
         this.cy -= 4;
     }
 
     if(keys[this.KEY_DOWN]) {
         if (g_step) {
-            this.sprite = g_sprites.playerFrontStep;
+            this.sprite = g_sprites[6];
         } else if (!g_step) {
-            this.sprite = g_sprites.playerFront;
+            this.sprite = g_sprites[7];
         }
         this.cy += 4;
     }
