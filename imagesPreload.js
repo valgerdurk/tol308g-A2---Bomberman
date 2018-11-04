@@ -41,7 +41,6 @@ Image.prototype.asyncLoad = function(src, asyncCallback) {
     // in-cache, but will most likely happen some time later when the load has
     // occurred and the resulting event is processesd in the queue.
     
-    console.log("requesting image src of ", src);
     this.src = src;
 };
 
@@ -123,7 +122,6 @@ function imagesPreload(requiredImages,
         
         if (requiredImages.hasOwnProperty(currentName)) {
             
-            console.log("preloading image", currentName);
             currentImage = new Image();
             currentImage.name = currentName;
 

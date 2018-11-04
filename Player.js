@@ -85,6 +85,11 @@ Player.prototype.update = function () {
         }
         this.cy += 4;
     }
+
+    // Drop bomb
+    if(eatKey(this.KEY_DROP_BOMB)) {
+        entityManager.generateBomb(this.cx, this.cy);
+    }
 };
 
 Player.prototype.render = function (ctx) {
