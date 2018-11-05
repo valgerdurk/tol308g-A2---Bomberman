@@ -57,7 +57,10 @@ Player.prototype.update = function () {
     this.playerMovement();
     // The Player changes sprites depending on the direction he is going 
 
-    
+    // Drop bomb
+    if(eatKey(this.KEY_DROP_BOMB)) {
+        entityManager.generateBomb(this.cx, this.cy);
+    }
 };
 
 Player.prototype.playerMovement = function(){
@@ -146,11 +149,6 @@ Player.prototype.mapCollision = function () {
     this.cx -= 4;
     }
     */
-
-    // Drop bomb
-    if(eatKey(this.KEY_DROP_BOMB)) {
-        entityManager.generateBomb(this.cx, this.cy);
-    }
 };
 
 Player.prototype.render = function (ctx) {
