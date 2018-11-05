@@ -14,11 +14,13 @@ function createPlayers() {
 function updateSimulation(du) {
 
     entityManager.update(du);
+
 }
 
 function renderSimulation(ctx) {
-    
     entityManager.render(ctx);
+    //added g_map to render
+    g_map.render(ctx);
 }
 
 // Preload images
