@@ -51,12 +51,9 @@ function setStep() {
 Player.prototype.update = function () {
 
     //collision check
-    
-    // Movement stuff
     this.mapCollision();
+    // Movement stuff
     this.playerMovement();
-    // The Player changes sprites depending on the direction he is going 
-
     // Drop bomb
     if(eatKey(this.KEY_DROP_BOMB)) {
         entityManager.generateBomb(this.cx, this.cy);
@@ -65,6 +62,7 @@ Player.prototype.update = function () {
 
 Player.prototype.playerMovement = function(){
 
+    // The Player changes sprites depending on the direction he is going 
     if(keys[this.KEY_RIGHT]) {
         if (g_step) {
             this.sprite = g_sprites[0];
@@ -72,6 +70,8 @@ Player.prototype.playerMovement = function(){
             this.sprite = g_sprites[1];
         }
         this.cx += this.step;
+        if(this.mapCollision())
+            this.cx -= this.step;
     }
 
     if (keys[this.KEY_LEFT]) {
@@ -81,6 +81,8 @@ Player.prototype.playerMovement = function(){
             this.sprite = g_sprites[3];
         }
         this.cx -= this.step;
+        if(this.mapCollision())
+            this.cx += this.step;
     }
 
     if(keys[this.KEY_UP]) {
@@ -90,6 +92,8 @@ Player.prototype.playerMovement = function(){
             this.sprite = g_sprites[5];
         }
         this.cy -= this.step;
+        if(this.mapCollision())
+            this.cy += this.step;
     }
 
     if(keys[this.KEY_DOWN]) {
@@ -99,56 +103,71 @@ Player.prototype.playerMovement = function(){
             this.sprite = g_sprites[7];
         }
         this.cy += this.step;
+        if(this.mapCollision())
+            this.cy -= this.step;
     }
-}
+};
+
+//create bounding around sprite, takes in player
+//x,y cords and halfwith/halfheight
+//and returns an array x,y map cords
+Player.prototype.bounding = function (x,y,sw,sh) {
+
+    //messy can probably done in a more efficent and tidy way
+    //shift xy of sprite by height and width
+    var topLeftX = Math.floor((x-sw) / 64);
+    var topLeftY = Math.floor((y-sh) / 64);
+    //shift x by width
+    var botLeftX = Math.floor((x-sw)/ 64);
+    var botLeftY = Math.floor(y / 64);
+    // shift x and y bu
+    var botRightX = Math.floor((x+(sw/2)) / 64);
+    var botRightY = Math.floor((y+(sh/2)) / 64);
+    //shift y by height
+    var topRightX = Math.floor((x+(sw/2)) / 64);
+    var topRightY = Math.floor((y-sh) / 64);
+    
+    var topL = [topLeftX,topLeftY];
+    var botL = [botLeftX,botLeftY];
+    var botR = [botRightX,botRightY];
+    var topR = [topRightX,topRightY];
+
+    var boundingBox = [topL,topR,botR,botL];
+    // this is the x and y cords of the sprite's corners
+    // they are used to check the map array
+    return boundingBox;
+    
+};
 
 // collision with map objects
 Player.prototype.mapCollision = function () {
 
-
-
-
-    //halfwidth and height
-    var hw = this.sprite.width/2;
-    var hh = this.sprite.height/2;
-    // Remember my previous position
+    //Remember previous position
     var prevX = this.cx;
     var prevY = this.cy;
-    //convert player cords to map cords
-    var prevMapX = Math.floor(prevX / 64);
-    var prevMapY = Math.floor(prevY / 64);
     //next stuff
-    var nextX = this.cx+this.step+hw;
-    var nextY = this.cy+this.step+hh;
-    //convert player cords to map cords
-    var nextMapX = Math.floor(nextX / 64);
-    var nextMapY = Math.floor(nextY / 64);
-    //player checked against map
-    var nextPos = g_map.mapTiles[nextMapX][nextMapY];
-    //collision with map objects
-    if(nextPos === 1) {
-        console.log("collision");
-        return true;
-    }else{
-        return false;
+    var nextX = this.cx+this.step;
+    var nextY = this.cy+this.step;
+    //width and height
+    var width = this.sprite.width;
+    var height = this.sprite.height;
+    //get bounding vectors
+    var playerBound = this.bounding(nextX,nextY,width,height);
+    //cycle through the bounding values and compare with map coords
+    for(var x = 0; x < playerBound.length; x++) {
+        //get the x'th vector of the bounding values
+        var nPos = playerBound[x];
+        for(var y = 0; y < nPos.length; y++){
+            //grab the value from maptiles
+            var nextPos = g_map.mapTiles[nPos[0]][nPos[1]];
+            //console.log(nextPos +":"+ nPos[x] +":"+ nPos[y]);
+            if (nextPos === 1 || nextPos === 2){
+                console.log(x+"'th vector collision");
+                return true;
+            }
+        }
     }
-    //if(g_map.collidesWith(prevX,prevY,nextX,nextY))
-    // Bounce off top and bottom edges
-    /*
-    if (nextY < 64+hh)
-    this.cy += 4;
-    if(nextY > g_canvas.height-64-hh)
-    this.cy -= 4;
 
-    // bounce off left and right
-    // relics from scoreboard maybe use again
-    if (nextX < 64+hw) {
-    this.cx += 4;
-    }
-    if(nextX > g_canvas.width-64-hw){
-    this.cx -= 4;
-    }
-    */
 };
 
 Player.prototype.render = function (ctx) {
