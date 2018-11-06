@@ -111,21 +111,22 @@ Player.prototype.playerMovement = function(){
 //create bounding around sprite, takes in player
 //x,y cords and halfwith/halfheight
 //and returns an array x,y map cords
-Player.prototype.bounding = function (x,y,sw,sh) {
+Player.prototype.bounding = function (ax,dx,wy,sy,sw,sh) {
 
     //messy can probably done in a more efficent and tidy way
     //shift xy of sprite by height and width
-    var topLeftX = Math.floor((x-sw) / 64);
-    var topLeftY = Math.floor((y-sh) / 64);
+
+    var topLeftX = Math.floor((ax-(sw/2)) / 64);
+    var topLeftY = Math.floor((wy-(sh/2)) / 64);
     //shift x by width
-    var botLeftX = Math.floor((x-sw)/ 64);
-    var botLeftY = Math.floor(y / 64);
+    var botLeftX = Math.floor((ax-(sw/2)) / 64);
+    var botLeftY = Math.floor((sy+(sh/2)) / 64);
     // shift x and y bu
-    var botRightX = Math.floor((x+(sw/2)) / 64);
-    var botRightY = Math.floor((y+(sh/2)) / 64);
+    var botRightX = Math.floor((dx+(sw/2)) / 64);
+    var botRightY = Math.floor((sy+(sh/2)) / 64);
     //shift y by height
-    var topRightX = Math.floor((x+(sw/2)) / 64);
-    var topRightY = Math.floor((y-sh) / 64);
+    var topRightX = Math.floor((dx+(sw/2)) / 64);
+    var topRightY = Math.floor((wy-(sh/2)) / 64);
     
     var topL = [topLeftX,topLeftY];
     var botL = [botLeftX,botLeftY];
@@ -146,13 +147,19 @@ Player.prototype.mapCollision = function () {
     var prevX = this.cx;
     var prevY = this.cy;
     //next stuff
-    var nextX = this.cx+this.step;
-    var nextY = this.cy+this.step;
+    var nextXA = this.cx - this.step; //move right
+    var nextXD = this.cx + this.step; //move left
+    var nextYW = this.cy - 5; //move up
+    var nextYS = this.cy + 5; //move down
+    // original next
+    var nextX = this.cx;
+    var nextY = this.cy;
     //width and height
     var width = this.sprite.width;
     var height = this.sprite.height;
     //get bounding vectors
-    var playerBound = this.bounding(nextX,nextY,width,height);
+    //var playerBound = this.bounding(nextX,nextY,width,height);
+    var playerBound = this.bounding(nextXA,nextXD,nextYW,nextYS,width,height);
     //cycle through the bounding values and compare with map coords
     for(var x = 0; x < playerBound.length; x++) {
         //get the x'th vector of the bounding values
