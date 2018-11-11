@@ -44,7 +44,6 @@ Bomb.prototype.update = function(du) {
         // Handle collisions with the explosion
         var hitEntity = this.findHitEntity();
         if (hitEntity) {
-            console.log("Explosion hit something");
             var canTakeHit = hitEntity.takeExplosionHit(du);
             if (canTakeHit) canTakeHit.call(hitEntity);
         }
