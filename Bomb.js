@@ -29,7 +29,8 @@ Bomb.prototype.explTimer = Bomb.prototype.explosionTime;
 
 Bomb.prototype.update = function(du) {
 
-    //spatialManager.unregister(this);
+    // Unregister
+    spatialManager.unregister(this);
 
     this.ctdTimer -= du;
 
@@ -39,13 +40,28 @@ Bomb.prototype.update = function(du) {
         this.nextSprite = g_explOffset + (Math.floor(
             g_explSprites - this.explTimer/this.explosionTime * g_explSprites
             ) % g_explSprites);
+
+        // Handle collisions with the explosion
+        var hitEntity = this.findHitEntity();
+        if (hitEntity) {
+            console.log("Explosion hit something");
+            var canTakeHit = hitEntity.takeExplosionHit(du);
+            if (canTakeHit) canTakeHit.call(hitEntity);
+        }
     }
 
     if(this.explTimer <= 0) {
         return entityManager.KILL_ME_NOW;
     }
     
-    //spatialManager.register(this);
+    // (Re-) register
+    spatialManager.register(this);
+};
+
+
+// Við getum breytt hér hversu langt sprengjan á að ná  
+Bomb.prototype.getRadius = function () {
+    return 35;
 };
 
 Bomb.prototype.render = function(ctx) {
