@@ -11,16 +11,38 @@ function createPlayers() {
     });
 }
 
+function gatherInputs() {
+    // Nothing to do here!
+    // The event handlers do everything we need for now.
+}
+
+// GAME-SPECIFIC UPDATE LOGIC
+
 function updateSimulation(du) {
 
-    entityManager.update(du);
+    processDiagnostics();
 
+    entityManager.update(du);
 }
+
+// GAME-SPECIFIC DIAGNOSTICS
+
+var g_renderSpatialDebug = false;
+
+var KEY_SPATIAL = keyCode('X');
+
+function processDiagnostics() {
+    if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
+}
+
+// GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
     entityManager.render(ctx);
     //added g_map to render
     g_map.render(ctx);
+
+    if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
 
 // Preload images
@@ -41,7 +63,10 @@ function requestPreloads() {
         8 : "https://notendur.hi.is/~thp44/tolvuleikjaforritun/Images/bomb.png",
 
         // Explosion sprite
-        9 : "https://notendur.hi.is/~thp44/tolvuleikjaforritun/Images/explosion.png"
+        9 : "https://notendur.hi.is/~thp44/tolvuleikjaforritun/Images/explosion.png",
+
+        // Player explosion sprite sheet
+        10 : "playerexplode.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -51,11 +76,14 @@ function requestPreloads() {
  * Player sprites: 0-7
  * Bomb sprite: 8
  * Explosion sprites: 9 - 31
+ * Player Explosion sprites: 32 - 41
  */
 var g_sprites = [];
 var g_playerSprites = 8;
 var g_explOffset = g_playerSprites + 1;
 var g_explSprites = 22;
+var g_playerExplOffset = g_explOffset + g_explSprites;
+var g_playerExplSprites = 9;
 
 function preloadDone() {
 
@@ -92,9 +120,29 @@ function preloadDone() {
     // Remove any superfluous ones from the end
     g_sprites.splice(numCels + g_playerSprites + 1);
 
+    // Player explosion sprite
+    var playerCelWidth = 31;
+    var playerCelHeight = 27.3;
+    var playerNumCols = 3;
+    var playerNumRows = 3;
+    //var playerNumCells = 9;
+
+    var explPlayerSprite;
+    
+    for (var i = 0; i < playerNumRows; ++i) {
+        for (var j = 0; j < playerNumCols; ++j) {
+            explPlayerSprite = new AnimatingSprite(j * playerCelWidth, 
+                i * playerCelHeight, 
+                playerCelWidth, playerCelHeight, g_images[10])
+            g_sprites.push(explPlayerSprite);
+        }
+    }
+
     entityManager.init();
+    createPlayers();
 
     main.init();
 }
 
+// Kick it off
 requestPreloads();
