@@ -192,10 +192,10 @@ Player.prototype.mapCollision = function () {
         
         for(var y = 0; y < nPos.length; y++){
             //grab the value from maptiles
-            var nextPos = g_map.mapTiles[nPos[0]][nPos[1]];
+            var nextPos = g_map.mapTiles[nPos[1]][nPos[0]];
             //console.log(nextPos +":"+ nPos[x] +":"+ nPos[y]);
             if (nextPos === 1 || nextPos === 2){
-                console.log(x+"'th vector collision");
+                //console.log(x+"'th vector collision");
                 return true;
             }
         }

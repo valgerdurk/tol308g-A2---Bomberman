@@ -38,11 +38,14 @@ function processDiagnostics() {
 // GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
+    entityManager.camera(ctx);
     entityManager.render(ctx);
     //added g_map to render
     g_map.render(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
+
+    ctx.restore();
 }
 
 // Preload images

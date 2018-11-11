@@ -77,6 +77,12 @@ var entityManager = {
         
     },
 
+    camera: function(ctx) {
+        var pl = this._player[0];
+        ctx.save();
+        ctx.translate(-pl.cx+g_canvas.width/2,-pl.cy+g_canvas.height/2);
+    }
+
 };
 
 entityManager.deferredSetup();
