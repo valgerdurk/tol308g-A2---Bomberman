@@ -211,7 +211,6 @@ Player.prototype.playerExplTime = (1500 / NOMINAL_UPDATE_INTERVAL);
 Player.prototype.explTimer = Player.prototype.playerExplTime;
 
 Player.prototype.takeExplosionHit = function(du) {
-    console.log("Player hit by explosion");
 
     this.ctdTimer -= du;
 
