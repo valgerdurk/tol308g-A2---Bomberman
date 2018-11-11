@@ -19,6 +19,8 @@ function Player(descr) {
     || g_sprites[5]
     || g_sprites[6]
     || g_sprites[7];
+
+    this.nextSprite = g_playerExplOffset;
 };
 
 Player.prototype = new Entity();
@@ -38,6 +40,8 @@ Player.prototype.step = 4;
 // Initial values
 Player.prototype.cx = 100;
 Player.prototype.cy = 100;
+Player.prototype.reset_cx = 100;
+Player.prototype.reset_cy = 100;
 
 // Interval for steps when player walks
 // The sprite is changed every 150 ms so it appears he is walking
@@ -48,12 +52,22 @@ function setStep() {
     g_step = g_step == true ? false : true;
 }
 
-Player.prototype.update = function () {
+Player.prototype.update = function (du) {
+
+    // Unregister
+    spatialManager.unregister(this);
+
+    // Kill (Remove) if is dead
+    if (this._isDeadNow) {
+        return entityManager.KILL_ME_NOW;
+    }
 
     //collision check
     this.mapCollision();
+
     // Movement stuff
     this.playerMovement();
+    
     // Drop bomb
     if(eatKey(this.KEY_DROP_BOMB)) {
         var placeInGrid = g_map.tileMapLocation(this.cx, this.cy);
@@ -62,6 +76,13 @@ Player.prototype.update = function () {
         //console.log(placeInGrid);
         //console.log(g_map.tileCenter(placeInGrid.row, placeInGrid.column));
     }
+
+    // (Re-) register
+    spatialManager.register(this);
+};
+
+Player.prototype.getRadius = function () {
+    return 20;
 };
 
 Player.prototype.playerMovement = function(){
@@ -181,6 +202,39 @@ Player.prototype.mapCollision = function () {
     }
 
 };
+
+// Player collision with explosion
+
+// Player explosion lifespan
+Player.prototype.ctdTimer = (500 / NOMINAL_UPDATE_INTERVAL);
+Player.prototype.playerExplTime = (1500 / NOMINAL_UPDATE_INTERVAL);
+Player.prototype.explTimer = Player.prototype.playerExplTime;
+
+Player.prototype.takeExplosionHit = function(du) {
+    console.log("Player hit by explosion");
+
+    this.ctdTimer -= du;
+
+    if (this.ctdTimer < 0) {
+        this.explTimer -= du;
+        this.sprite = g_sprites[this.nextSprite];  
+
+        this.nextSprite = g_playerExplOffset + (Math.floor(g_playerExplSprites -
+        this.explTimer/this.playerExplTime * g_playerExplSprites)
+        % g_playerExplSprites);
+    }
+
+    if (this.explTimer <= 0) {
+        this.kill();
+    }    
+    
+    //this.newLife();
+
+};
+
+Player.prototype.newLife = function () {
+    createPlayers();
+}
 
 Player.prototype.render = function (ctx) {
 
