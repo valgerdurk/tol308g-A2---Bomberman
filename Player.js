@@ -56,10 +56,16 @@ Player.prototype.update = function () {
     this.playerMovement();
     // Drop bomb
     if(eatKey(this.KEY_DROP_BOMB)) {
-        entityManager.generateBomb(this.cx, this.cy);
+        var placeInGrid = g_map.tileMapLocation(this.cx, this.cy);
+        var findCenter  = g_map.tileCenter(placeInGrid.row, placeInGrid.column);
+        entityManager.generateBomb(findCenter.x, findCenter.y);
+        //console.log(placeInGrid);
+        //console.log(g_map.tileCenter(placeInGrid.row, placeInGrid.column));
     }
 };
-
+// Thurfum fall herna inni i player sem segir
+// Skiladu mer hlut, med row og column 
+// Byggt a thvi hvar eg er
 Player.prototype.playerMovement = function(){
 
     // The Player changes sprites depending on the direction he is going 
@@ -164,6 +170,7 @@ Player.prototype.mapCollision = function () {
     for(var x = 0; x < playerBound.length; x++) {
         //get the x'th vector of the bounding values
         var nPos = playerBound[x];
+        
         for(var y = 0; y < nPos.length; y++){
             //grab the value from maptiles
             var nextPos = g_map.mapTiles[nPos[0]][nPos[1]];
