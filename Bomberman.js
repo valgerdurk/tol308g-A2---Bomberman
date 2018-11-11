@@ -66,7 +66,7 @@ function requestPreloads() {
         9 : "https://notendur.hi.is/~thp44/tolvuleikjaforritun/Images/explosion.png",
 
         // Player explosion sprite sheet
-        10 : "playerexplode.png"
+        10 : "https://notendur.hi.is/vak9/images/playerexplode.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
