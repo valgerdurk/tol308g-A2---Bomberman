@@ -141,37 +141,32 @@ g_map.collidesWith = function (prevX, prevY, nextX, nextY) {
 }
 
 g_map.tileMapLocation = function(x, y) {
+	/*
+	// Out of bounds calc - do we need this?
 	if (x < 0 || x > g_mapColumns * g_map.tileWidth ||
 		y < 0 || y > g_mapRows * g_map.tileHeight) {
-		// Out of bounds
+		
 	}
+	*/
 	let rowLocation = Math.floor(y / g_map.tileHeight);
 	let columnLocation = Math.floor(x / g_map.tileWidth);
 	return {
 		row: rowLocation,
 		column: columnLocation,
-	};
-}
+	}
+};
 
 g_map.tileCenter = function(row, column) {
+	/*
+	// Out of bounds calc - do we need this?
 	if (row < 0 || row > g_mapRows ||
 		column < 0 || column > g_mapColumns) {
-		// Out of bounds
 	}
+	*/
 	let xPos = column * g_map.tileWidth + g_map.tileWidth / 2;
 	let yPos = row * g_map.tileHeight + g_map.tileHeight / 2;
 	return {
 		x: xPos,
 		y: yPos,
-	};
-}
-
-// Gerum 2 hjalparfoll
-// 1 segir x,y hnit verdi varpad i row, column (sem skilagildi)
-// 2 segir row, column verdi varpad i x,y hnit, midjad
-
-// x hnit deilt med tile width + x hnit modulus tile width > 0
-// 44 / 50 = 0
-// 193 / 50 = 3
-// 200 / 50 = 4
-// 0-49 = 0, 50-99 = 1, 100-149 = 2
+	}
+};

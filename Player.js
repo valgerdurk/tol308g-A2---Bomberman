@@ -63,9 +63,7 @@ Player.prototype.update = function () {
         //console.log(g_map.tileCenter(placeInGrid.row, placeInGrid.column));
     }
 };
-// Thurfum fall herna inni i player sem segir
-// Skiladu mer hlut, med row og column 
-// Byggt a thvi hvar eg er
+
 Player.prototype.playerMovement = function(){
 
     // The Player changes sprites depending on the direction he is going 
