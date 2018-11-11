@@ -54,19 +54,19 @@ function requestPreloads() {
     var requiredImages = {
 
         // Player sprite images
-        0 : "https://notendur.hi.is/vak9/images/playerwalkright.png", 1 : "https://notendur.hi.is/vak9/images/playerwalkright2.png",
-        2 : "https://notendur.hi.is/vak9/images/playerwalkleft.png", 3 : "https://notendur.hi.is/vak9/images/playerwalkleft2.png",
-        4 : "https://notendur.hi.is/vak9/images/playerwalkup.png", 5 : "https://notendur.hi.is/vak9/images/playerwalkup2.png",
-        6 : "https://notendur.hi.is/vak9/images/playerwalkdown.png", 7 : "https://notendur.hi.is/vak9/images/playerwalkdown2.png",
+        0 : "assets/playerwalkright.png", 1 : "assets/playerwalkright2.png",
+        2 : "assets/playerwalkleft.png", 3 : "assets/playerwalkleft2.png",
+        4 : "assets/playerwalkup.png", 5 : "assets/playerwalkup2.png",
+        6 : "assets/playerwalkdown.png", 7 : "assets/playerwalkdown2.png",
 
         // Bomb image
-        8 : "https://notendur.hi.is/~thp44/tolvuleikjaforritun/Images/bomb.png",
+        8 : "assets/bomb.png",
 
         // Explosion sprite
-        9 : "https://notendur.hi.is/~thp44/tolvuleikjaforritun/Images/explosion.png",
+        9 : "assets/explosion.png",
 
         // Player explosion sprite sheet
-        10 : "https://notendur.hi.is/vak9/images/playerexplode.png"
+        10 : "assets/playerexplode.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
