@@ -192,6 +192,7 @@ Player.prototype.mapCollision = function () {
 
     for (var y = 0; y < nPos.length; y++) {
       //grab the value from maptiles
+
       var nextPos = g_map.tilePassable(nPos[1], nPos[0]);
       //check if position is a key
       g_map.collectKey(nPos[1], nPos[0]);

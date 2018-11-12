@@ -26,6 +26,7 @@ Bomb.prototype.cy;
 Bomb.prototype.ctdTimer = (2000 / NOMINAL_UPDATE_INTERVAL);
 Bomb.prototype.explosionTime = (2000 / NOMINAL_UPDATE_INTERVAL);
 Bomb.prototype.explTimer = Bomb.prototype.explosionTime;
+Bomb.prototype.exploded = false;
 
 Bomb.prototype.update = function (du) {
 
@@ -47,6 +48,17 @@ Bomb.prototype.update = function (du) {
       //todo add findHitEntity
       var canTakeHit = hitEntity.takeExplosionHit(du);
       if (canTakeHit) canTakeHit.call(hitEntity);
+    }
+    if (!this.exploded) {
+
+      console.log(`bombEXPLODE- x: ${this.cx}, y: ${this.cy}`);
+      var placeInGrid = g_map.tileMapLocation(this.cx, this.cy);
+
+      console.log(placeInGrid);
+      //todo add animation to afected squares
+      //todo decide where range is selected
+      g_map.breakBlocks(placeInGrid, 3);
+      this.exploded = true;
     }
   }
 

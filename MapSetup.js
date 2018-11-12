@@ -60,21 +60,21 @@ var g_map = {
 
   mapTiles: [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, , 0, 0, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 4, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 3, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
     [1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 4, 0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 5, 0, 5, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 4, 1, 0, 1, 0, 1, 0, 1],
+    [1, 6, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 4, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   ],
   //we need to change this into sprites later
@@ -92,13 +92,13 @@ var g_map = {
 const g_mapColumns = g_map.mapTiles[0].length;
 const g_mapRows = g_map.mapTiles.length;
 
-g_map.drawRect = function (i, j, color, ctx) {
+g_map.drawRect = function (i, j, colour, ctx) {
   var xPos = this.tileWidth * i,
     yPos = this.tileHeight * j,
     width = this.tileWidth,
     height = this.tileHeight;
   //draw rectactle at [i][j] in map array
-  ctx.fillStyle = color;
+  ctx.fillStyle = colour;
   ctx.fillRect(xPos, yPos, width, height);
 };
 
@@ -113,9 +113,12 @@ g_map.render = function (ctx) {
   for (var i = 0; i < 17; ++i) {
     for (var j = 0; j < 17; j++) {
       var id = this.mapTiles[i][j];
-      //if u want to color the 0, condition for (!id)
+      //if u want to colour the 0, condition for (!id)
       if (id) {
-        this.drawRect(j, i, this.colours[id], ctx);
+        this.drawRect(i, j,
+          this.tileTypes[id].colour,
+          ctx);
+
       }
     }
   }
@@ -180,8 +183,110 @@ g_map.tileCenter = function (row, column) {
 //todo improve for more tile types
 g_map.tilePassable = function (col, row) {
   const tile = this.mapTiles[col][row];
+  if (tile === undefined) {
+    //console.log("coords: " + col + " " + row);
+    // makes sure the player can always get out of a bad situation
+    return true;
+  }
+  return this.tileTypes[tile].passable;
   return this.nextIn(tile);
 };
+g_map.breakBlocks = function (loc, range) {
+  let r = 0;
+  let //todo, find better names
+    top = true,
+    bottom = true,
+    left = true,
+    right = true;
+
+
+  while (r <= range) {
+    console.log(r);
+    if (left)
+      left = this._breakBlock(loc.column - r, loc.row);
+    if (right)
+      right = this._breakBlock(loc.column + r, loc.row);
+    if (top)
+      top = this._breakBlock(loc.column, loc.row - r);
+    if (bottom)
+      bottom = this._breakBlock(loc.column, loc.row + r);
+    r++;
+  }
+}
+g_map._breakBlock = function (col, row) {
+  //todo addd bounds
+  /*if (col < 0 || col > g_map.length ||
+    row < 0 || row > g_map.width) {}*/
+  if (this.tileTypes[this.mapTiles[col][row]].breakeable) {
+    this.mapTiles[col][row] = 0;
+    //todo make posible to take multiple hits
+    //todo spawn object
+    // if true the explotion has not stopped, and will continue to the next tile
+    return false;
+  }
+  if (this.tileTypes[this.mapTiles[col][row]].passable) {
+    //todo, decide if and how invisable walls / hidden path should block 
+    return true;
+  }
+  return false;
+
+}
+
+//todo decide how to format this
+g_map.tileTypes = [{
+    id: 0,
+    title: 'floor',
+    passable: true,
+    breakeable: false,
+    ineractable: false,
+    colour: 'black'
+  }, {
+    id: 1,
+    title: 'wall1',
+    passable: false,
+    breakeable: false,
+    ineractable: false,
+    colour: 'grey'
+  }, {
+    id: 2,
+    title: 'wall2',
+    passable: false,
+    breakeable: false,
+    ineractable: false,
+    colour: 'yellow'
+  }, {
+    id: 3,
+    title: 'wall3',
+    passable: false,
+    breakeable: false,
+    ineractable: false,
+    colour: 'white'
+  },
+  {
+    id: 4,
+    title: 'brick',
+    passable: false,
+    breakeable: true,
+    ineractable: false,
+    colour: 'red'
+  },
+  {
+    id: 5,
+    title: 'hiddenBrick',
+    passable: false,
+    breakeable: true,
+    ineractable: false,
+    colour: 'grey'
+  },
+  {
+    id: 6,
+    title: 'hiddenPath',
+    passable: true,
+    breakeable: false,
+    ineractable: false,
+    colour: 'grey'
+  }
+];
 
 //map tiles
 g_map.passableTileTypes = [1, 2, 3, 4];
@@ -204,3 +309,4 @@ g_map.collectKey = function (col,row) {
     }
   }
 }
+
