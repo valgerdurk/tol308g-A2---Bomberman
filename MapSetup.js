@@ -63,8 +63,8 @@ var g_map = {
     [1, , 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 4, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
     [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 3, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
@@ -173,3 +173,21 @@ g_map.tileCenter = function (row, column) {
     y: yPos,
   }
 };
+
+//todo improve for more tile types
+g_map.tilePassable = function (col, row) {
+  const tile = this.mapTiles[col][row];
+  return this.nextIn(tile);
+};
+
+g_map.passableTileTypes = [1, 2, 3, 4];
+g_map.nextIn = function (val) {
+  //todo move this
+  for (let i = 0; i < this.passableTileTypes.length; i++) {
+    if (this.passableTileTypes[i] === val) {
+      return true;
+    }
+
+  }
+  return false;
+}
