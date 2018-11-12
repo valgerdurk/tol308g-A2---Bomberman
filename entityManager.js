@@ -4,78 +4,79 @@
 
 var entityManager = {
 
-    // PRIVATE DATA
+  // PRIVATE DATA
 
-    _player : [],
-    _bomb : [],
+  _player: [],
+  _bomb: [],
+  _pickup: [],
 
-    // PRIVATE METHODS
+  // PRIVATE METHODS
 
-    _generatePlayer : function () {
-        this.generatePlayer();
-    },
+  _generatePlayer: function () {
+    this.generatePlayer();
+  },
 
-    generateBomb : function (cx, cy) {
-        this._bomb.push(new Bomb({
-            cx : cx,
-            cy : cy
-        }));
-    },
+  generateBomb: function (cx, cy) {
+    this._bomb.push(new Bomb({
+      cx: cx,
+      cy: cy
+    }));
+  },
 
-    _forEachOf: function (aCategory, fn) {
-        for (var i = 0; i < aCategory.length; ++i) {
-            fn.call(aCategory[i]);
-        }
-    },
+  _forEachOf: function (aCategory, fn) {
+    for (var i = 0; i < aCategory.length; ++i) {
+      fn.call(aCategory[i]);
+    }
+  },
 
-    // PUBLIC METHODS
+  // PUBLIC METHODS
 
-    // A special return value, used by other objects,
-    // to request the blessed release of death!
+  // A special return value, used by other objects,
+  // to request the blessed release of death!
 
-    KILL_ME_NOW : -1,
-    
-    // Some things must be deferred until after initial construction
-    // i.e. thing which need `this` to be defined.
-    //
-    deferredSetup : function () {
-        this._categories = [this._player, this._bomb];
-    },
+  KILL_ME_NOW: -1,
 
-    init: function() {
-        this._generatePlayer();
-    },
+  // Some things must be deferred until after initial construction
+  // i.e. thing which need `this` to be defined.
+  //
+  deferredSetup: function () {
+    this._categories = [this._player, this._bomb];
+  },
 
-    generatePlayer : function (descr) {
-        this._player.push(new Player(descr));
-    },
+  init: function () {
+    this._generatePlayer();
+  },
 
-    update : function(du) {
+  generatePlayer: function (descr) {
+    this._player.push(new Player(descr));
+  },
 
-        for (var i = 0; i < this._player.length; i++) {
-            this._player[i].update(du);
-        }
-        
-        for (var i = 0; i < this._bomb.length; i++) {
-            var status = this._bomb[i].update(du);
-            
-            if(status ===  this.KILL_ME_NOW) {
-                this._bomb.splice(i, 1);
-            }
-        }
-    },
+  update: function (du) {
 
-    render : function(ctx) {
-        for (var i = 0; i < this._player.length; i++) {
-            this._player[i].render(ctx);
-        }
-        
-        for (var i = 0; i < this._bomb.length; i++) {
-            var bomb = this._bomb[i];
-            bomb.render(ctx);
-        }
-        
-    },
+    for (var i = 0; i < this._player.length; i++) {
+      this._player[i].update(du);
+    }
+
+    for (var i = 0; i < this._bomb.length; i++) {
+      var status = this._bomb[i].update(du);
+
+      if (status === this.KILL_ME_NOW) {
+        this._bomb.splice(i, 1);
+      }
+    }
+  },
+
+  render: function (ctx) {
+    for (var i = 0; i < this._player.length; i++) {
+      this._player[i].render(ctx);
+    }
+
+    for (var i = 0; i < this._bomb.length; i++) {
+      var bomb = this._bomb[i];
+      bomb.render(ctx);
+    }
+
+  },
 
 };
 

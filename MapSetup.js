@@ -55,118 +55,121 @@ var	mapTileWidth = 16,
 
 
 var g_map = {
-	tileWidth : 64,
-	tileHeight : 64,
+  tileWidth: 64,
+  tileHeight: 64,
 
-	mapTiles : [
-		[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		[1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,1],
-		[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-		[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-		[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-		[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-		[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-		[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-		[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-		[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-		[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-		[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-		[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-		[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-		[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-		[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-		[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-	],
+  mapTiles: [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, , 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 4, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  ],
 
-	colours : [
-		"purple", //this one never gets selected
-		"grey",
-		"yellow",
-		"white"
-	]
+  colours: [
+    "purple", //this one never gets selected
+    "grey",
+    "yellow",
+    "white",
+    'red'
+  ]
 };
 const g_mapColumns = g_map.mapTiles[0].length;
 const g_mapRows = g_map.mapTiles.length;
 
-g_map.drawRect = function(i,j,color,ctx) {
-	var xPos = this.tileWidth*i,
-		yPos = this.tileHeight*j,
-		width = this.tileWidth,
-		height = this.tileHeight;
-	//draw rectactle at [i][j] in map array
-	ctx.fillStyle = color;
-	ctx.fillRect(xPos,yPos,width,height);
+g_map.drawRect = function (i, j, color, ctx) {
+  var xPos = this.tileWidth * i,
+    yPos = this.tileHeight * j,
+    width = this.tileWidth,
+    height = this.tileHeight;
+  //draw rectactle at [i][j] in map array
+  ctx.fillStyle = color;
+  ctx.fillRect(xPos, yPos, width, height);
 };
 
-g_map.update = function(du) {
-	//no updates
+g_map.update = function (du) {
+  //no updates
 };
 
-g_map.render = function(ctx) {
-	var WIDTH = this.tileWidth,
-		HEIGHT = this.tileHeight;
+g_map.render = function (ctx) {
+  var WIDTH = this.tileWidth,
+    HEIGHT = this.tileHeight;
 
-	for (var i = 0; i < 17; ++i) {
-		for (var j = 0; j < 17; j++){
-			var id = this.mapTiles[i][j];
-			//if u want to color the 0, condition for (!id)
-			if (id) {
-				this.drawRect(i,j,this.colours[id],ctx);
-			}
-		}
-	}
+  for (var i = 0; i < 17; ++i) {
+    for (var j = 0; j < 17; j++) {
+      var id = this.mapTiles[i][j];
+      //if u want to color the 0, condition for (!id)
+      if (id) {
+        this.drawRect(i, j, this.colours[id], ctx);
+      }
+    }
+  }
 
 };
 
 // not actually used right
 g_map.collidesWith = function (prevX, prevY, nextX, nextY) {
 
-	var width = this.tileWidth,
-		height = this.tileHeight,
+  var width = this.tileWidth,
+    height = this.tileHeight,
 
-		tileX = Math.floor(nextX/width),
-		tileY = Math.floor(nextY/height);
+    tileX = Math.floor(nextX / width),
+    tileY = Math.floor(nextY / height);
 
-		if(!this.mapTiles[tileY]) { return false }
-			
-		if(this.mapTiles[tileY,tileX]) {
-			//hit
-			console.log("hit: " + this.mapTiles[tileY,tileX]);
-			return true;
-		}else {
-			//missed
-			console.log("missed " + this.mapTiles[tileY,tileX]);
-			return false;
-		}
+  if (!this.mapTiles[tileY]) {
+    return false
+  }
+
+  if (this.mapTiles[tileY, tileX]) {
+    //hit
+    console.log("hit: " + this.mapTiles[tileY, tileX]);
+    return true;
+  } else {
+    //missed
+    console.log("missed " + this.mapTiles[tileY, tileX]);
+    return false;
+  }
 }
 
-g_map.tileMapLocation = function(x, y) {
-	/*
-	// Out of bounds calc - do we need this?
-	if (x < 0 || x > g_mapColumns * g_map.tileWidth ||
-		y < 0 || y > g_mapRows * g_map.tileHeight) {
-		
-	}
-	*/
-	let rowLocation = Math.floor(y / g_map.tileHeight);
-	let columnLocation = Math.floor(x / g_map.tileWidth);
-	return {
-		row: rowLocation,
-		column: columnLocation,
-	}
+g_map.tileMapLocation = function (x, y) {
+  /*
+  // Out of bounds calc - do we need this?
+  if (x < 0 || x > g_mapColumns * g_map.tileWidth ||
+  	y < 0 || y > g_mapRows * g_map.tileHeight) {
+  	
+  }
+  */
+  let rowLocation = Math.floor(y / g_map.tileHeight);
+  let columnLocation = Math.floor(x / g_map.tileWidth);
+  return {
+    row: rowLocation,
+    column: columnLocation,
+  }
 };
 
-g_map.tileCenter = function(row, column) {
-	/*
-	// Out of bounds calc - do we need this?
-	if (row < 0 || row > g_mapRows ||
-		column < 0 || column > g_mapColumns) {
-	}
-	*/
-	let xPos = column * g_map.tileWidth + g_map.tileWidth / 2;
-	let yPos = row * g_map.tileHeight + g_map.tileHeight / 2;
-	return {
-		x: xPos,
-		y: yPos,
-	}
+g_map.tileCenter = function (row, column) {
+  /*
+  // Out of bounds calc - do we need this?
+  if (row < 0 || row > g_mapRows ||
+  	column < 0 || column > g_mapColumns) {
+  }
+  */
+  let xPos = column * g_map.tileWidth + g_map.tileWidth / 2;
+  let yPos = row * g_map.tileHeight + g_map.tileHeight / 2;
+  return {
+    x: xPos,
+    y: yPos,
+  }
 };

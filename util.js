@@ -9,98 +9,102 @@
 var util = {
 
 
-// RANGES
-// ======
+  // RANGES
+  // ======
 
-clampRange: function(value, lowBound, highBound) {
+  clampRange: function (value, lowBound, highBound) {
     if (value < lowBound) {
-	value = lowBound;
+      value = lowBound;
     } else if (value > highBound) {
-	value = highBound;
+      value = highBound;
     }
     return value;
-},
+  },
 
-wrapRange: function(value, lowBound, highBound) {
+  wrapRange: function (value, lowBound, highBound) {
     while (value < lowBound) {
-	value += (highBound - lowBound);
+      value += (highBound - lowBound);
     }
     while (value > highBound) {
-	value -= (highBound - lowBound);
+      value -= (highBound - lowBound);
     }
     return value;
-},
+  },
 
-isBetween: function(value, lowBound, highBound) {
-    if (value < lowBound) { return false; }
-    if (value > highBound) { return false; }
+  isBetween: function (value, lowBound, highBound) {
+    if (value < lowBound) {
+      return false;
+    }
+    if (value > highBound) {
+      return false;
+    }
     return true;
-},
+  },
 
 
-// RANDOMNESS
-// ==========
+  // RANDOMNESS
+  // ==========
 
-randRange: function(min, max) {
+  randRange: function (min, max) {
     return (min + Math.random() * (max - min));
-},
+  },
 
 
-// MISC
-// ====
+  // MISC
+  // ====
 
-square: function(x) {
-    return x*x;
-},
+  square: function (x) {
+    return x * x;
+  },
 
 
-// DISTANCES
-// =========
+  // DISTANCES
+  // =========
 
-distSq: function(x1, y1, x2, y2) {
-    return this.square(x2-x1) + this.square(y2-y1);
-},
+  distSq: function (x1, y1, x2, y2) {
+    return this.square(x2 - x1) + this.square(y2 - y1);
+  },
 
-wrappedDistSq: function(x1, y1, x2, y2, xWrap, yWrap) {
-    var dx = Math.abs(x2-x1),
-	dy = Math.abs(y2-y1);
-    if (dx > xWrap/2) {
-	dx = xWrap - dx;
+  wrappedDistSq: function (x1, y1, x2, y2, xWrap, yWrap) {
+    var dx = Math.abs(x2 - x1),
+      dy = Math.abs(y2 - y1);
+    if (dx > xWrap / 2) {
+      dx = xWrap - dx;
     };
-    if (dy > yWrap/2) {
-	dy = yWrap - dy;
+    if (dy > yWrap / 2) {
+      dy = yWrap - dy;
     }
     return this.square(dx) + this.square(dy);
-},
+  },
 
 
-// CANVAS OPS
-// ==========
+  // CANVAS OPS
+  // ==========
 
-clearCanvas: function (ctx) {
+  clearCanvas: function (ctx) {
     var prevfillStyle = ctx.fillStyle;
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = prevfillStyle;
-},
+  },
 
-strokeCircle: function (ctx, x, y, r) {
+  strokeCircle: function (ctx, x, y, r) {
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2);
     ctx.stroke();
-},
+  },
 
-fillCircle: function (ctx, x, y, r) {
+  fillCircle: function (ctx, x, y, r) {
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2);
     ctx.fill();
-},
+  },
 
-fillBox: function (ctx, x, y, w, h, style) {
+  fillBox: function (ctx, x, y, w, h, style) {
     var oldStyle = ctx.fillStyle;
     ctx.fillStyle = style;
     ctx.fillRect(x, y, w, h);
     ctx.fillStyle = oldStyle;
-}
+  }
 
 };
