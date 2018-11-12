@@ -86,7 +86,7 @@ var g_map = {
 	]
 };
 
-g_map.drawRect = function(i,j,color,ctx) {
+g_map.drawRect = function(i, j, color, ctx) {
 	var xPos = this.tileWidth*i,
 		yPos = this.tileHeight*j,
 		width = this.tileWidth,
@@ -101,6 +101,7 @@ g_map.update = function(du) {
 };
 
 g_map.render = function(ctx) {
+	if(entityManager._startGame == true){ 
 	var WIDTH = this.tileWidth,
 		HEIGHT = this.tileHeight;
 
@@ -113,6 +114,7 @@ g_map.render = function(ctx) {
 			}
 		}
 	}
+}
 
 };
 // not actually used right

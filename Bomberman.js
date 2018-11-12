@@ -13,7 +13,18 @@ function createPlayers() {
 
 function updateSimulation(du) {
 
+    processDiagnostics();
+
     entityManager.update(du);
+
+}
+
+// GAME-SPECIFIC DIAGNOSTICS
+var KEY_ENTER = keyCode('\r\n');
+
+function processDiagnostics() {
+
+    if (eatKey(KEY_ENTER)) entityManager.gameStart();
 
 }
 
@@ -41,7 +52,12 @@ function requestPreloads() {
         8 : "https://notendur.hi.is/~thp44/tolvuleikjaforritun/Images/bomb.png",
 
         // Explosion sprite
-        9 : "https://notendur.hi.is/~thp44/tolvuleikjaforritun/Images/explosion.png"
+        9 : "https://notendur.hi.is/~thp44/tolvuleikjaforritun/Images/explosion.png",
+
+        // Start menu images
+        10 : "https://notendur.hi.is/ema22/tolvuleikjaforritun/images/StartMenu1.png",
+        11 : "https://notendur.hi.is/ema22/tolvuleikjaforritun/images/StartMenu2.png"
+
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -50,12 +66,15 @@ function requestPreloads() {
 /**
  * Player sprites: 0-7
  * Bomb sprite: 8
- * Explosion sprites: 9 - 31
+ * Explosion sprites: 9 - 30
+ * Menu sprites: 31-32
  */
 var g_sprites = [];
 var g_playerSprites = 8;
 var g_explOffset = g_playerSprites + 1;
 var g_explSprites = 22;
+var g_startOffset = g_explSprites + 1;
+var g_startSprites = 2;
 
 function preloadDone() {
 
@@ -91,6 +110,10 @@ function preloadDone() {
 
     // Remove any superfluous ones from the end
     g_sprites.splice(numCels + g_playerSprites + 1);
+
+    // Start menu sprite
+    g_sprites[g_explOffset + g_explSprites] = new Sprite(g_images[10]);
+    g_sprites[g_explOffset + g_startOffset] = new Sprite(g_images[11]);
 
     entityManager.init();
 

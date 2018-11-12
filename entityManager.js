@@ -4,8 +4,15 @@
 
 var entityManager = {
 
+    _start : [],
     _player : [],
     _bomb : [],
+
+    _startGame : false,
+
+    generateStart : function (descr){
+        this._start.push(new Start(descr));
+    },
 
     generatePlayer : function (descr) {
         this._player.push(new Player(descr));
@@ -26,10 +33,17 @@ var entityManager = {
     KILL_ME_NOW : -1,
 
     init : function() {
+        this.generateStart();
         this.generatePlayer();
     },
 
+    gameStart: function() {
+        this._startGame = !this._startGame;
+        util.playSelect2();
+    },
+
     update : function(du) {
+        if(this._startGame == true){ 
         this._player[0].update(du); // Since we only have one player for now
         this.generatePlayer();
         
@@ -40,15 +54,20 @@ var entityManager = {
                 this._bomb.splice(i, 1);
             }
         }
+    }
     },
 
     render : function(ctx) {
+        this._start[0].render(ctx);
+
+        if(this._startGame == true){ 
         this._player[0].render(ctx);
         
         for (var i = 0; i < this._bomb.length; i++) {
             var bomb = this._bomb[i];
             bomb.render(ctx);
         }
+    }
         
     },
 

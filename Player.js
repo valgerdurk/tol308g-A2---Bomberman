@@ -71,7 +71,7 @@ Player.prototype.playerMovement = function(){
         }
         this.cx += this.step;
         if(this.mapCollision())
-            this.cx -= this.step;
+            this.cx -= this.step;          
     }
 
     if (keys[this.KEY_LEFT]) {
