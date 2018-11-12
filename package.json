@@ -1,0 +1,22 @@
+{
+  "name": "bomber",
+  "version": "1.0.0",
+  "description": "bomberman",
+  "main": "main.js",
+  "scripts": {
+    "eslint": "eslint ./src/**/*.js",
+    "browser-sync": "browser-sync start --server --files ./index.html *.js",
+    "test": "npm-run-all eslint",
+    "dev": "npm-run-all --parallel browser-sync"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "npm-run-all": "^4.1.3"
+  }
+}

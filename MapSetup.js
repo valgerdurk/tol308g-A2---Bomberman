@@ -80,10 +80,10 @@ var g_map = {
 
   colours: [
     "purple", //this one never gets selected
-    "grey",
-    "yellow",
-    "white",
-    'red'
+    "grey", //1
+    "yellow", //2
+    "white", //3
+    'red' //4
   ]
 };
 const g_mapColumns = g_map.mapTiles[0].length;
