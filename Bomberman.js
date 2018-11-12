@@ -1,3 +1,4 @@
+
 /** BOMBERMAN **/
 
 var g_canvas = document.getElementById("myCanvas");
@@ -38,14 +39,11 @@ function processDiagnostics() {
 // GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
-    entityManager.camera(ctx);
     entityManager.render(ctx);
     //added g_map to render
     g_map.render(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
-
-    ctx.restore();
 }
 
 // Preload images
@@ -104,7 +102,7 @@ function preloadDone() {
     g_sprites[g_playerSprites] = new Sprite(g_images[8]);
 
     // Explosion sprite
-    var celWidth  = 32;
+    var celWidth = 32;
     var celHeight = 32;
     var numCols = 8;
     var numRows = 3;
@@ -149,3 +147,4 @@ function preloadDone() {
 
 // Kick it off
 requestPreloads();
+>>>>>>> master
