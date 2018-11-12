@@ -195,7 +195,7 @@ Player.prototype.mapCollision = function () {
       var nextPos = g_map.tilePassable(nPos[0], nPos[1]);
       //console.log(nextPos +":"+ nPos[x] +":"+ nPos[y]);
       //if (nextPos === 1 || nextPos === 2 || nextPos === 4) {
-      if (nextPos) {
+      if (!nextPos) {
         console.log(x + "'th vector collision");
         return true;
       }
