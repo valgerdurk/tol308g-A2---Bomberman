@@ -22,6 +22,9 @@ var entityManager = {
       cy: cy
     }));
   },
+  generatePickup: function (cx, cy) {
+    this._pickup.push(new Entity());
+  },
 
   _forEachOf: function (aCategory, fn) {
     for (var i = 0; i < aCategory.length; ++i) {
