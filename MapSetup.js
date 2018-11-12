@@ -83,7 +83,7 @@ var g_map = {
     "grey", //1
     "yellow", //2
     "white", //3
-    "red",  //4
+    "red", //4
     "green",
     "orange",
   ]
@@ -189,7 +189,7 @@ g_map.tilePassable = function (col, row) {
     return true;
   }
   return this.tileTypes[tile].passable;
-  return this.nextIn(tile);
+  //return this.nextIn(tile);
 };
 g_map.breakBlocks = function (loc, range) {
   let r = 0;
@@ -219,7 +219,10 @@ g_map._breakBlock = function (col, row) {
     row < 0 || row > g_map.width) {}*/
   if (this.tileTypes[this.mapTiles[col][row]].breakeable) {
     this.mapTiles[col][row] = 0;
+    this.mapTiles[col][row] = 7;
     //todo make posible to take multiple hits
+    //var findCenter = this.tileCenter(row, col);
+    //entityManager.generatePickup(?);
     //todo spawn object
     // if true the explotion has not stopped, and will continue to the next tile
     return false;
@@ -285,6 +288,30 @@ g_map.tileTypes = [{
     breakeable: false,
     ineractable: false,
     colour: 'grey'
+  }, {
+    id: 7,
+    title: 'pickup01',
+    passable: true,
+    breakeable: false,
+    ineractable: false,
+    pickup: true,
+    colour: 'orange'
+  }, {
+    id: 8,
+    title: 'pickup02',
+    passable: true,
+    breakeable: false,
+    ineractable: false,
+    pickup: true,
+    colour: 'purple'
+  }, {
+    id: 9,
+    title: 'pickup03',
+    passable: true,
+    breakeable: false,
+    ineractable: false,
+    pickup: true,
+    colour: 'blue'
   }
 ];
 
@@ -300,13 +327,24 @@ g_map.nextIn = function (val) {
   return false;
 }
 //imagine different sprites for each key
-g_map.keys = [6,7,8];
-g_map.collectKey = function (col,row) {
-  var tile = this.mapTiles[col][row];
-  for(var i = 0; i < this.keys.length; i++){
-    if(this.keys[i] === tile){
-      this.mapTiles[col][row] = 0;
-    }
-  }
-}
 
+g_map.collectKey = function (col, row) {
+
+  // i think pickups should be an entity
+  var tile = this.mapTiles[col][row];
+  if (tile === undefined) {
+    return false;
+  }
+  var pickup = this.tileTypes[tile].pickup;
+  if (pickup === undefined) {
+    return false;
+  }
+  //return this.tileTypes[tile].passable;
+  //console.log(pickup);
+  if (pickup) {
+    this.mapTiles[col][row] = 0;
+    return true;
+  }
+  return false;
+
+}
