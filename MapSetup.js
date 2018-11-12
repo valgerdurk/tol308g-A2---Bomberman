@@ -115,7 +115,7 @@ g_map.render = function (ctx) {
       var id = this.mapTiles[i][j];
       //if u want to colour the 0, condition for (!id)
       if (id) {
-        this.drawRect(i, j,
+        this.drawRect(j, i,
           this.tileTypes[id].colour,
           ctx);
 
