@@ -101,7 +101,7 @@ function preloadDone() {
     g_sprites[g_playerSprites] = new Sprite(g_images[8]);
 
     // Explosion sprite
-    var celWidth  = 32;
+    var celWidth = 32;
     var celHeight = 32;
     var numCols = 8;
     var numRows = 3;
