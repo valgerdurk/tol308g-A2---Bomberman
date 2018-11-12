@@ -77,15 +77,18 @@ var g_map = {
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   ],
-
+  //we need to change this into sprites later
   colours: [
     "purple", //this one never gets selected
     "grey", //1
     "yellow", //2
     "white", //3
-    'red' //4
+    "red",  //4
+    "green",
+    "orange",
   ]
 };
+
 const g_mapColumns = g_map.mapTiles[0].length;
 const g_mapRows = g_map.mapTiles.length;
 
@@ -115,6 +118,7 @@ g_map.render = function (ctx) {
         this.drawRect(i, j,
           this.tileTypes[id].colour,
           ctx);
+
       }
     }
   }
@@ -194,6 +198,7 @@ g_map.breakBlocks = function (loc, range) {
     bottom = true,
     left = true,
     right = true;
+
 
   while (r <= range) {
     console.log(r);
@@ -281,4 +286,27 @@ g_map.tileTypes = [{
     ineractable: false,
     colour: 'grey'
   }
-]
+];
+
+//map tiles
+g_map.passableTileTypes = [1, 2, 3, 4];
+g_map.nextIn = function (val) {
+  //todo move this
+  for (let i = 0; i < this.passableTileTypes.length; i++) {
+    if (this.passableTileTypes[i] === val) {
+      return true;
+    }
+  }
+  return false;
+}
+//imagine different sprites for each key
+g_map.keys = [6,7,8];
+g_map.collectKey = function (col,row) {
+  var tile = this.mapTiles[col][row];
+  for(var i = 0; i < this.keys.length; i++){
+    if(this.keys[i] === tile){
+      this.mapTiles[col][row] = 0;
+    }
+  }
+}
+
