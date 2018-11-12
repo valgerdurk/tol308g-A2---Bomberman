@@ -78,9 +78,12 @@ var entityManager = {
     },
 
     camera: function(ctx) {
+        //grab the player object
         var pl = this._player[0];
+        // halfwith of the canvas
         var hw = g_canvas.width/2;
         var hh = g_canvas.height/2;
+        // negative player position and halfwidth of canvas
         var xEdge = (-pl.cx+hw);
         var yEdge = (-pl.cy+hh);
         // these prob wont change but now they scale properly
@@ -88,12 +91,6 @@ var entityManager = {
         var Hmargin = (g_map.tileHeight * 3) - g_canvas.height;
         ctx.save();
         
-        //ctx.translate(-pl.cx+hw,-pl.cy+hh);
-        /*
-        console.log("xedge " + xEdge);
-        console.log("yedge " + yEdge);
-        console.log("margin " +margin);
-        */
         //far left edge of screen
         if(xEdge >= 0){
             //top edge
@@ -106,7 +103,8 @@ var entityManager = {
                 // in this case the -448 needs be something else
                 //lock in both x and y axis
                 ctx.translate(0, Hmargin);
-            } else {
+            }
+            else {
                 //continue moving up or down
                 //but lock in x axis
                 ctx.translate(0, yEdge);
@@ -122,29 +120,27 @@ var entityManager = {
                 //in this case the -448 needs be something else
                 //lock in both x and y axis
                 ctx.translate(Wmargin, Hmargin);
-                } 
-                else {
-                    ctx.translate(Wmargin, yEdge);
-                }
-            } //assuming all other conditions are met, we can freely move about
+            } 
             else {
-                if(yEdge >= 0){
-                    // lock y axix top
-                    ctx.translate(xEdge, 0);
-                } 
-                else if (yEdge <= Hmargin) {
-                    // lock y axix bot
-                    ctx.translate(xEdge, Hmargin);
-                } else {
-                    // all otther conditions met, move up n down
-                    ctx.translate(xEdge, yEdge);
-                }
-                
+                    //locks in x margin, free y edge
+                    ctx.translate(Wmargin, yEdge);
             }
-
-
+        } // both x borders accounted for, just 2 y borders left
+        else {
+            if(yEdge >= 0){
+                // lock y axix top
+                ctx.translate(xEdge, 0);
+            } 
+            else if (yEdge <= Hmargin) {
+                // lock y axix bot
+                ctx.translate(xEdge, Hmargin);
+            }
+            else {
+                // all other conditions met, move up n down
+                ctx.translate(xEdge, yEdge);
+            }
+        }
     }
-
 };
 
 entityManager.deferredSetup();
