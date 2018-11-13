@@ -40,8 +40,6 @@ Player.prototype.step = 4;
 // Initial values
 Player.prototype.cx = 100;
 Player.prototype.cy = 100;
-Player.prototype.reset_cx = 100;
-Player.prototype.reset_cy = 100;
 
 // Interval for steps when player walks
 // The sprite is changed every 150 ms so it appears he is walking
@@ -66,7 +64,7 @@ Player.prototype.update = function (du) {
   this.mapCollision();
 
   // Movement stuff
-  this.playerMovement(du);
+  this.playerMovement();
 
   // Drop bomb
   if (eatKey(this.KEY_DROP_BOMB)) {
@@ -193,7 +191,7 @@ Player.prototype.mapCollision = function () {
     for (var y = 0; y < nPos.length; y++) {
       //grab the value from maptiles
 
-      var nextPos = g_map.tilePassable(nPos[1], nPos[0]);
+      var nextPos = g_map.tilePassable(nPos[0], nPos[1]);
       //check if position is a key
       g_map.collectKey(nPos[1], nPos[0]);
       //console.log(nextPos +":"+ nPos[x] +":"+ nPos[y]);
@@ -237,8 +235,9 @@ Player.prototype.takeExplosionHit = function (du) {
 
 };
 
+// Resets the player and starts a new life
 Player.prototype.newLife = function () {
-  createPlayers();
+
 }
 
 Player.prototype.render = function (ctx) {
