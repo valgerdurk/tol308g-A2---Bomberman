@@ -9,8 +9,8 @@ function Bomb(descr) {
   // Common inherited setup logic from Entity
   this.setup(descr);
 
-  this.sprite = g_sprites[g_playerSprites];
-  this.nextSprite = g_playerSprites + 1;
+  this.sprite = g_sprites[g_playerSprites + g_enemySprites];
+  this.nextSprite = g_playerSprites + g_enemySprites + 1;
 
   this.scale = this.scale || 1;
 };
@@ -52,7 +52,7 @@ Bomb.prototype.update = function (du) {
     if (!this.exploded) {
 
       console.log(`bombEXPLODE- x: ${this.cx}, y: ${this.cy}`);
-      var placeInGrid = g_map.tileMapLocation(this.cy, this.cx);
+      var placeInGrid = g_map.tileMapLocation(this.cx, this.cy);
 
       console.log(placeInGrid);
       //todo add animation to afected squares
