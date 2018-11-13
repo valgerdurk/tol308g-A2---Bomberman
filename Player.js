@@ -66,7 +66,7 @@ Player.prototype.update = function (du) {
   this.mapCollision();
 
   // Movement stuff
-  this.playerMovement();
+  this.playerMovement(du);
 
   // Drop bomb
   if (eatKey(this.KEY_DROP_BOMB)) {
@@ -85,7 +85,7 @@ Player.prototype.getRadius = function () {
   return 20;
 };
 
-Player.prototype.playerMovement = function () {
+Player.prototype.playerMovement = function (du) {
 
   // The Player changes sprites depending on the direction he is going 
   if (keys[this.KEY_RIGHT]) {
@@ -94,9 +94,9 @@ Player.prototype.playerMovement = function () {
     } else if (!g_step) {
       this.sprite = g_sprites[1];
     }
-    this.cx += this.step;
+    this.cx += this.step*du;
     if (this.mapCollision())
-      this.cx -= this.step;
+      this.cx -= this.step*du;
   }
 
   if (keys[this.KEY_LEFT]) {
@@ -105,9 +105,9 @@ Player.prototype.playerMovement = function () {
     } else if (!g_step) {
       this.sprite = g_sprites[3];
     }
-    this.cx -= this.step;
+    this.cx -= this.step*du;
     if (this.mapCollision())
-      this.cx += this.step;
+      this.cx += this.step*du;
   }
 
   if (keys[this.KEY_UP]) {
@@ -116,9 +116,9 @@ Player.prototype.playerMovement = function () {
     } else if (!g_step) {
       this.sprite = g_sprites[5];
     }
-    this.cy -= this.step;
+    this.cy -= this.step*du;
     if (this.mapCollision())
-      this.cy += this.step;
+      this.cy += this.step*du;
   }
 
   if (keys[this.KEY_DOWN]) {
@@ -127,9 +127,9 @@ Player.prototype.playerMovement = function () {
     } else if (!g_step) {
       this.sprite = g_sprites[7];
     }
-    this.cy += this.step;
+    this.cy += this.step*du;
     if (this.mapCollision())
-      this.cy -= this.step;
+      this.cy -= this.step*du;
   }
 };
 
