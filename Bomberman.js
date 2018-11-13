@@ -3,13 +3,6 @@
 var g_canvas = document.getElementById("myCanvas");
 var g_ctx = g_canvas.getContext("2d");
 
-function createPlayers() {
-    
-    entityManager.generatePlayer({
-        cx : 100,
-        cy : 100
-    });
-}
 
 function gatherInputs() {
     // Nothing to do here!
@@ -74,7 +67,10 @@ function requestPreloads() {
         9 : "assets/explosion.png",
 
         // Player explosion sprite sheet
-        10 : "assets/playerexplode.png"
+        10 : "assets/playerexplode.png",
+
+        // Enemy sprite sheet
+        11 : "assets/mrblob-pixilart.png" // Bráðabirgða
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -82,18 +78,24 @@ function requestPreloads() {
 
 /**
  * Player sprites: 0-7
- * Bomb sprite: 8
- * Explosion sprites: 9 - 31
- * Player Explosion sprites: 32 - 41
+ * Enemy sprite: 8  // Only one for now
+ * Bomb sprite: 9
+ * Explosion sprites: 10 - 32
+ * Player Explosion sprites: 33 - 42
  */
 var g_sprites = [];
 var g_playerSprites = 8;
-var g_explOffset = g_playerSprites + 1;
+var g_enemySprites = 1; // Only one for now
+var g_explOffset = g_playerSprites + g_enemySprites + 1;
 var g_explSprites = 22;
 var g_playerExplOffset = g_explOffset + g_explSprites;
 var g_playerExplSprites = 9;
 
 function preloadDone() {
+
+    // Enemy sprites
+    g_sprites[g_playerSprites] = new Sprite(g_images[11]);
+    g_sprites[g_playerSprites].scale = 2;
 
     // Player sprites
     for (var i = 0; i < g_playerSprites; i++) {
@@ -106,7 +108,7 @@ function preloadDone() {
     }
 
     // Bomb sprite
-    g_sprites[g_playerSprites] = new Sprite(g_images[8]);
+    g_sprites[g_playerSprites+g_enemySprites] = new Sprite(g_images[8]);
 
     // Explosion sprite
     var celWidth = 32;
@@ -126,7 +128,7 @@ function preloadDone() {
     }
 
     // Remove any superfluous ones from the end
-    g_sprites.splice(numCels + g_playerSprites + 1);
+    g_sprites.splice(numCels + g_playerSprites + g_enemySprites + 1);
 
     // Player explosion sprite
     var playerCelWidth = 31;
@@ -146,8 +148,8 @@ function preloadDone() {
         }
     }
 
+
     entityManager.init();
-    createPlayers();
 
     main.init();
 }
