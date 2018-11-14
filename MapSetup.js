@@ -107,6 +107,7 @@ g_map.update = function (du) {
 };
 
 g_map.render = function (ctx) {
+if(entityManager._startGame == true){ 
   var WIDTH = this.tileWidth,
     HEIGHT = this.tileHeight;
 
@@ -122,6 +123,7 @@ g_map.render = function (ctx) {
       }
     }
   }
+}
 
 };
 

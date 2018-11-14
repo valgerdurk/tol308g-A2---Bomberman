@@ -6,12 +6,19 @@ var entityManager = {
 
   // PRIVATE DATA
 
+  _start: [],
   _player: [],
   _bomb: [],
   _pickup: [],
   _enemy: [],
 
+  _startGame: false,
+
   // PRIVATE METHODS
+
+  generateStart : function (descr){
+    this._start.push(new Start(descr));
+  },
 
   generatePlayer: function (descr) {
     this._player.push(new Player(descr));
@@ -53,12 +60,18 @@ var entityManager = {
   },
 
   init: function () {
+    this.generateStart();  
     this.generatePlayer();
     this.generateEnemy();
   },
 
-  update: function (du) {
+  gameStart: function() {
+    this._startGame = !this._startGame;
+    util.playSelect2();
+  },
 
+  update: function (du) {
+    if(this._startGame == true){ 
     // Update player entities
     for (var i = 0; i < this._player.length; i++) {
       this._player[i].update(du);
@@ -77,9 +90,16 @@ var entityManager = {
         this._bomb.splice(i, 1);
       }
     }
-  },
+  }
+},
 
   render: function (ctx) {
+    // Render start entities
+    this._start[0].render(ctx);
+
+    // If the game hasn't started, dont generate other entities  
+    if(this._startGame == true){ 
+      
     // Render player entities
     for (var i = 0; i < this._player.length; i++) {
       this._player[i].render(ctx);
@@ -95,6 +115,8 @@ var entityManager = {
       var bomb = this._bomb[i];
       bomb.render(ctx);
     }
+  
+  }
 
   },
 

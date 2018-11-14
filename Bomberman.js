@@ -22,10 +22,14 @@ function updateSimulation(du) {
 
 var g_renderSpatialDebug = false;
 
+var KEY_ENTER = keyCode('\r\n');
+
 var KEY_SPATIAL = keyCode('X');
 
 function processDiagnostics() {
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
+
+    if (eatKey(KEY_ENTER)) entityManager.gameStart();
 }
 
 // GAME-SPECIFIC RENDERING
@@ -70,7 +74,11 @@ function requestPreloads() {
         10 : "assets/playerexplode.png",
 
         // Enemy sprite sheet
-        11 : "assets/mrblob-pixilart.png" // Bráðabirgða
+        11 : "assets/mrblob-pixilart.png", // Bráðabirgða
+
+        // Start menu images
+        12 : "assets/StartMenu1.png",
+        13 : "assets/StartMenu2.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -82,14 +90,17 @@ function requestPreloads() {
  * Bomb sprite: 9
  * Explosion sprites: 10 - 32
  * Player Explosion sprites: 33 - 42
+ * Start menu sprites: 43 - 44
  */
 var g_sprites = [];
 var g_playerSprites = 8;
 var g_enemySprites = 1; // Only one for now
-var g_explOffset = g_playerSprites + g_enemySprites + 1;
+var g_explOffset = g_playerSprites + g_enemySprites + 1; 
 var g_explSprites = 22;
 var g_playerExplOffset = g_explOffset + g_explSprites;
 var g_playerExplSprites = 9;
+var g_startMenuOffset = g_playerExplOffset + g_playerExplSprites + 2;
+var g_startMenuSprites = 2;
 
 function preloadDone() {
 
@@ -108,7 +119,7 @@ function preloadDone() {
     }
 
     // Bomb sprite
-    g_sprites[g_playerSprites+g_enemySprites] = new Sprite(g_images[8]);
+    g_sprites[g_playerSprites + g_enemySprites] = new Sprite(g_images[8]);
 
     // Explosion sprite
     var celWidth = 32;
@@ -147,6 +158,10 @@ function preloadDone() {
             g_sprites.push(explPlayerSprite);
         }
     }
+
+    // Start menu sprite
+    g_sprites[g_startMenuOffset] = new Sprite(g_images[12]);
+    g_sprites[g_startMenuOffset + g_enemySprites] = new Sprite(g_images[13]);
 
 
     entityManager.init();
