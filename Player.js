@@ -41,6 +41,9 @@ Player.prototype.step = 4;
 Player.prototype.cx = 100;
 Player.prototype.cy = 100;
 
+// Sound
+Player.prototype.bombTime = new Audio("Sound effects/bombtime.mp3");
+
 // Interval for steps when player walks
 // The sprite is changed every 150 ms so it appears he is walking
 var stepInterval = setInterval(setStep, 150);
@@ -71,6 +74,7 @@ Player.prototype.update = function (du) {
     var placeInGrid = g_map.tileMapLocation(this.cx, this.cy);
     var findCenter = g_map.tileCenter(placeInGrid.row, placeInGrid.column);
     entityManager.generateBomb(findCenter.x, findCenter.y, 1);
+    this.bombTime.play();
   }
 
   // (Re-) register

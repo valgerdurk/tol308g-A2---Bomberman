@@ -25,8 +25,12 @@ Bomb.prototype.range = 1;
 // lifespan of explosion
 Bomb.prototype.ctdTimer = (2000 / NOMINAL_UPDATE_INTERVAL);
 Bomb.prototype.explosionTime = (2000 / NOMINAL_UPDATE_INTERVAL);
+Bomb.prototype.soundTimer = (100 / NOMINAL_UPDATE_INTERVAL);
 Bomb.prototype.explTimer = Bomb.prototype.explosionTime;
 Bomb.prototype.exploded = false;
+
+// Sound
+Bomb.prototype.bombExplosion = new Audio("Sound effects/bombexplosion.mp3");
 
 Bomb.prototype.update = function (du) {
 
@@ -37,6 +41,12 @@ Bomb.prototype.update = function (du) {
   this.ctdTimer -= du;
 
   if (this.ctdTimer < 0) {
+
+    this.soundTimer -= du;
+    if(this.soundTimer > 0) {
+      this.bombExplosion.play();
+    }
+
     this.explTimer -= du;
     this.sprite = g_sprites[this.nextSprite];
     this.nextSprite = g_explOffset + (Math.floor(
