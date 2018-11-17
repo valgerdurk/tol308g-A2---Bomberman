@@ -80,5 +80,24 @@ Bomb.prototype.takeExplosionHit = function() {
 }
 
 Bomb.prototype.render = function (ctx) {
+  var placeInGrid = g_map.tileMapLocation(this.cx, this.cy);
+  for (var i = 0; i <= this.range; i++) {
+    if (this.ctdTimer <= 0) {
+      var findCenterUp = g_map.tileCenter(placeInGrid.row + i, placeInGrid.column);
+      this.sprite.drawCentredAt(ctx, findCenterUp.x, findCenterUp.y);
+    }
+    if (this.ctdTimer <= 0) {
+      var findCenterLeft = g_map.tileCenter(placeInGrid.row, placeInGrid.column - i);
+      this.sprite.drawCentredAt(ctx, findCenterLeft.x, findCenterLeft.y);
+    }
+    if (this.ctdTimer <= 0) {
+      var findCenterRight = g_map.tileCenter(placeInGrid.row, placeInGrid.column + i);
+      this.sprite.drawCentredAt(ctx, findCenterRight.x, findCenterRight.y);
+    }
+    if (this.ctdTimer <= 0) {
+      var findCenterDown = g_map.tileCenter(placeInGrid.row - i, placeInGrid.column);
+      this.sprite.drawCentredAt(ctx, findCenterDown.x, findCenterDown.y);  
+    }
+  }
   this.sprite.drawCentredAt(ctx, this.cx, this.cy);
 };
