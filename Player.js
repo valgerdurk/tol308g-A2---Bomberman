@@ -70,9 +70,7 @@ Player.prototype.update = function (du) {
   if (eatKey(this.KEY_DROP_BOMB)) {
     var placeInGrid = g_map.tileMapLocation(this.cx, this.cy);
     var findCenter = g_map.tileCenter(placeInGrid.row, placeInGrid.column);
-    entityManager.generateBomb(findCenter.x, findCenter.y);
-    //console.log(placeInGrid);
-    //console.log(g_map.tileCenter(placeInGrid.row, placeInGrid.column));
+    entityManager.generateBomb(findCenter.x, findCenter.y, 1);
   }
 
   // (Re-) register
@@ -236,7 +234,7 @@ Player.prototype.takeExplosionHit = function (du) {
 
 // Resets the player and starts a new life
 Player.prototype.newLife = function () {
-
+ 
 }
 
 Player.prototype.render = function (ctx) {

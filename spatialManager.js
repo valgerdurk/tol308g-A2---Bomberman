@@ -59,35 +59,40 @@ unregister: function(entity) {
     delete this._entities[spatialID];
 },
 
-findEntityInRange: function(posX, posY, radius) {
+findEntitiesRange: function(posX, posY, range) {
     var entities = this._entities;
-    
-    // Lets compute the squared distance between our entity and the others
-    // We go through the array of entites and find the one that is closest to us
 
-    // To begin with we set the Id of the closest entity to 0 
-    // and the min squared distance to infinity
-    var entID = 0;
-    var minDistance = Infinity; 
+    var _entitiesInRange = [];
+    var placeInGrid = g_map.tileMapLocation(posX, posY);
     for (var i = 0; i < entities.length; i++) {
         var entity = entities[i];
         if (entity != undefined) {
-            var dist = util.wrappedDistSq(posX, posY, entity.posX, entity.posY, 
-                g_canvas.width, g_canvas.height);
-            if (dist < minDistance) {
-                minDistance = dist; 
-                entID = i; 
+            var entityInGrid = g_map.tileMapLocation(entity.posX, entity.posY);
+            for (var j = 0; j <= range; j++) {                
+                // Up
+                if ((entityInGrid.column == placeInGrid.column) && (entityInGrid.row == placeInGrid.row - j)) {
+                    _entitiesInRange.push(entity.entity);
+                    break;
+                }
+                // Down
+                if ((entityInGrid.column == placeInGrid.column) && (entityInGrid.row == placeInGrid.row + j)) {
+                    _entitiesInRange.push(entity.entity);
+                    break;
+                }
+                // Left
+                if ((entityInGrid.column == placeInGrid.column - j) && (entityInGrid.row == placeInGrid.row)) {
+                    _entitiesInRange.push(entity.entity);
+                    break;
+                }
+                // Right
+                if ((entityInGrid.column == placeInGrid.column + j) && (entityInGrid.row == placeInGrid.row)) {
+                    _entitiesInRange.push(entity.entity);
+                    break;
+                }
             }
         }
     }
-    // Lets check for collision by checking if this entity's radius + our entity's radius ^ 2 
-    // is greater than the squared distance
-    if ((entities[entID].radius + radius)**2 > minDistance) {
-        return entities[entID].entity;
-        // It's a hit!
-    }
-    return false;
-    // No hit!
+    return _entitiesInRange;
 },
 
 render: function(ctx) {

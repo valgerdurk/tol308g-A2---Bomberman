@@ -70,16 +70,11 @@ Entity.prototype.kill = function () {
   this._isDeadNow = true;
 };
 
-Entity.prototype.findHitEntity = function () {
+Entity.prototype.findHitEntities = function (range) {
   var pos = this.getPos();
-  return spatialManager.findEntityInRange(
-    pos.posX, pos.posY, this.getRadius()
+  return spatialManager.findEntitiesRange(
+    pos.posX, pos.posY, range
   );
-};
-
-// This is just little "convenience wrapper"
-Entity.prototype.isColliding = function () {
-  return this.findHitEntity();
 };
 
 Entity.prototype.wrapPosition = function () {

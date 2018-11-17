@@ -18,9 +18,9 @@ function Bomb(descr) {
 Bomb.prototype = new Entity();
 
 // Initial, inheritable, default values
-Bomb.prototype.rotation = 0;
 Bomb.prototype.cx;
 Bomb.prototype.cy;
+Bomb.prototype.range = 1;
 
 // lifespan of explosion
 Bomb.prototype.ctdTimer = (2000 / NOMINAL_UPDATE_INTERVAL);
@@ -33,6 +33,7 @@ Bomb.prototype.update = function (du) {
   // Unregister
   spatialManager.unregister(this);
 
+  // Draw explosion
   this.ctdTimer -= du;
 
   if (this.ctdTimer < 0) {
@@ -43,21 +44,25 @@ Bomb.prototype.update = function (du) {
     ) % g_explSprites);
 
     // Handle collisions with the explosion
-    var hitEntity = this.findHitEntity();
-    if (hitEntity) {
-      //todo add findHitEntity
-      var canTakeHit = hitEntity.takeExplosionHit(du);
-      if (canTakeHit) canTakeHit.call(hitEntity);
+    var _hitEntities = this.findHitEntities(this.range);
+    if (_hitEntities != []) {
+      //todo add findHitEntities
+      for (var i = 0; i < _hitEntities.length; i++) {
+        var hitEntity = _hitEntities[i];
+        var canTakeHit = hitEntity.takeExplosionHit;
+        if (canTakeHit) {
+          canTakeHit.call(hitEntity, du)
+        }
+      }
     }
     if (!this.exploded) {
 
       console.log(`bombEXPLODE- x: ${this.cx}, y: ${this.cy}`);
       var placeInGrid = g_map.tileMapLocation(this.cy, this.cx);
-
-      console.log(placeInGrid);
+  
       //todo add animation to afected squares
       //todo decide where range is selected
-      g_map.breakBlocks(placeInGrid, 3);
+      g_map.breakBlocks(placeInGrid, this.range);
       this.exploded = true;
     }
   }
@@ -70,11 +75,9 @@ Bomb.prototype.update = function (du) {
   spatialManager.register(this);
 };
 
-
-// Við getum breytt hér hversu langt sprengjan á að ná  
-Bomb.prototype.getRadius = function () {
-  return 35;
-};
+Bomb.prototype.takeExplosionHit = function() {
+  this.ctdTimer = 0;
+}
 
 Bomb.prototype.render = function (ctx) {
   this.sprite.drawCentredAt(ctx, this.cx, this.cy);

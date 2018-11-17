@@ -28,10 +28,11 @@ var entityManager = {
     this._enemy.push(new Enemy(descr));
   },
 
-  generateBomb: function (cx, cy) {
+  generateBomb: function (cx, cy, range) {
     this._bomb.push(new Bomb({
       cx: cx,
-      cy: cy
+      cy: cy,
+      range: range
     }));
   },
 

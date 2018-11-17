@@ -203,7 +203,6 @@ g_map.breakBlocks = function (loc, range) {
 
 
   while (r <= range) {
-    console.log(r);
     if (left)
       left = this._breakBlock(loc.column - r, loc.row);
     if (right)
