@@ -71,10 +71,12 @@ Player.prototype.update = function (du) {
 
   // Drop bomb
   if (eatKey(this.KEY_DROP_BOMB)) {
-    var placeInGrid = g_map.tileMapLocation(this.cx, this.cy);
-    var findCenter = g_map.tileCenter(placeInGrid.row, placeInGrid.column);
-    entityManager.generateBomb(findCenter.x, findCenter.y, 1);
-    this.bombTime.play();
+    if (this._ownedBombsCount < this._maxBombCount) {
+      var placeInGrid = g_map.tileMapLocation(this.cx, this.cy);
+      var findCenter = g_map.tileCenter(placeInGrid.row, placeInGrid.column);
+      entityManager.generateBomb(findCenter.x, findCenter.y, 1, this);
+      this.bombTime.play();
+    }
   }
 
   // (Re-) register
@@ -94,9 +96,9 @@ Player.prototype.playerMovement = function (du) {
     } else if (!g_step) {
       this.sprite = g_sprites[1];
     }
-    this.cx += this.step*du;
+    this.cx += this.step * du;
     if (this.mapCollision())
-      this.cx -= this.step*du;
+      this.cx -= this.step * du;
   }
 
   if (keys[this.KEY_LEFT]) {
@@ -105,9 +107,9 @@ Player.prototype.playerMovement = function (du) {
     } else if (!g_step) {
       this.sprite = g_sprites[3];
     }
-    this.cx -= this.step*du;
+    this.cx -= this.step * du;
     if (this.mapCollision())
-      this.cx += this.step*du;
+      this.cx += this.step * du;
   }
 
   if (keys[this.KEY_UP]) {
@@ -116,9 +118,9 @@ Player.prototype.playerMovement = function (du) {
     } else if (!g_step) {
       this.sprite = g_sprites[5];
     }
-    this.cy -= this.step*du;
+    this.cy -= this.step * du;
     if (this.mapCollision())
-      this.cy += this.step*du;
+      this.cy += this.step * du;
   }
 
   if (keys[this.KEY_DOWN]) {
@@ -127,9 +129,9 @@ Player.prototype.playerMovement = function (du) {
     } else if (!g_step) {
       this.sprite = g_sprites[7];
     }
-    this.cy += this.step*du;
+    this.cy += this.step * du;
     if (this.mapCollision())
-      this.cy -= this.step*du;
+      this.cy -= this.step * du;
   }
 };
 
@@ -238,10 +240,61 @@ Player.prototype.takeExplosionHit = function (du) {
 
 // Resets the player and starts a new life
 Player.prototype.newLife = function () {
- 
+
 }
 
 Player.prototype.render = function (ctx) {
 
   this.sprite.drawCentredAt(ctx, this.cx, this.cy);
+};
+
+
+
+// controles the number
+Player.prototype._ownedBombsCount = 0;
+Player.prototype._maxBombCount = 3;
+
+// increases the number of bombs a player owns
+Player.prototype.addBomb = function () {
+  if (this._ownedBombsCount >= this._maxBombCount) {
+    // returns false if there are to many bombs
+    return false;
+  }
+  this._ownedBombsCount++;
+  return true;
+};
+
+// decreses the number of bombs a player owns
+Player.prototype.removeBomb = function () {
+  if (this._ownedBombsCount <= 0) {
+    // returns false if there are no bombs
+    return false;
+  }
+  this._ownedBombsCount--;
+  return true;
+};
+
+// get the number of owned bombs
+Player.prototype.getOwnedBombsCount = function () {
+  return this._ownedBombsCount;
+};
+
+// sets the number of owned bombs
+Player.prototype.setMaxBombCount = function (count) {
+  this._maxBombCount = count;
+  return this._maxBombCount;
+};
+
+// decreses the number of owned bombs
+Player.prototype.getMaxBombCount = function () {
+  return this._maxBombCount;
+};
+
+// increments the number of bombs a player can have by 'incrAmount'
+// 'incrAmount' cen be negative to decrement
+Player.prototype.incrMaxBombCount = function (incrAmount) {
+  if (incrAmount === undefined)
+    incrAmount = 1;
+  this._maxBombCount = this._maxBombCount + incrAmount;
+  return this._maxBombCount;
 };

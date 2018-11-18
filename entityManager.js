@@ -16,7 +16,7 @@ var entityManager = {
 
   // PRIVATE METHODS
 
-  generateStart : function (descr){
+  generateStart: function (descr) {
     this._start.push(new Start(descr));
   },
 
@@ -28,12 +28,22 @@ var entityManager = {
     this._enemy.push(new Enemy(descr));
   },
 
-  generateBomb: function (cx, cy, range) {
-    this._bomb.push(new Bomb({
+  generateBomb: function (cx, cy, range, owner) {
+    for (let i = 0; i < this._bomb.length; i++) {
+      if (this._bomb[i].cx === cx && this._bomb[i].cy === cy) {
+        console.log(`cant place bomb, tile occupied`);
+        return false;
+      }
+    }
+    let bomb = new Bomb({
       cx: cx,
       cy: cy,
-      range: range
-    }));
+      range: range,
+      owner: owner
+    });
+    bomb.owner.addBomb();
+    this._bomb.push(bomb);
+    return true;
   },
 
   generatePickup: function (cx, cy) {
@@ -61,63 +71,63 @@ var entityManager = {
   },
 
   init: function () {
-    this.generateStart();  
+    this.generateStart();
     this.generatePlayer();
     this.generateEnemy();
   },
 
-  gameStart: function() {
+  gameStart: function () {
     this._startGame = !this._startGame;
     util.playSelect2();
   },
 
   update: function (du) {
-    if(this._startGame == true){ 
-    // Update player entities
-    for (var i = 0; i < this._player.length; i++) {
-      this._player[i].update(du);
-    }
+    if (this._startGame == true) {
+      // Update player entities
+      for (var i = 0; i < this._player.length; i++) {
+        this._player[i].update(du);
+      }
 
-    // Update enemy entities
-    for (var i = 0; i < this._enemy.length; i++) {
-      this._enemy[i].update(du);
-    }
+      // Update enemy entities
+      for (var i = 0; i < this._enemy.length; i++) {
+        this._enemy[i].update(du);
+      }
 
-    // Update bomb entities
-    for (var i = 0; i < this._bomb.length; i++) {
-      var status = this._bomb[i].update(du);
+      // Update bomb entities
+      for (var i = 0; i < this._bomb.length; i++) {
+        var status = this._bomb[i].update(du);
 
-      if (status === this.KILL_ME_NOW) {
-        this._bomb.splice(i, 1);
+        if (status === this.KILL_ME_NOW) {
+          this._bomb.splice(i, 1);
+        }
       }
     }
-  }
-},
+  },
 
   render: function (ctx) {
     // Render start entities
     this._start[0].render(ctx);
 
     // If the game hasn't started, dont generate other entities  
-    if(this._startGame == true){ 
-      
-    // Render player entities
-    for (var i = 0; i < this._player.length; i++) {
-      this._player[i].render(ctx);
-    }
+    if (this._startGame == true) {
 
-    // Render enemy entities
-    for (var i = 0; i < this._enemy.length; i++) {
-      this._enemy[i].render(ctx);
-    }
+      // Render player entities
+      for (var i = 0; i < this._player.length; i++) {
+        this._player[i].render(ctx);
+      }
 
-    // Render bomb entities
-    for (var i = 0; i < this._bomb.length; i++) {
-      var bomb = this._bomb[i];
-      bomb.render(ctx);
+      // Render enemy entities
+      for (var i = 0; i < this._enemy.length; i++) {
+        this._enemy[i].render(ctx);
+      }
+
+      // Render bomb entities
+      for (var i = 0; i < this._bomb.length; i++) {
+        var bomb = this._bomb[i];
+        bomb.render(ctx);
+      }
+
     }
-  
-  }
 
   },
 

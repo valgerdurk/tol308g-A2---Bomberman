@@ -43,7 +43,7 @@ Bomb.prototype.update = function (du) {
   if (this.ctdTimer < 0) {
 
     this.soundTimer -= du;
-    if(this.soundTimer > 0) {
+    if (this.soundTimer > 0) {
       this.bombExplosion.play();
     }
 
@@ -53,26 +53,32 @@ Bomb.prototype.update = function (du) {
       g_explSprites - this.explTimer / this.explosionTime * g_explSprites
     ) % g_explSprites);
 
-    // Handle collisions with the explosion
-    var _hitEntities = this.findHitEntities(this.range);
-    if (_hitEntities != []) {
-      //todo add findHitEntities
-      for (var i = 0; i < _hitEntities.length; i++) {
-        var hitEntity = _hitEntities[i];
-        var canTakeHit = hitEntity.takeExplosionHit;
-        if (canTakeHit) {
-          canTakeHit.call(hitEntity, du)
+
+    // events inside here will only haoen ONCE when the bomb explodes
+    if (!this.exploded) {
+
+      // Handle collisions with the explosion
+      var _hitEntities = this.findHitEntities(this.range);
+      if (_hitEntities != []) {
+        //todo add findHitEntities
+        for (var i = 0; i < _hitEntities.length; i++) {
+          var hitEntity = _hitEntities[i];
+          var canTakeHit = hitEntity.takeExplosionHit;
+          if (canTakeHit) {
+            canTakeHit.call(hitEntity, du)
+          }
         }
       }
-    }
-    if (!this.exploded) {
 
       console.log(`bombEXPLODE- x: ${this.cx}, y: ${this.cy}`);
       var placeInGrid = g_map.tileMapLocation(this.cy, this.cx);
-  
+
       //todo add animation to afected squares
       //todo decide where range is selected
       g_map.breakBlocks(placeInGrid, this.range);
+
+      this.owner.removeBomb();
+
       this.exploded = true;
     }
   }
@@ -85,7 +91,7 @@ Bomb.prototype.update = function (du) {
   spatialManager.register(this);
 };
 
-Bomb.prototype.takeExplosionHit = function() {
+Bomb.prototype.takeExplosionHit = function () {
   this.ctdTimer = 0;
 }
 
@@ -106,7 +112,7 @@ Bomb.prototype.render = function (ctx) {
     }
     if (this.ctdTimer <= 0) {
       var findCenterDown = g_map.tileCenter(placeInGrid.row - i, placeInGrid.column);
-      this.sprite.drawCentredAt(ctx, findCenterDown.x, findCenterDown.y);  
+      this.sprite.drawCentredAt(ctx, findCenterDown.x, findCenterDown.y);
     }
   }
   this.sprite.drawCentredAt(ctx, this.cx, this.cy);
