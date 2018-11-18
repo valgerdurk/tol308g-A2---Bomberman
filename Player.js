@@ -143,17 +143,17 @@ Player.prototype.bounding = function (ax, dx, wy, sy, sw, sh) {
   //messy can probably done in a more efficent and tidy way
   //shift xy of sprite by height and width
 
-  var topLeftX = Math.floor((ax - (sw / 2)) / 64);
-  var topLeftY = Math.floor((wy - (sh / 2)) / 64);
+  var topLeftX = Math.floor((ax - sw) / 64);
+  var topLeftY = Math.floor((wy - sh) / 64);
   //shift x by width
-  var botLeftX = Math.floor((ax - (sw / 2)) / 64);
-  var botLeftY = Math.floor((sy + (sh / 2)) / 64);
+  var botLeftX = Math.floor((ax - sw) / 64);
+  var botLeftY = Math.floor((sy + sh) / 64);
   // shift x and y bu
-  var botRightX = Math.floor((dx + (sw / 2)) / 64);
-  var botRightY = Math.floor((sy + (sh / 2)) / 64);
+  var botRightX = Math.floor((dx + sw) / 64);
+  var botRightY = Math.floor((sy + sh) / 64);
   //shift y by height
-  var topRightX = Math.floor((dx + (sw / 2)) / 64);
-  var topRightY = Math.floor((wy - (sh / 2)) / 64);
+  var topRightX = Math.floor((dx + sw) / 64);
+  var topRightY = Math.floor((wy - sh) / 64);
 
   var topL = [topLeftX, topLeftY];
   var botL = [botLeftX, botLeftY];
@@ -182,8 +182,8 @@ Player.prototype.mapCollision = function () {
   var nextX = this.cx;
   var nextY = this.cy;
   //width and height
-  var width = this.sprite.width;
-  var height = this.sprite.height;
+  var width = this.sprite.width/2;
+  var height = this.sprite.height/2;
   //get bounding vectors
   //var playerBound = this.bounding(nextX,nextY,width,height);
   var playerBound = this.bounding(nextXA, nextXD, nextYW, nextYS, width, height);

@@ -78,7 +78,7 @@ var g_map = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   ],
   //we need to change this into sprites later
-  colours: [
+  sprites: [
     "purple", //this one never gets selected
     "grey", //1
     "yellow", //2
@@ -92,15 +92,29 @@ var g_map = {
 const g_mapColumns = g_map.mapTiles[0].length;
 const g_mapRows = g_map.mapTiles.length;
 
-g_map.drawRect = function (i, j, colour, ctx) {
+/*
+g_map.drawRect = function (i, j, color, ctx) {
   var xPos = this.tileWidth * i,
     yPos = this.tileHeight * j,
     width = this.tileWidth,
     height = this.tileHeight;
   //draw rectactle at [i][j] in map array
-  ctx.fillStyle = colour;
+  ctx.fillStyle = color;
   ctx.fillRect(xPos, yPos, width, height);
 };
+*/
+g_map.drawSprites = function (id,i,j,ctx) {
+
+  //
+  var xPos = this.tileWidth * i,
+    yPos = this.tileHeight * j,
+    mSprite = g_sprites[id],
+    image = mSprite.image,
+    width = this.tileWidth,
+    height = this.tileHeight;
+  ctx.drawImage(image,xPos,yPos,width,height);
+};
+
 
 g_map.update = function (du) {
   //no updates
@@ -108,17 +122,19 @@ g_map.update = function (du) {
 
 g_map.render = function (ctx) {
 if(entityManager._startGame == true){ 
-  var WIDTH = this.tileWidth,
-    HEIGHT = this.tileHeight;
 
-  for (var i = 0; i < 17; ++i) {
-    for (var j = 0; j < 17; j++) {
+  for (var i = 0; i < g_mapRows; ++i) {
+    for (var j = 0; j < g_mapColumns; j++) {
       var id = this.mapTiles[i][j];
-      //if u want to colour the 0, condition for (!id)
+      //if u want to color the 0, condition for (!id)
       if (id) {
+        this.drawSprites(this.tileTypes[id].imgID,
+          j,i,ctx);
+        /*
         this.drawRect(j, i,
-          this.tileTypes[id].colour,
+          this.tileTypes[id].color,
           ctx);
+        */
 
       }
     }
@@ -129,7 +145,6 @@ if(entityManager._startGame == true){
 
 // not actually used right
 g_map.collidesWith = function (prevX, prevY, nextX, nextY) {
-
   var width = this.tileWidth,
     height = this.tileHeight,
 
@@ -243,28 +258,28 @@ g_map.tileTypes = [{
     passable: true,
     breakeable: false,
     ineractable: false,
-    colour: 'black'
+    imgID: 0
   }, {
     id: 1,
     title: 'wall1',
     passable: false,
     breakeable: false,
     ineractable: false,
-    colour: 'grey'
+    imgID: 1
   }, {
     id: 2,
     title: 'wall2',
     passable: false,
     breakeable: false,
     ineractable: false,
-    colour: 'yellow'
+    imgID: 2
   }, {
     id: 3,
-    title: 'wall3',
+    title: 'gate',
     passable: false,
     breakeable: false,
     ineractable: false,
-    colour: 'white'
+    imgID: 3
   },
   {
     id: 4,
@@ -272,7 +287,7 @@ g_map.tileTypes = [{
     passable: false,
     breakeable: true,
     ineractable: false,
-    colour: 'red'
+    imgID: 4
   },
   {
     id: 5,
@@ -280,7 +295,7 @@ g_map.tileTypes = [{
     passable: false,
     breakeable: true,
     ineractable: false,
-    colour: 'grey'
+    imgID: 5
   },
   {
     id: 6,
@@ -288,7 +303,7 @@ g_map.tileTypes = [{
     passable: true,
     breakeable: false,
     ineractable: false,
-    colour: 'grey'
+    imgID: 6
   }, {
     id: 7,
     title: 'pickup01',
@@ -296,7 +311,7 @@ g_map.tileTypes = [{
     breakeable: false,
     ineractable: false,
     pickup: true,
-    colour: 'orange'
+    imgID: 7
   }, {
     id: 8,
     title: 'pickup02',
@@ -304,15 +319,33 @@ g_map.tileTypes = [{
     breakeable: false,
     ineractable: false,
     pickup: true,
-    colour: 'purple'
+    imgID: 8
   }, {
     id: 9,
-    title: 'pickup03',
+    title: 'key1',
     passable: true,
     breakeable: false,
     ineractable: false,
     pickup: true,
-    colour: 'blue'
+    imgID: 9
+  }
+  , {
+    id: 10,
+    title: 'key2',
+    passable: true,
+    breakeable: false,
+    ineractable: false,
+    pickup: true,
+    imgID: 10
+  }
+  , {
+    id: 11,
+    title: 'key2',
+    passable: true,
+    breakeable: false,
+    ineractable: false,
+    pickup: true,
+    imgID: 11
   }
 ];
 
