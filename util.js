@@ -109,46 +109,46 @@ var util = {
 
       //Sound effects
       playSelect: function() {
-        var audio = new Audio('https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/select.mp3');
+        var audio = new Audio('Sound effects/select.mp3');
         audio.play();
         },
 
     playSelect2: function() {
-        var audio = new Audio('https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/select2.mp3');
+        var audio = new Audio('Sound effects/select2.mp3');
         audio.play();
         },
 
     playExplosion: function() {
-        var audio = new Audio('https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/bombexplosion.mp3');
+        var audio = new Audio('Sound effects/bombexplosion.mp3');
         audio.play();
         },
 
     playBurn: function() {
-        var audio = new Audio('https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/bombtime.mp3');
+        var audio = new Audio('Sound effects/bombtime.mp3');
         audio.play();
         },
 
     playBoxBreak: function() {
-        var audio = new Audio('https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/boxbreak.mp3');
+        var audio = new Audio('Sound effects/boxbreak.mp3');
         audio.play();
         },
 
     playRockBreak: function() {
-        var audio = new Audio('https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/rockbreak.mp3');
+        var audio = new Audio('Sound effects/rockbreak.mp3');
         audio.play();
         },
     
     playDamage: function() {
-        var audio = new Audio('https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/damage.mp3');
+        var audio = new Audio('Sound effects/damage.mp3');
         audio.play();
         },
     
     playSteps: function() {
         var random = [
-        'https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/step1.mp3',
-        'https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/step2.mp3',
-        'https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/step3.mp3',
-        'https://notendur.hi.is/ema22/tolvuleikjaforritun/sound/Soundeffects2/step4.mp3',];
+        'Sound effects/step1.mp3',
+        'Sound effects/step2.mp3',
+        'Sound effects/step3.mp3',
+        'Sound effects/step4.mp3',];
             
         var randomSound = random[Math.floor(Math.random() * random.length)];
         

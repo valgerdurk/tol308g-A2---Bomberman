@@ -101,7 +101,11 @@ g_map.drawSprites = function (id,i,j,ctx) {
     image = mSprite.image,
     width = this.tileWidth,
     height = this.tileHeight;
-  ctx.drawImage(image,xPos,yPos,width,height);
+  ctx.drawImage(image,
+                xPos,
+                yPos,
+                width,
+                height);
 };
 
 
@@ -219,6 +223,7 @@ g_map._breakBlock = function (col, row) {
   if (this.tileTypes[this.mapTiles[col][row]].breakeable) {
     this.mapTiles[col][row] = 0;
     this.mapTiles[col][row] = 7;
+    util.playRockBreak();
     //todo make posible to take multiple hits
     //var findCenter = this.tileCenter(row, col);
     //entityManager.generatePickup(?);
@@ -241,13 +246,17 @@ g_map.tileTypes = [{
     passable: true,
     breakeable: false,
     ineractable: false,
-    imgID: 0
+    pickup: false,
+    key: false,
+    imgID: 50
   }, {
     id: 1,
     title: 'wall1',
     passable: false,
     breakeable: false,
     ineractable: false,
+    pickup: false,
+    key: false,
     imgID: 49
   }, {
     id: 2,
@@ -255,6 +264,8 @@ g_map.tileTypes = [{
     passable: false,
     breakeable: false,
     ineractable: false,
+    pickup: false,
+    key: false,
     imgID: 2
   }, {
     id: 3,
@@ -262,6 +273,8 @@ g_map.tileTypes = [{
     passable: false,
     breakeable: false,
     ineractable: true,
+    pickup: false,
+    key: false,
     imgID: 3
   },
   {
@@ -270,6 +283,8 @@ g_map.tileTypes = [{
     passable: false,
     breakeable: true,
     ineractable: false,
+    pickup: false,
+    key: false,
     imgID: 50
   },
   {
@@ -278,6 +293,8 @@ g_map.tileTypes = [{
     passable: false,
     breakeable: true,
     ineractable: false,
+    pickup: false,
+    key: false,
     imgID: 5
   },
   {
@@ -286,6 +303,8 @@ g_map.tileTypes = [{
     passable: true,
     breakeable: false,
     ineractable: false,
+    pickup: false,
+    key: false,
     imgID: 6
   }, {
     id: 7,
@@ -294,6 +313,7 @@ g_map.tileTypes = [{
     breakeable: false,
     ineractable: false,
     pickup: true,
+    key: false,
     imgID: 7
   }, {
     id: 8,
@@ -302,6 +322,7 @@ g_map.tileTypes = [{
     breakeable: false,
     ineractable: false,
     pickup: true,
+    key: false,
     imgID: 8
   }, {
     id: 9,
@@ -310,6 +331,7 @@ g_map.tileTypes = [{
     breakeable: false,
     ineractable: false,
     pickup: true,
+    key: true,
     imgID: 45
   }
   , {
@@ -319,6 +341,7 @@ g_map.tileTypes = [{
     breakeable: false,
     ineractable: false,
     pickup: true,
+    key: true,
     imgID: 46
   }
   , {
@@ -328,6 +351,7 @@ g_map.tileTypes = [{
     breakeable: false,
     ineractable: false,
     pickup: true,
+    key: true,
     imgID: 47
   }, {
     id: 12,
@@ -336,6 +360,7 @@ g_map.tileTypes = [{
     breakeable: false,
     ineractable: false,
     pickup: true,
+    key: true,
     imgID: 48
   }
 ];
@@ -368,8 +393,42 @@ g_map.collectKey = function (col, row) {
   //console.log(pickup);
   if (pickup) {
     this.mapTiles[col][row] = 0;
+    //check what the pick up is
+    var key = this.tileTypes[tile].key;
+    if(key){
+      //found key
+      //check what key it is
+      this.collectable(this.tileTypes[tile].title)
+    }
     return true;
   }
   return false;
+
+}
+
+g_map.collectable = function(keyID) {
+  //got keyID as a string
+  switch(keyID){
+    case "banemask":
+      // 
+      console.log("found a key! It was a : " + keyID);
+      break;
+    case "gladmask":
+      console.log("found a key! It was a : " + keyID);
+      //code
+      break;
+    case "sawmask":
+      console.log("found a key! It was a : " + keyID);
+      //code
+      break;
+    case "vmask":
+      console.log("found a key! It was a : " + keyID);
+      //code
+      break;
+    default:
+      //no code
+      console.log("oh no! this key is unknown: "+ keyID);
+      break;
+  }
 
 }

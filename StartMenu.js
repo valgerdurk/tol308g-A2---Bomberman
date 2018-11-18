@@ -39,7 +39,7 @@ if(entityManager._startGame == false){
 }
 
     // An if statement to prevent drawing of the menu sprite in the background.
-    if(entityManager._startGame == false){ 
-    this.sprite.drawCentredAt(ctx, this.cx, this.cy);
+    if(!entityManager._startGame){
+        this.sprite.drawCentredAt(ctx,this.cx,this.cy);
     }
 };

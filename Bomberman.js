@@ -35,14 +35,19 @@ function processDiagnostics() {
 // GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
-    // save the context
+    // save the context+
     ctx.save();
     //move the context
     g_camera.camera(ctx);
-
-    entityManager.render(ctx);
     //added g_map to render
     g_map.render(ctx);
+
+    entityManager.render(ctx);
+
+    //display text outside of ctx.translate magic
+    g_ui.render(ctx);
+    
+    
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 
@@ -88,7 +93,8 @@ function requestPreloads() {
 
         // map walls/bricks
         18 : "assets/brick.png",
-        19 : "assets/breakable1.png"
+        19 : "assets/breakable1.png",
+        20 : "assets/floor.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -179,10 +185,12 @@ function preloadDone() {
     g_sprites[47] = new Sprite(g_images[16]);
     g_sprites[48] = new Sprite(g_images[17]);
 
-    //walls
+    // walls
     g_sprites[49] = new Sprite(g_images[18]);
-    //breakable
+    // breakable
     g_sprites[50] = new Sprite(g_images[19]);
+    // floor
+    g_sprites[51] = new Sprite(g_images[20]);
 
     entityManager.init();
 

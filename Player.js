@@ -176,8 +176,8 @@ Player.prototype.mapCollision = function () {
   //next stuff
   var nextXA = this.cx - this.step; //move right
   var nextXD = this.cx + this.step; //move left
-  var nextYW = this.cy - 5; //move up
-  var nextYS = this.cy + 7; //move down
+  var nextYW = this.cy - 6; //move up
+  var nextYS = this.cy + 6; //move down
   // original next
   var nextX = this.cx;
   var nextY = this.cy;
@@ -197,10 +197,7 @@ Player.prototype.mapCollision = function () {
       var nextPos = g_map.tilePassable(nPos[1], nPos[0]);
       //check if position is a key
       g_map.collectKey(nPos[1], nPos[0]);
-      //console.log(nextPos +":"+ nPos[x] +":"+ nPos[y]);
-      //if (nextPos === 1 || nextPos === 2 || nextPos === 4) {
       if (!nextPos) {
-        //console.log(x + "'th vector collision");
         return true;
       }
     }
