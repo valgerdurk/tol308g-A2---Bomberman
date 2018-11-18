@@ -78,7 +78,17 @@ function requestPreloads() {
 
         // Start menu images
         12 : "assets/StartMenu1.png",
-        13 : "assets/StartMenu2.png"
+        13 : "assets/StartMenu2.png",
+
+        // Collectables
+        14 : "assets/banemask.png",
+        15 : "assets/gladmask.png",
+        16 : "assets/sawpuppet.png",
+        17 : "assets/vmask.png",
+
+        // map walls/bricks
+        18 : "assets/brick.png",
+        19 : "assets/breakable1.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -163,6 +173,16 @@ function preloadDone() {
     g_sprites[g_startMenuOffset] = new Sprite(g_images[12]);
     g_sprites[g_startMenuOffset + g_enemySprites] = new Sprite(g_images[13]);
 
+    // collectable sprites
+    g_sprites[45] = new Sprite(g_images[14]);
+    g_sprites[46] = new Sprite(g_images[15]);
+    g_sprites[47] = new Sprite(g_images[16]);
+    g_sprites[48] = new Sprite(g_images[17]);
+
+    //walls
+    g_sprites[49] = new Sprite(g_images[18]);
+    //breakable
+    g_sprites[50] = new Sprite(g_images[19]);
 
     entityManager.init();
 

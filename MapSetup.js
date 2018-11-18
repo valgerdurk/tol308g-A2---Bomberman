@@ -60,10 +60,10 @@ var g_map = {
 
   mapTiles: [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 9, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 10, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [1, 1, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 12, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
     [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
     [1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -92,17 +92,6 @@ var g_map = {
 const g_mapColumns = g_map.mapTiles[0].length;
 const g_mapRows = g_map.mapTiles.length;
 
-/*
-g_map.drawRect = function (i, j, color, ctx) {
-  var xPos = this.tileWidth * i,
-    yPos = this.tileHeight * j,
-    width = this.tileWidth,
-    height = this.tileHeight;
-  //draw rectactle at [i][j] in map array
-  ctx.fillStyle = color;
-  ctx.fillRect(xPos, yPos, width, height);
-};
-*/
 g_map.drawSprites = function (id,i,j,ctx) {
 
   //
@@ -130,12 +119,6 @@ if(entityManager._startGame == true){
       if (id) {
         this.drawSprites(this.tileTypes[id].imgID,
           j,i,ctx);
-        /*
-        this.drawRect(j, i,
-          this.tileTypes[id].color,
-          ctx);
-        */
-
       }
     }
   }
@@ -265,7 +248,7 @@ g_map.tileTypes = [{
     passable: false,
     breakeable: false,
     ineractable: false,
-    imgID: 1
+    imgID: 49
   }, {
     id: 2,
     title: 'wall2',
@@ -278,7 +261,7 @@ g_map.tileTypes = [{
     title: 'gate',
     passable: false,
     breakeable: false,
-    ineractable: false,
+    ineractable: true,
     imgID: 3
   },
   {
@@ -287,7 +270,7 @@ g_map.tileTypes = [{
     passable: false,
     breakeable: true,
     ineractable: false,
-    imgID: 4
+    imgID: 50
   },
   {
     id: 5,
@@ -322,30 +305,38 @@ g_map.tileTypes = [{
     imgID: 8
   }, {
     id: 9,
-    title: 'key1',
+    title: 'banemask',
     passable: true,
     breakeable: false,
     ineractable: false,
     pickup: true,
-    imgID: 9
+    imgID: 45
   }
   , {
     id: 10,
-    title: 'key2',
+    title: 'gladmask',
     passable: true,
     breakeable: false,
     ineractable: false,
     pickup: true,
-    imgID: 10
+    imgID: 46
   }
   , {
     id: 11,
-    title: 'key2',
+    title: 'sawmask',
     passable: true,
     breakeable: false,
     ineractable: false,
     pickup: true,
-    imgID: 11
+    imgID: 47
+  }, {
+    id: 12,
+    title: 'vmask',
+    passable: true,
+    breakeable: false,
+    ineractable: false,
+    pickup: true,
+    imgID: 48
   }
 ];
 
