@@ -177,7 +177,7 @@ Player.prototype.mapCollision = function () {
   var nextXA = this.cx - this.step; //move right
   var nextXD = this.cx + this.step; //move left
   var nextYW = this.cy - 6; //move up
-  var nextYS = this.cy + 6; //move down
+  var nextYS = this.cy + 7; //move down
   // original next
   var nextX = this.cx;
   var nextY = this.cy;
