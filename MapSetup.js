@@ -107,15 +107,20 @@ g_map.generateMap = function() {
   for (var i = 0; i < g_mapRows; ++i) {
     for (var j = 0; j < g_mapColumns; j++) {
 
-      if(i > 1 && j > 1){
-
-        var id = this.mapTiles[i][j];
-      
-        if(!id){
-          var rn = Math.random();
-          if(rn > 0.3)
-            this.mapTiles[i][j] = 4;
+      if(i > 0 && j > 0){
+        if(i === 1 && j === 1){
+          //nothing
+        }else {
+          var id = this.mapTiles[i][j];
+        
+          if(!id){
+            var rn = Math.random();
+            if(rn > 0.3)
+              this.mapTiles[i][j] = 4;
+          }
         }
+
+        
       }
     }
   }
