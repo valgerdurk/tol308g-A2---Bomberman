@@ -24,7 +24,7 @@ var g_sounds = {
 	    'Sound effects/VforVendetta/itstime_Portman.mp3',
 	    'Sound effects/VforVendetta/onlytruth_GHugo.mp3',
 	    'Sound effects/VforVendetta/perfectstage_Hugo.mp3',
-	    'Sound effects/VforVendetta/test_Jigsaw.mp3',
+	    'Sound effects/VforVendetta/tested_Jigsaw.mp3',
 	    'Sound effects/VforVendetta/serveyouwell_Hugoc.mp3',
 	    'Sound effects/VforVendetta/quiteenough_Portman.mp3'
 	],
@@ -52,6 +52,11 @@ var g_sounds = {
 	playExplosion: function() {
 	    var audio = new Audio('Sound effects/bombexplosion.mp3');
 	    audio.play();
+    },
+
+    playFuse: function() {
+    	var audio= new Audio("Sound effects/bombtime.mp3");
+    	audio.play();
     },
 
 	playBurn: function() {
@@ -89,21 +94,34 @@ var g_sounds = {
 	},
 
 	playBane: function(id){
-		var baneSound = new Audio(this.baneArr[this.bid]);
-		baneSound.play();
-		this.bid++;
+		if(!id) {
+			var baneSound = new Audio(this.baneArr[this.bid]);
+			baneSound.play();
+			this.bid++;
+		} else  {
+
+		}
 	},
 
-	playSaw: function(){
-		var sawSound = new Audio(this.sawArr[this.sid]);
-		sawSound.play();
-		this.sid++;
+	playSaw: function(id){
+		if(!id) {
+			var sawSound = new Audio(this.sawArr[this.sid]);
+			sawSound.play();
+			this.sid++;
+		} else  {
+			
+		}
 	},
 
-	playV: function(){
-		var vSound = new Audio(this.vArr[this.vid]);
-		vSound.play();
-		this.vid++;
+	playV: function(id){
+		if(!id) {
+			var vSound = new Audio(this.vArr[this.vid]);
+			vSound.play();
+			this.vid++;
+		} else  {
+			var vSound = new Audio(this.vArr[id]);+
+			vSound.play();
+		}
 	}
 
 

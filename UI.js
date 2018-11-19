@@ -42,9 +42,9 @@ var g_ui = {
 	},
 
 	render: function (ctx) {
-		this.turnOn();
+		//this.turnOn();
 
-		if(!this._inMenu) return;
+		//if(!this._inMenu) return;
 
 		var pl = entityManager._player[0];
 		//get player position
@@ -55,7 +55,7 @@ var g_ui = {
 		this.setFont(ctx,"30px Arial");
 		//begin drawing
 		ctx.fillText("Max bomb! " + this._bomb,
-					50,
+					100,
 					50);
 	},
 };
