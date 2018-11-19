@@ -15,7 +15,8 @@ function updateSimulation(du) {
 
     processDiagnostics();
 
-    entityManager.update(du);
+    if(entityManager._startGame)
+        entityManager.update(du);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
