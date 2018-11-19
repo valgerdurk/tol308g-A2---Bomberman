@@ -107,53 +107,5 @@ var util = {
     ctx.fillStyle = oldStyle;
   },
 
-      //Sound effects
-      playSelect: function() {
-        var audio = new Audio('Sound effects/select.mp3');
-        audio.play();
-        },
-
-    playSelect2: function() {
-        var audio = new Audio('Sound effects/select2.mp3');
-        audio.play();
-        },
-
-    playExplosion: function() {
-        var audio = new Audio('Sound effects/bombexplosion.mp3');
-        audio.play();
-        },
-
-    playBurn: function() {
-        var audio = new Audio('Sound effects/bombtime.mp3');
-        audio.play();
-        },
-
-    playBoxBreak: function() {
-        var audio = new Audio('Sound effects/boxbreak.mp3');
-        audio.play();
-        },
-
-    playRockBreak: function() {
-        var audio = new Audio('Sound effects/rockbreak.mp3');
-        audio.play();
-        },
-    
-    playDamage: function() {
-        var audio = new Audio('Sound effects/damage.mp3');
-        audio.play();
-        },
-    
-    playSteps: function() {
-        var random = [
-        'Sound effects/step1.mp3',
-        'Sound effects/step2.mp3',
-        'Sound effects/step3.mp3',
-        'Sound effects/step4.mp3',];
-            
-        var randomSound = random[Math.floor(Math.random() * random.length)];
-        
-    var audio = new Audio();
-    audio.src = randomSound;
-    audio.play();
- }
+ 
 };

@@ -48,12 +48,14 @@ function renderSimulation(ctx) {
         entityManager.render(ctx);
 
         //display text outside of ctx.translate magic
-        g_ui.render(ctx);
+        
         
         if (g_renderSpatialDebug) spatialManager.render(ctx);
 
         // after everything is drawn, restore the ctx
         ctx.restore();
+
+        g_ui.render(ctx);
 
     }else {
         // Render start entities

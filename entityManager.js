@@ -78,7 +78,7 @@ var entityManager = {
 
   gameStart: function () {
     this._startGame = !this._startGame;
-    util.playSelect2();
+    g_sounds.playSelect2();
   },
 
   update: function (du) {

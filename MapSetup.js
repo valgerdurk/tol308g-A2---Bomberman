@@ -8,8 +8,9 @@ var	mapTileWidth = 64,
 	mapWidth = g_canvas.width,
 	mapHeight = g_canvas.height,
 	// map size in tiles
-	mapTilesX = 35,
-	mapTilesY = 35,
+  // needs to be an odd number
+	mapTilesX = 31,
+	mapTilesY = 31,
 	
   genMap = new Array(mapTilesX);
 
@@ -56,8 +57,8 @@ var	mapTileWidth = 64,
 var g_map = {
   tileWidth: 64,
   tileHeight: 64,
-  mapTilesX: 35,
-  mapTilesY: 35,
+  mapTilesX: mapTilesX,
+  mapTilesY: mapTilesY,
 
   mapTiles: genMap,
 
@@ -108,14 +109,17 @@ g_map.generateMap = function() {
     for (var j = 0; j < g_mapColumns; j++) {
 
       if(i > 0 && j > 0){
-        if(i === 1 && j === 1){
+        if( (i === 1 && j === 1) ||
+            (i === 2 && j === 2) ||
+            (i === 1 && j === 2) ||
+            (i === 2 && j === 1)) {
           //nothing
         }else {
           var id = this.mapTiles[i][j];
         
           if(!id){
             var rn = Math.random();
-            if(rn > 0.3)
+            if(rn > 0.8)
               this.mapTiles[i][j] = 4;
           }
         }
@@ -125,11 +129,13 @@ g_map.generateMap = function() {
     }
   }
   // generate keys on the map
-  while(bd && sd && vd && gd){
+  while(bd || sd || vd || gd) {
     var rx = Math.floor(util.randRange(3,this.mapTilesX-3));
     var ry = Math.floor(util.randRange(3,this.mapTilesY-3));
-    var rs = Math.floor(util.randRange(9,12));
+    var rs = Math.floor(util.randRange(8,13));
 
+    console.log(bd,sd,vd,gd);
+    console.log(bCount,sCount,vCount,gCount);
     switch(rs) {
       case 9:
         if(bCount >= g_sounds.baneArr.length) {
@@ -283,7 +289,7 @@ g_map._breakBlock = function (col, row) {
   if (this.tileTypes[this.mapTiles[col][row]].breakeable) {
     this.mapTiles[col][row] = 0;
     this.mapTiles[col][row] = 7;
-    util.playRockBreak();
+    g_sounds.playRockBreak();
     //todo make posible to take multiple hits
     //var findCenter = this.tileCenter(row, col);
     //entityManager.generatePickup(?);

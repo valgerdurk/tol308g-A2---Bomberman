@@ -29,11 +29,11 @@ Start.prototype.KEY_DOWN = 'S'.charCodeAt(0);
 Start.prototype.render = function (ctx) {
 if(entityManager._startGame == false){
     if(eatKey(this.KEY_DOWN)){
-        util.playSelect();
+        g_sounds.playSelect();
         this.sprite = g_sprites[44]
     }
     if(eatKey(this.KEY_UP)){ 
-        util.playSelect();
+        g_sounds.playSelect();
         this.sprite = g_sprites[43]
     }
 }
