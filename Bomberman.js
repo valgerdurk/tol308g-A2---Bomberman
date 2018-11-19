@@ -38,21 +38,28 @@ function renderSimulation(ctx) {
     // save the context+
     ctx.save();
     //move the context
-    g_camera.camera(ctx);
-    //added g_map to render
-    g_map.render(ctx);
+    if (entityManager._startGame) {
+        //translate magic
+        g_camera.camera(ctx);
+        //added g_map to render
+        g_map.render(ctx);
 
-    entityManager.render(ctx);
+        entityManager.render(ctx);
 
-    //display text outside of ctx.translate magic
-    g_ui.render(ctx);
+        //display text outside of ctx.translate magic
+        g_ui.render(ctx);
+        
+        if (g_renderSpatialDebug) spatialManager.render(ctx);
+
+        // after everything is drawn, restore the ctx
+        ctx.restore();
+
+    }else {
+        // Render start entities
+        entityManager._start[0].render(ctx);
+    }
+
     
-    
-
-    if (g_renderSpatialDebug) spatialManager.render(ctx);
-
-    // after everything is drawn, restore the ctx
-    ctx.restore();
 }
 
 // Preload images

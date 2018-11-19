@@ -114,7 +114,6 @@ g_map.update = function (du) {
 };
 
 g_map.render = function (ctx) {
-if(entityManager._startGame == true){ 
 
   for (var i = 0; i < g_mapRows; ++i) {
     for (var j = 0; j < g_mapColumns; j++) {
@@ -126,7 +125,6 @@ if(entityManager._startGame == true){
       }
     }
   }
-}
 
 };
 

@@ -82,7 +82,6 @@ var entityManager = {
   },
 
   update: function (du) {
-    if (this._startGame == true) {
       // Update player entities
       for (var i = 0; i < this._player.length; i++) {
         this._player[i].update(du);
@@ -101,15 +100,11 @@ var entityManager = {
           this._bomb.splice(i, 1);
         }
       }
-    }
   },
 
   render: function (ctx) {
     // Render start entities
     this._start[0].render(ctx);
-
-    // If the game hasn't started, dont generate other entities  
-    if (this._startGame == true) {
 
       // Render player entities
       for (var i = 0; i < this._player.length; i++) {
@@ -126,9 +121,6 @@ var entityManager = {
         var bomb = this._bomb[i];
         bomb.render(ctx);
       }
-
-    }
-
   },
 
 };
