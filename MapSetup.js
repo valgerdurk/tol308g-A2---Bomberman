@@ -1,84 +1,67 @@
 // general map stuff
 
 //this is a scale-able map generator, just change the maptileX and Y's
-/*
-var	mapTileWidth = 16,
-	mapTileHeight = 16,
+var	mapTileWidth = 64,
+	mapTileHeight = 64,
 
 
 	mapWidth = g_canvas.width,
 	mapHeight = g_canvas.height,
 	// map size in tiles
-	mapTilesX = 215,
-	mapTilesY = 215,
+	mapTilesX = 35,
+	mapTilesY = 35,
 	
-	//var GenMap = new Array(mapTilesX); // create column of in map of x height
-	genMap = new Array(mapTilesX);
+  genMap = new Array(mapTilesX);
 
-	for(var i = 0; i < mapTilesX; i++) {
-		genMap[i] = new Array(mapTilesY);	// create row in map of y length
-		for(var j = 0; j < mapTilesY; j++) {
-			// check first and last layer
-			// then check second and secnd last layers
-			// then you check for odd/even numbers
-			// for each condition you throw a value into the array
-			if(i == 0 || i == mapTilesX-1)
-				genMap[i][j] = 1;
-			else if (i == 1 || i == mapTilesX-2)
-				if(j == 0 || j == mapTilesX-1)
-					genMap[i][j] = 1;
-				else
-					genMap[i][j] = 0;
-			else if (i%2)
-				if(j == 0 || j == mapTilesX-1)
-					genMap[i][j] = 1;
-				else
-					genMap[i][j] = 0;
-			else
-				if(j == 0 || j == mapTilesX-1)
-					genMap[i][j] = 1;
-				else if (j%2)
-					genMap[i][j] = 0;
-				else
-					genMap[i][j] = 1;
-			//GenMap[i][j] = i%2;
-		}
-	}
-	console.dir(genMap);
+  for(var i = 0; i < mapTilesX; i++) {
+    // create row in map of y length
+    genMap[i] = new Array(mapTilesY); 
+    
+    for(var j = 0; j < mapTilesY; j++) {
+      // check first and last layer
+      // then check second and secnd last layers
+      // then you check for odd/even numbers
+      // for each condition you throw a value into the array
+      if(i == 0 || i == mapTilesX-1)
+        genMap[i][j] = 1;
+      else if (i == 1 || i == mapTilesX-2)
+        if(j == 0 || j == mapTilesX-1)
+          genMap[i][j] = 1;
+        else
+          genMap[i][j] = 0;
+      else if (i%2)
+        if(j == 0 || j == mapTilesX-1)
+          genMap[i][j] = 1;
+        else
+          genMap[i][j] = 0;
+      else
+        if(j == 0 || j == mapTilesX-1)
+          genMap[i][j] = 1;
+        else if (j%2)
+          genMap[i][j] = 0;
+        else
+          genMap[i][j] = 1;
+    }
+  }
+
+
+	//console.dir(genMap);
+
 
 // note //
 // create a randomizer that checks for 0's and replaces with a number
 // to create breakable objects or enemies.
-*/
-
-
 
 
 var g_map = {
   tileWidth: 64,
   tileHeight: 64,
+  mapTilesX: 35,
+  mapTilesY: 35,
 
-  mapTiles: [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 9, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 10, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 1, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 12, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 4, 0, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 5, 0, 5, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 4, 1, 0, 1, 0, 1, 0, 1],
-    [1, 6, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1, 4, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-  ],
-  //we need to change this into sprites later
-  sprites: [
+  mapTiles: genMap,
+
+  colors: [
     "purple", //this one never gets selected
     "grey", //1
     "yellow", //2
@@ -89,6 +72,7 @@ var g_map = {
   ]
 };
 
+//constants
 const g_mapColumns = g_map.mapTiles[0].length;
 const g_mapRows = g_map.mapTiles.length;
 
@@ -106,6 +90,79 @@ g_map.drawSprites = function (id,i,j,ctx) {
                 yPos,
                 width,
                 height);
+};
+
+g_map.generateMap = function() {
+
+  var bCount = 0,
+      sCount = 0,
+      vCount = 0,
+      gCount = 0,
+      bd = true,
+      sd = true,
+      vd = true,
+      gd = true;
+
+  //generate breakable blocks
+  for (var i = 0; i < g_mapRows; ++i) {
+    for (var j = 0; j < g_mapColumns; j++) {
+
+      if(i > 1 && j > 1){
+
+        var id = this.mapTiles[i][j];
+      
+        if(!id){
+          var rn = Math.random();
+          if(rn > 0.3)
+            this.mapTiles[i][j] = 4;
+        }
+      }
+    }
+  }
+  // generate keys on the map
+  while(bd && sd && vd && gd){
+    var rx = Math.floor(util.randRange(3,this.mapTilesX-3));
+    var ry = Math.floor(util.randRange(3,this.mapTilesY-3));
+    var rs = Math.floor(util.randRange(9,12));
+
+    switch(rs) {
+      case 9:
+        if(bCount >= g_sounds.baneArr.length) {
+          bd = false;
+          break;
+        }
+        this.mapTiles[rx][ry] = rs;
+        bCount++;
+        break;
+      case 10:
+        if(sCount >= g_sounds.sawArr.length) {
+          sd = false;
+          break;
+        }
+        this.mapTiles[rx][ry] = rs;
+        sCount++;
+        break;
+      case 11:
+        if(vCount >= g_sounds.vArr.length) {
+          vd = false;
+          break;
+        }
+        this.mapTiles[rx][ry] = rs;
+        vCount++;
+        break;
+      case 12:
+        if(gCount >= g_sounds.gArr.length) {
+          gd = false;
+          break;
+        }
+        this.mapTiles[rx][ry] = rs;
+        gCount++;
+        break;
+      default:
+        console.log("defaulted map generation");
+
+    }
+  }
 };
 
 
@@ -149,7 +206,7 @@ g_map.collidesWith = function (prevX, prevY, nextX, nextY) {
     console.log("missed " + this.mapTiles[tileY, tileX]);
     return false;
   }
-}
+};
 
 g_map.tileMapLocation = function (x, y) {
   /*
@@ -408,7 +465,7 @@ g_map.collectable = function(keyID) {
   //got keyID as a string
   switch(keyID){
     case "banemask":
-      // 
+      g_sounds.playBane();
       console.log("found a key! It was a : " + keyID);
       break;
     case "gladmask":
@@ -416,10 +473,12 @@ g_map.collectable = function(keyID) {
       //code
       break;
     case "sawmask":
+      g_sounds.playSaw();
       console.log("found a key! It was a : " + keyID);
       //code
       break;
     case "vmask":
+      g_sounds.playV();
       console.log("found a key! It was a : " + keyID);
       //code
       break;

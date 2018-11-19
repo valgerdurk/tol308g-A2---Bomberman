@@ -202,6 +202,8 @@ function preloadDone() {
 
     entityManager.init();
 
+    g_map.generateMap();
+
     main.init();
 }
 
