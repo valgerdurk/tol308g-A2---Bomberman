@@ -7,14 +7,13 @@ var g_ui = {
 	//variables to be displaed
 	_life: "",
 	_bomb: "",
-	_key1: "",
-	_key2: "",
-	_key3: "",
-	_key4: "",
+	_collectables: 0,
+	_key: 0,
 	_enemies: "",
 	_bricks: "",
 	_time: "",
 	_inMenu: false,
+	_dispWin: "You win!",
 	
 	getLife: function() {
 		
@@ -54,8 +53,14 @@ var g_ui = {
 		//set the font
 		this.setFont(ctx,"30px Arial");
 		//begin drawing
-		ctx.fillText("Max bomb! " + this._bomb,
+		ctx.fillText("bombs: " + this._bomb
+					+ " Masks: " + this._collectables
+					+ " keys: " + this._key,
 					100,
 					50);
+
+		if(g_winGame){
+			ctx.fillText("you win!",g_canvas.width/2,g_canvas.height/2);
+		}
 	},
 };
