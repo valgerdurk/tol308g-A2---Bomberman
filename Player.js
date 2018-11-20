@@ -113,6 +113,7 @@ Player.prototype.update = function (du) {
 
   if (this.explTimer <= 0) {
     this.kill();
+    this.isDying = false;
   }
 
   //this.newLife();
