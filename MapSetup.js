@@ -176,7 +176,7 @@ g_map.generateMap = function() {
     var ry = Math.floor(util.randRange(3,this.mapTilesY-3));
     var rs = Math.floor(util.randRange(8,13));
 
-    if(!(this.mapTiles[rx][ry] === 14) || !(this.mapTiles[rx][ry] === 2)) {
+    if(!(this.mapTiles[rx][ry] === 14) && !(this.mapTiles[rx][ry] === 2)) {
       switch(rs) {
         case 9:
           if(bCount >= g_sounds.baneArr.length) {
