@@ -19,7 +19,6 @@ g_camera = {
 		// these prob wont change but now they scale properly
 		var Wmargin = -(g_map.mapTilesX * g_map.tileWidth) + (g_canvas.width);
 		var Hmargin = -(g_map.mapTilesY * g_map.tileHeight) - (g_canvas.height);
-
         //far left edge of screen
         if(xEdge >= 0){
             //top edge

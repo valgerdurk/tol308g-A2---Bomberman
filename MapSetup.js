@@ -79,7 +79,6 @@ const g_mapRows = g_map.mapTiles.length;
 
 g_map.drawSprites = function (id,i,j,ctx) {
 
-  //
   var xPos = this.tileWidth * i,
     yPos = this.tileHeight * j,
     mSprite = g_sprites[id],
@@ -93,16 +92,22 @@ g_map.drawSprites = function (id,i,j,ctx) {
                 height);
 };
 
+//called when game preloaded, with sprites
 g_map.generateMap = function() {
-
+  //how many keys
   var bCount = 0,
       sCount = 0,
       vCount = 0,
       gCount = 0,
+      roomCount = 0,
+      //flags to check if all keys are placed
       bd = true,
       sd = true,
       vd = true,
-      gd = true;
+      gd = true,
+      roomD = true;
+      
+
 
   //generate breakable blocks
   for (var i = 0; i < g_mapRows; ++i) {
@@ -128,50 +133,87 @@ g_map.generateMap = function() {
       }
     }
   }
+  //smallst room possible
+  /*
+    1,1,1
+    3,0,1
+    1,1,1
+  */
+  while(roomD) {
+    var smallRoom = [
+        [4,2,2,2],
+        [0,3,14,2],
+        [4,2,2,2]
+        ];
+        sLength = smallRoom.length;
+        sHeight = smallRoom[0].length;
+    var rx = Math.floor(util.randRange(5,this.mapTilesX-5));
+    var ry = Math.floor(util.randRange(5,this.mapTilesY-5));
+
+    if(g_gates.totalGates-1 >= roomCount) {
+      for(var i = 0; i < sLength; i++) {
+        for(var j = 0; j <sHeight; j++) {
+          //prevent rooms from overlapping
+          if((this.mapTiles[rx+2][ry+1] == 14) ||
+              (this.mapTiles[rx+3][ry+1] == 14) ||
+              (this.mapTiles[rx+2][ry+2] == 14))
+          {
+            //key found we can't build here
+          }else {
+            this.mapTiles[rx+i][ry+j] = smallRoom[i][j];
+          }
+        }
+      }
+      roomCount++;
+    } else {
+      roomD = false;
+    }
+
+  }
   // generate keys on the map
   while(bd || sd || vd || gd) {
     var rx = Math.floor(util.randRange(3,this.mapTilesX-3));
     var ry = Math.floor(util.randRange(3,this.mapTilesY-3));
     var rs = Math.floor(util.randRange(8,13));
 
-    console.log(bd,sd,vd,gd);
-    console.log(bCount,sCount,vCount,gCount);
-    switch(rs) {
-      case 9:
-        if(bCount >= g_sounds.baneArr.length) {
-          bd = false;
+    if(!(this.mapTiles[rx][ry] === 14) || !(this.mapTiles[rx][ry] === 2)) {
+      switch(rs) {
+        case 9:
+          if(bCount >= g_sounds.baneArr.length) {
+            bd = false;
+            break;
+          }
+          this.mapTiles[rx][ry] = rs;
+          bCount++;
           break;
-        }
-        this.mapTiles[rx][ry] = rs;
-        bCount++;
-        break;
-      case 10:
-        if(sCount >= g_sounds.sawArr.length) {
-          sd = false;
+        case 10:
+          if(sCount >= g_sounds.sawArr.length) {
+            sd = false;
+            break;
+          }
+          this.mapTiles[rx][ry] = rs;
+          sCount++;
           break;
-        }
-        this.mapTiles[rx][ry] = rs;
-        sCount++;
-        break;
-      case 11:
-        if(vCount >= g_sounds.vArr.length) {
-          vd = false;
+        case 11:
+          if(vCount >= g_sounds.vArr.length) {
+            vd = false;
+            break;
+          }
+          this.mapTiles[rx][ry] = rs;
+          vCount++;
           break;
-        }
-        this.mapTiles[rx][ry] = rs;
-        vCount++;
-        break;
-      case 12:
-        if(gCount >= g_sounds.gArr.length) {
-          gd = false;
+        case 12:
+          if(gCount >= g_sounds.gArr.length) {
+            gd = false;
+            break;
+          }
+          this.mapTiles[rx][ry] = rs;
+          gCount++;
           break;
-        }
-        this.mapTiles[rx][ry] = rs;
-        gCount++;
-        break;
-      default:
-        console.log("defaulted map generation");
+        default:
+          console.log("defaulted map generation");
 
+      }
     }
   }
 };
@@ -311,7 +353,7 @@ g_map.tileTypes = [{
     title: 'floor',
     passable: true,
     breakeable: false,
-    ineractable: false,
+    interactable: false,
     pickup: false,
     key: false,
     imgID: 50
@@ -320,7 +362,7 @@ g_map.tileTypes = [{
     title: 'wall1',
     passable: false,
     breakeable: false,
-    ineractable: false,
+    interactable: false,
     pickup: false,
     key: false,
     imgID: 49
@@ -329,26 +371,26 @@ g_map.tileTypes = [{
     title: 'wall2',
     passable: false,
     breakeable: false,
-    ineractable: false,
+    interactable: false,
     pickup: false,
     key: false,
-    imgID: 2
+    imgID: 49
   }, {
     id: 3,
     title: 'gate',
     passable: false,
     breakeable: false,
-    ineractable: true,
+    interactable: true,
     pickup: false,
     key: false,
-    imgID: 3
+    imgID: 53
   },
   {
     id: 4,
     title: 'brick',
     passable: false,
     breakeable: true,
-    ineractable: false,
+    interactable: false,
     pickup: false,
     key: false,
     imgID: 50
@@ -358,7 +400,7 @@ g_map.tileTypes = [{
     title: 'hiddenBrick',
     passable: false,
     breakeable: true,
-    ineractable: false,
+    interactable: false,
     pickup: false,
     key: false,
     imgID: 5
@@ -368,7 +410,7 @@ g_map.tileTypes = [{
     title: 'hiddenPath',
     passable: true,
     breakeable: false,
-    ineractable: false,
+    interactable: false,
     pickup: false,
     key: false,
     imgID: 6
@@ -377,7 +419,7 @@ g_map.tileTypes = [{
     title: 'pickup01',
     passable: true,
     breakeable: false,
-    ineractable: false,
+    interactable: false,
     pickup: true,
     key: false,
     imgID: 7
@@ -386,7 +428,7 @@ g_map.tileTypes = [{
     title: 'pickup02',
     passable: true,
     breakeable: false,
-    ineractable: false,
+    interactable: false,
     pickup: true,
     key: false,
     imgID: 8
@@ -395,7 +437,7 @@ g_map.tileTypes = [{
     title: 'banemask',
     passable: true,
     breakeable: false,
-    ineractable: false,
+    interactable: false,
     pickup: true,
     key: true,
     imgID: 45
@@ -405,7 +447,7 @@ g_map.tileTypes = [{
     title: 'gladmask',
     passable: true,
     breakeable: false,
-    ineractable: false,
+    interactable: false,
     pickup: true,
     key: true,
     imgID: 46
@@ -415,7 +457,7 @@ g_map.tileTypes = [{
     title: 'sawmask',
     passable: true,
     breakeable: false,
-    ineractable: false,
+    interactable: false,
     pickup: true,
     key: true,
     imgID: 47
@@ -424,10 +466,28 @@ g_map.tileTypes = [{
     title: 'vmask',
     passable: true,
     breakeable: false,
-    ineractable: false,
+    interactable: false,
     pickup: true,
     key: true,
     imgID: 48
+  }, {
+    id: 13,
+    title: 'finish',
+    passable: true,
+    breakeable: false,
+    interactable: false,
+    pickup: true,
+    key: true,
+    imgID: 48
+  }, {
+    id: 14,
+    title: 'key',
+    passable: true,
+    breakeable: false,
+    interactable: false,
+    pickup: true,
+    key: true,
+    imgID: 52
   }
 ];
 
@@ -459,6 +519,7 @@ g_map.collectKey = function (col, row) {
   //console.log(pickup);
   if (pickup) {
     this.mapTiles[col][row] = 0;
+    g_sounds.playSelect();
     //check what the pick up is
     var key = this.tileTypes[tile].key;
     if(key){
@@ -477,21 +538,31 @@ g_map.collectable = function(keyID) {
   switch(keyID){
     case "banemask":
       g_sounds.playBane();
+      g_ui._collectables++;
       console.log("found a key! It was a : " + keyID);
       break;
     case "gladmask":
+      g_sounds.playGlad();
       console.log("found a key! It was a : " + keyID);
+      g_ui._collectables++;
       //code
       break;
     case "sawmask":
       g_sounds.playSaw();
       console.log("found a key! It was a : " + keyID);
+      g_ui._collectables++;
       //code
       break;
     case "vmask":
       g_sounds.playV();
       console.log("found a key! It was a : " + keyID);
+      g_ui._collectables++;
       //code
+      break;
+    case "key":
+      g_sounds.playSelect();
+      console.log("found a key! It was a : " + keyID);
+      g_ui._key++;
       break;
     default:
       //no code

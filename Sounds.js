@@ -16,26 +16,23 @@ var g_sounds = {
 	    'Sound effects/Saw/game_Jigsaw.mp3',
 	    'Sound effects/Saw/blood_Jigsaw.mp3',
 	    'Sound effects/Saw/alive_Jigsaw.mp3',
-	    'Sound effects/Saw/test_Jigsaw.mp3',
+	    'Sound effects/Saw/tested_Jigsaw.mp3',
 	    'Sound effects/Saw/gameover_Det.mp3'
 	],
 	vid:0,
 	vArr: [
 	    'Sound effects/VforVendetta/itstime_Portman.mp3',
-	    'Sound effects/VforVendetta/onlytruth_GHugo.mp3',
+	    'Sound effects/VforVendetta/onlytruth_Hugo.mp3',
 	    'Sound effects/VforVendetta/perfectstage_Hugo.mp3',
-	    'Sound effects/VforVendetta/tested_Jigsaw.mp3',
-	    'Sound effects/VforVendetta/serveyouwell_Hugoc.mp3',
+	    'Sound effects/VforVendetta/serveyouwell_Hugo.mp3',
 	    'Sound effects/VforVendetta/quiteenough_Portman.mp3'
 	],
 	gid:0,
 	gArr: [
-	    'Sound effects/VforVendetta/itstime_Portman.mp3',
-	    'Sound effects/VforVendetta/onlytruth_GHugo.mp3',
-	    'Sound effects/VforVendetta/perfectstage_Hugo.mp3',
-	    'Sound effects/VforVendetta/test_Jigsaw.mp3',
-	    'Sound effects/VforVendetta/serveyouwell_Hugoc.mp3',
-	    'Sound effects/VforVendetta/quiteenough_Portman.mp3'
+	    'Sound effects/gladiator/alreadydead.mp3',
+	    'Sound effects/gladiator/dream.mp3',
+	    'Sound effects/gladiator/entertain.mp3',
+	    'Sound effects/gladiator/whatwedo.wav'
 	],
 
  //Sound effects
@@ -121,6 +118,17 @@ var g_sounds = {
 		} else  {
 			var vSound = new Audio(this.vArr[id]);+
 			vSound.play();
+		}
+	},
+
+	playGlad: function(id){
+		if(!id) {
+			var gSound = new Audio(this.gArr[this.vid]);
+			gSound.play();
+			this.vid++;
+		} else  {
+			var gSound = new Audio(this.gArr[id]);+
+			gSound.play();
 		}
 	}
 

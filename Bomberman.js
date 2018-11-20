@@ -2,11 +2,21 @@
 
 var g_canvas = document.getElementById("myCanvas");
 var g_ctx = g_canvas.getContext("2d");
+var g_winGame = false;
 
+var g_scale = 1;
+
+
+var KEY_PLUS = keyCode('j');
+var KEY_MINUS = keyCode('k');
 
 function gatherInputs() {
     // Nothing to do here!
     // The event handlers do everything we need for now.
+}
+
+function Zoom(z) {
+    g_scale = g_scale - z;
 }
 
 // GAME-SPECIFIC UPDATE LOGIC
@@ -17,6 +27,15 @@ function updateSimulation(du) {
 
     if(entityManager._startGame)
         entityManager.update(du);
+
+    if(eatKey(KEY_PLUS)){
+        Zoom(-0.1);
+    }
+
+    if(eatKey(KEY_MINUS)){
+        Zoom(+0.1);
+    }
+
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -26,6 +45,8 @@ var g_renderSpatialDebug = false;
 var KEY_ENTER = keyCode('\r\n');
 
 var KEY_SPATIAL = keyCode('X');
+
+
 
 function processDiagnostics() {
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
@@ -38,17 +59,19 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
     // save the context+
     ctx.save();
+
+    ctx.scale(g_scale,g_scale);
     //move the context
     if (entityManager._startGame) {
+        if(g_ui._key === 4){
+            g_winGame = true;
+        }
         //translate magic
         g_camera.camera(ctx);
         //added g_map to render
         g_map.render(ctx);
 
-        entityManager.render(ctx);
-
-        //display text outside of ctx.translate magic
-        
+        entityManager.render(ctx);        
         
         if (g_renderSpatialDebug) spatialManager.render(ctx);
 
@@ -104,7 +127,13 @@ function requestPreloads() {
         // map walls/bricks
         18 : "assets/brick.png",
         19 : "assets/breakable1.png",
-        20 : "assets/floor.png"
+        20 : "assets/floor.png",
+
+        // a key
+        21 : "assets/key.png",
+
+        // a gate
+        22 : "assets/gate.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -201,6 +230,11 @@ function preloadDone() {
     g_sprites[50] = new Sprite(g_images[19]);
     // floor
     g_sprites[51] = new Sprite(g_images[20]);
+
+    //key
+    g_sprites[52] = new Sprite(g_images[21]);
+    //key
+    g_sprites[53] = new Sprite(g_images[22]);
 
     entityManager.init();
 
