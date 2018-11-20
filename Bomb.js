@@ -47,7 +47,8 @@ Bomb.prototype.update = function (du) {
       g_sounds.playExplosion();
       //this.bombExplosion.play();
     }
-
+ 
+    // Draw explosion
     this.explTimer -= du;
     this.sprite = g_sprites[this.nextSprite];
     this.nextSprite = g_explOffset + (Math.floor(

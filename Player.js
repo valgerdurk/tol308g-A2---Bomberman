@@ -51,6 +51,13 @@ Player.prototype.step = 4;
 Player.prototype.cx = 100;
 Player.prototype.cy = 100;
 
+// Player explosion lifespan
+Player.prototype.ctdTimer = (500 / NOMINAL_UPDATE_INTERVAL);
+Player.prototype.playerExplTime = (1500 / NOMINAL_UPDATE_INTERVAL);
+Player.prototype.explTimer = Player.prototype.playerExplTime;
+
+Player.prototype.isDying = false;
+
 // Sound
 //Player.prototype.bombTime = new Audio("Sound effects/bombtime.mp3");
 
@@ -87,6 +94,28 @@ Player.prototype.update = function (du) {
       entityManager.generateBomb(findCenter.x, findCenter.y, 1, this);
       g_sounds.playFuse();
     }
+  }
+
+  // Handle death
+  if(this.isDying) {
+    this.ctdTimer -= du;
+
+  if (this.ctdTimer < 0) {
+    this.explTimer -= du;
+    console.log(this.explTimer)
+    this.sprite = g_sprites[this.nextSprite];
+
+    this.nextSprite = g_playerExplOffset + (Math.floor(g_playerExplSprites -
+        this.explTimer / this.playerExplTime * g_playerExplSprites) %
+      g_playerExplSprites);
+  }
+
+  if (this.explTimer <= 0) {
+    this.kill();
+    this.isDying = false;
+  }
+
+  //this.newLife();
   }
 
   if(eatKey(this.KEY_USE)){
@@ -222,34 +251,8 @@ Player.prototype.mapCollision = function () {
 
 };
 
-
-
-// Player collision with explosion
-
-// Player explosion lifespan
-Player.prototype.ctdTimer = (500 / NOMINAL_UPDATE_INTERVAL);
-Player.prototype.playerExplTime = (1500 / NOMINAL_UPDATE_INTERVAL);
-Player.prototype.explTimer = Player.prototype.playerExplTime;
-
-Player.prototype.takeExplosionHit = function (du) {
-
-  this.ctdTimer -= du;
-
-  if (this.ctdTimer < 0) {
-    this.explTimer -= du;
-    this.sprite = g_sprites[this.nextSprite];
-
-    this.nextSprite = g_playerExplOffset + (Math.floor(g_playerExplSprites -
-        this.explTimer / this.playerExplTime * g_playerExplSprites) %
-      g_playerExplSprites);
-  }
-
-  if (this.explTimer <= 0) {
-    this.kill();
-  }
-
-  //this.newLife();
-
+Player.prototype.takeExplosionHit = function () {
+  this.isDying = true;
 };
 
 // Resets the player and starts a new life
