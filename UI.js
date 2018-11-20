@@ -58,9 +58,5 @@ var g_ui = {
 					+ " keys: " + this._key,
 					100,
 					50);
-
-		if(g_winGame){
-			ctx.fillText("you win!",g_canvas.width/2,g_canvas.height/2);
-		}
 	},
 };
