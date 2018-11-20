@@ -4,7 +4,7 @@
 var	mapTileWidth = 64,
 	mapTileHeight = 64,
 
-
+  breakableDensity: 0.8,
 	mapWidth = g_canvas.width,
 	mapHeight = g_canvas.height,
 	// map size in tiles
@@ -124,7 +124,7 @@ g_map.generateMap = function() {
         
           if(!id){
             var rn = Math.random();
-            if(rn > 0.8)
+            if(rn > breakableDensity)
               this.mapTiles[i][j] = 4;
           }
         }
