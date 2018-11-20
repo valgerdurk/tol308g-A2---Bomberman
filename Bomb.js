@@ -62,7 +62,6 @@ Bomb.prototype.update = function (du) {
       // Handle collisions with the explosion
       var _hitEntities = this.findHitEntities(this.range);
       if (_hitEntities != []) {
-        //todo add findHitEntities
         for (var i = 0; i < _hitEntities.length; i++) {
           var hitEntity = _hitEntities[i];
           var canTakeHit = hitEntity.takeExplosionHit;
