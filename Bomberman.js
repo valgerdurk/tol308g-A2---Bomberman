@@ -297,7 +297,7 @@ function preloadDone() {
     var enemyCelWidth = 32;
     var enemyCelHeight = 32;
     var enemyNumCols = 1;
-    var enemyNumRows = 6;
+    var enemyNumRows = 7;
    
     var enemyExplSprite;
 
