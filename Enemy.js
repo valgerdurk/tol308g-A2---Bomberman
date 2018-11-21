@@ -98,7 +98,7 @@ var verticalSwitch;
 var horizontalSwitchInterval = setInterval(setHorizontalStep, 2200);
 var horizontalSwitch;
 
-var ultimateSwitchInterval = setInterval(setUltimateStep, 400);
+var ultimateSwitchInterval = setInterval(setUltimateStep, 4400);
 var ultimateSwitch;
 
 function setStep() {
