@@ -39,7 +39,7 @@ Player.prototype.KEY_DROP_BOMB = ' '.charCodeAt();
 //Interact with gate
 Player.prototype.KEY_USE = 'E'.charCodeAt(0);
 
-// Select answer
+ // Select answer
 Player.prototype.KEY_ONE = '1'.charCodeAt(0);
 Player.prototype.KEY_TWO = '2'.charCodeAt(0);
 Player.prototype.KEY_THREE = '3'.charCodeAt(0);
@@ -49,14 +49,13 @@ Player.prototype.KEY_FOUR = '4'.charCodeAt(0);
 Player.prototype.step = 4;
 
 // Initial values
-Player.prototype.cx = 100;
-Player.prototype.cy = 100;
+Player.prototype.cx;
+Player.prototype.cy;
 
-// Player explosion lifespan
+ // Player explosion lifespan
 Player.prototype.ctdTimer = (500 / NOMINAL_UPDATE_INTERVAL);
 Player.prototype.playerExplTime = (1500 / NOMINAL_UPDATE_INTERVAL);
 Player.prototype.explTimer = Player.prototype.playerExplTime;
-
 Player.prototype.isDying = false;
 
 // Sound
@@ -99,9 +98,10 @@ Player.prototype.update = function (du) {
 
   // Handle death
   if(this.isDying) {
+    this.step = 0;
     this.ctdTimer -= du;
 
-  if (this.ctdTimer < 0) {
+   if (this.ctdTimer < 0) {
     this.explTimer -= du;
     this.sprite = g_sprites[this.nextSprite];
 
@@ -110,17 +110,21 @@ Player.prototype.update = function (du) {
       g_playerExplSprites);
   }
 
-  if (this.explTimer <= 0) {
-    this.kill();
-    this.isDying = false;
+   if (this.explTimer <= 0) {
+      this.kill();
+      this.newLife();
+      this.isDying = false;
+    }
+
   }
 
-  //this.newLife();
-  }
-
-  if(eatKey(this.KEY_USE)){
+   if(eatKey(this.KEY_USE)){
     this.checkGate(this.cx,this.cy);
   }
+
+  // Let the enemy know of my position
+  Enemy.prototype.setPlayerX(this.cx);
+  Enemy.prototype.setPlayerY(this.cy);
 
   // (Re-) register
   spatialManager.register(this);
@@ -131,8 +135,6 @@ Player.prototype.getRadius = function () {
 };
 
 Player.prototype.playerMovement = function (du) {
-
-
 
   // The Player changes sprites depending on the direction he is going 
   if (keys[this.KEY_RIGHT]) {
@@ -252,18 +254,23 @@ Player.prototype.mapCollision = function () {
 
 Player.prototype.takeExplosionHit = function () {
   this.isDying = true;
+  g_lives -= 1;
 };
 
 // Resets the player and starts a new life
 Player.prototype.newLife = function () {
-
-}
+  if (g_lives >= 0) {
+    entityManager.generatePlayer(this.cx, this.cy);
+    console.log("Now there are " + g_lives + " lives left");
+  } else {
+    console.log("Game over");
+  }
+};
 
 Player.prototype.render = function (ctx) {
 
   this.sprite.drawCentredAt(ctx, this.cx, this.cy);
 };
-
 
 
 // controles the number
@@ -315,7 +322,6 @@ Player.prototype.incrMaxBombCount = function (incrAmount) {
   return this._maxBombCount;
 };
 
-
 Player.prototype.getFourDirections = function (x,y) {
   var tileUP = g_map.mapTiles[x][y-1];
   var tileLEFT = g_map.mapTiles[x-1][y];
@@ -329,16 +335,15 @@ Player.prototype.getFourDirections = function (x,y) {
   }
 };
 
-Player.prototype.checkGate = function (x,y) {
+
+ Player.prototype.checkGate = function (x,y) {
   var ps = g_map.tileMapLocation(x,y);
   var dir = this.getFourDirections(ps.row,ps.column);
   //check if interactable
-
-  if(dir.up === 3){
+   if(dir.up === 3){
      g_map.mapTiles[ps.row][ps.column-1] = 0;
   }
-
-  if(dir.down === 3){
+   if(dir.down === 3){
     g_map.mapTiles[ps.row][ps.column+1] = 0;
   }
      
@@ -351,4 +356,4 @@ Player.prototype.checkGate = function (x,y) {
     g_sounds.playDamage();
   }
 
-};
+ };
