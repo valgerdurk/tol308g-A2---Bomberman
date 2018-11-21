@@ -59,7 +59,7 @@ var g_map = {
   tileHeight: 64,
   mapTilesX: mapTilesX,
   mapTilesY: mapTilesY,
-  breakableDensity: 0.3,
+  breakableDensity: 0.7,
   mapTiles: genMap,
 
   colors: [
@@ -334,8 +334,9 @@ g_map._breakBlock = function (col, row) {
     row < 0 || row > g_map.width) {}*/
   if (this.tileTypes[this.mapTiles[col][row]].breakeable) {
     this.mapTiles[col][row] = 0;
-    var rn = Math.floor(Math.random() * (10 - 6) + 6);
-    if (rn == 6) {
+    // Spawn powerups, 50% chance.
+    var rn = Math.floor(Math.random() * (10 - 4) + 4);
+    if (rn > 3 && rn < 7) {
       // Nothing found.
     }
     if (rn == 7) {
