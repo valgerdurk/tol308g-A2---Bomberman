@@ -50,7 +50,8 @@ var g_sounds = {
 
 	playExplosion: function() {
 	    var audio = new Audio('Sound effects/bombexplosion.mp3');
-	    audio.play();
+	    return audio;
+	    //audio.play();
     },
 
     playFuse: function() {

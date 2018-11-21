@@ -30,13 +30,8 @@ Bomb.prototype.explTimer = Bomb.prototype.explosionTime;
 Bomb.prototype.exploded = false;
 
 // Sound
-Bomb.prototype.explodeNOOP = function (){
-    var exploding = false;
-    if(!exploding) {
-      exploding = true;
-      g_sounds.playExplosion();
-    }
-};
+Bomb.prototype.playExplosion = new Audio('Sound effects/bombexplosion.mp3');
+
 //Bomb.prototype.bombExplosion = new Audio("Sound effects/bombexplosion.mp3");
 
 Bomb.prototype.update = function (du) {
@@ -51,9 +46,7 @@ Bomb.prototype.update = function (du) {
 
     this.soundTimer -= du;
     if (this.soundTimer > 0) {
-      this.explodeNOOP();
-      
-      //this.bombExplosion.play();
+      this.playExplosion.play();
     }
  
     // Draw explosion
