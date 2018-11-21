@@ -25,9 +25,9 @@ var g_sounds = {
 	vid:0,
 	vArr: [
 	    'Sound effects/VforVendetta/itstime_Portman.mp3',
-	    'Sound effects/VforVendetta/onlytruth_Hugo.mp3',
-	    'Sound effects/VforVendetta/perfectstage_Hugo.mp3',
-	    'Sound effects/VforVendetta/serveyouwell_Hugo.mp3',
+	    'Sound effects/VforVendetta/stage_hugo.mp3',
+	    'Sound effects/VforVendetta/perfectstage_Hugo.wav',
+	    'Sound effects/VforVendetta/serveyouwell_Hugo.wav',
 	    'Sound effects/VforVendetta/quiteenough_Portman.mp3'
 	],
 	gid:0,
@@ -51,7 +51,8 @@ var g_sounds = {
 
 	playExplosion: function() {
 	    var audio = new Audio('Sound effects/bombexplosion.mp3');
-	    audio.play();
+	    return audio;
+	    //audio.play();
     },
 
     playFuse: function() {

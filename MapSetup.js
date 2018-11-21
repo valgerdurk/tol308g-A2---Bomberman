@@ -59,7 +59,7 @@ var g_map = {
   tileHeight: 64,
   mapTilesX: mapTilesX,
   mapTilesY: mapTilesY,
-
+  breakableDensity: 0.3,
   mapTiles: genMap,
 
   colors: [
@@ -124,7 +124,7 @@ g_map.generateMap = function() {
         
           if(!id){
             var rn = Math.random();
-            if(rn > 0.8)
+            if(rn > this.breakableDensity)
               this.mapTiles[i][j] = 4;
           }
         }

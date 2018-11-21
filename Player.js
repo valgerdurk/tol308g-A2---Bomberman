@@ -2,7 +2,6 @@
 
 "use strict";
 
-var g_scale = 1;
 
 // We use generic contructor which accepts an arbitrary descriptor object 
 // So it's possible to create more players if needed
@@ -180,6 +179,7 @@ Player.prototype.playerMovement = function (du) {
     if (this.mapCollision())
       this.cy -= this.step * du;
   }
+  
 };
 
 //create bounding around sprite, takes in player
