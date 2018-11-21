@@ -94,7 +94,11 @@ var entityManager = {
   update: function (du) {
       // Update player entities
       for (var i = 0; i < this._player.length; i++) {
-        this._player[i].update(du);
+        var status = this._player[i].update(du);
+        
+        if (status === this.KILL_ME_NOW) {
+          this._player.splice(i, 1);
+        }
       }
 
       // Update enemy entities
