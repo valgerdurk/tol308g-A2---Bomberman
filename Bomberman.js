@@ -6,6 +6,10 @@ var g_winGame = false;
 
 var g_scale = 1;
 
+// To-do: make local 
+// Player starts with 3 lives
+var g_lives = 3;
+
 
 var KEY_PLUS = keyCode('j');
 var KEY_MINUS = keyCode('k');
@@ -34,11 +38,9 @@ function updateSimulation(du) {
     if(eatKey(KEY_PLUS)){
         Zoom(-0.1);
     }
-
-    if(eatKey(KEY_MINUS)){
+     if(eatKey(KEY_MINUS)){
         Zoom(+0.1);
     }
-
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -48,8 +50,6 @@ var g_renderSpatialDebug = false;
 var KEY_ENTER = keyCode('\r\n');
 
 var KEY_SPATIAL = keyCode('X');
-
-
 
 function processDiagnostics() {
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
@@ -79,40 +79,37 @@ function renderSimulation(ctx) {
         if(g_ui._key === 4){
             g_winGame = true;
         }
+         entityManager._game[0].render(ctx); 
 
-        entityManager._game[0].render(ctx);        
-        
         //translate magic
         g_camera.camera(ctx);
 
         //If the game is paused we inhibit rendering of other entities
         if(!g_isUpdatePaused){
             if(!g_winGame){ 
-            
-        //added g_map to render 
-        g_map.render(ctx);
 
-        entityManager.render(ctx); 
+                //added g_map to render
+                g_map.render(ctx);
+
+                entityManager.render(ctx);
         
-        if (g_renderSpatialDebug) spatialManager.render(ctx);
+                if (g_renderSpatialDebug) spatialManager.render(ctx);
+            }
         }
-    }
 
         // after everything is drawn, restore the ctx
         ctx.restore();
 
-        
         if(!g_isUpdatePaused){
             if(!g_winGame){ 
-        g_ui.render(ctx);
+                g_ui.render(ctx);
+            }
         }
-    }
 
-    }else {
+    } else {
         // Render start entities
-        entityManager._start[0].render(ctx);    
+        entityManager._start[0].render(ctx);
     }
-
     
 }
 
@@ -140,7 +137,7 @@ function requestPreloads() {
         10 : "assets/playerexplode.png",
 
         // Enemy sprite sheet
-        11 : "assets/mrblob-pixilart.png", // Bráðabirgða
+        11 : "assets/enemy-pixilart.png",
 
         // Start menu images
         12 : "assets/StartMenu1.png",
@@ -159,27 +156,24 @@ function requestPreloads() {
 
         // a key
         21 : "assets/key.png",
-
         // a gate
         22 : "assets/gate.png",
-
         // versus menu
         23 : "assets/Versus.png",
-
         // pause menu
         24 : "assets/PauseMenu.png",
-
         // game over screen
         25 : "assets/GameOver.png",
-
         // game win screen
         26 : "assets/GameWin.png",
 
         // Powerups
         27 : "assets/extraLife.png",
         28 : "assets/extraBomb.png",
-        29 : "assets/Speed.png"
+        29 : "assets/Speed.png",
 
+        // Enemy explosion sprites
+        30 : "assets/enemyexplode.png"
 
     };
 
@@ -188,19 +182,23 @@ function requestPreloads() {
 
 /**
  * Player sprites: 0-7
- * Enemy sprite: 8  // Only one for now
+ * Enemy main sprite: 8
  * Bomb sprite: 9
  * Explosion sprites: 10 - 32
  * Player Explosion sprites: 33 - 42
  * Start menu sprites: 43 - 44
+ * Enemy explosion sprites: 60 - 67
  */
 var g_sprites = [];
 var g_playerSprites = 8;
-var g_enemySprites = 1; // Only one for now
+var g_enemySprites = 1; 
 var g_explOffset = g_playerSprites + g_enemySprites + 1; 
 var g_explSprites = 22;
 var g_playerExplOffset = g_explOffset + g_explSprites;
 var g_playerExplSprites = 9;
+var g_enemyExplOffset = 61;
+var g_enemyExplSprites = 7;
+
 
 function preloadDone() {
 
@@ -280,16 +278,12 @@ function preloadDone() {
     g_sprites[52] = new Sprite(g_images[21]);
     //key
     g_sprites[53] = new Sprite(g_images[22]);
-
     //Versus menu sprite
     g_sprites[54] = new Sprite(g_images[23]);
-
     //Pause menu sprite
     g_sprites[55] = new Sprite(g_images[24]);
-
     //Game over sprite
     g_sprites[56] = new Sprite(g_images[25]);
-
     //Game win sprite
     g_sprites[57] = new Sprite(g_images[26]);
 
@@ -297,6 +291,25 @@ function preloadDone() {
     g_sprites[58] = new Sprite(g_images[27]);
     g_sprites[59] = new Sprite(g_images[28]);
     g_sprites[60] = new Sprite(g_images[29]);
+
+
+    // Enemy explosion sprites
+    var enemyCelWidth = 32;
+    var enemyCelHeight = 32;
+    var enemyNumCols = 1;
+    var enemyNumRows = 6;
+   
+    var enemyExplSprite;
+
+    for (var i = 0; i < enemyNumRows; i++) {
+        for (var j = 0; j < enemyNumCols; ++j) {
+            enemyExplSprite = new AnimatingSprite(j * enemyCelWidth, 
+                i * enemyCelHeight, 
+                enemyCelWidth, enemyCelHeight, g_images[30])
+            g_sprites.push(enemyExplSprite);
+        }
+    }
+    
 
     entityManager.init();
 

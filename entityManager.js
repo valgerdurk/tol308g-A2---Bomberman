@@ -5,7 +5,6 @@
 var entityManager = {
 
   // PRIVATE DATA
-
   _game: [],
   _start: [],
   _player: [],
@@ -27,8 +26,11 @@ var entityManager = {
     this._game.push(new Game(descr));
   },
 
-  generatePlayer: function (descr) {
-    this._player.push(new Player(descr));
+  generatePlayer: function (cx, cy) {
+    this._player.push(new Player({
+      cx: cx,
+      cy: cy
+    }));
   },
 
   generateEnemy: function (descr) {
@@ -80,7 +82,7 @@ var entityManager = {
   init: function () {
     this.generateStart();
     this.generateGame();
-    this.generatePlayer();
+    this.generatePlayer(100, 100);
     this.generateEnemy();
   },
 
@@ -116,8 +118,8 @@ var entityManager = {
 
     // Render game menu entities
     this._game[0].render(ctx);
-
-      if(!this._paused){ 
+   
+    if(!this._paused){   
       // Render player entities
       for (var i = 0; i < this._player.length; i++) {
         this._player[i].render(ctx);
