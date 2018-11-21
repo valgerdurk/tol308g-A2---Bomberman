@@ -28,6 +28,9 @@ function updateSimulation(du) {
     if(entityManager._startGame)
         entityManager.update(du);
 
+    if(entityManager._paused)
+        entityManager.update(du);
+
     if(eatKey(KEY_PLUS)){
         Zoom(-0.1);
     }
@@ -51,7 +54,16 @@ var KEY_SPATIAL = keyCode('X');
 function processDiagnostics() {
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
-    if (eatKey(KEY_ENTER)) entityManager.gameStart();
+    //A flag that starts the game, only if adventure is selected.
+    if(entityManager._selection == false){ 
+        //A flag that prevents pressing enter while a game has started.
+        if(entityManager._flag == false){ 
+            if (eatKey(KEY_ENTER)){
+            entityManager.gameStart();
+            entityManager._flag = !entityManager._flag;
+            }
+        }
+    }
 }
 
 // GAME-SPECIFIC RENDERING
@@ -61,28 +73,44 @@ function renderSimulation(ctx) {
     ctx.save();
 
     ctx.scale(g_scale,g_scale);
+
     //move the context
-    if (entityManager._startGame) {
+    if (entityManager._startGame) {  
         if(g_ui._key === 4){
             g_winGame = true;
         }
+
+        entityManager._game[0].render(ctx);        
+        
         //translate magic
         g_camera.camera(ctx);
-        //added g_map to render
+
+        //If the game is paused we inhibit rendering of other entities
+        if(!g_isUpdatePaused){
+            if(!g_winGame){ 
+            
+        //added g_map to render 
         g_map.render(ctx);
 
-        entityManager.render(ctx);        
+        entityManager.render(ctx); 
         
         if (g_renderSpatialDebug) spatialManager.render(ctx);
+        }
+    }
 
         // after everything is drawn, restore the ctx
         ctx.restore();
 
+        
+        if(!g_isUpdatePaused){
+            if(!g_winGame){ 
         g_ui.render(ctx);
+        }
+    }
 
     }else {
         // Render start entities
-        entityManager._start[0].render(ctx);
+        entityManager._start[0].render(ctx);    
     }
 
     
@@ -135,10 +163,24 @@ function requestPreloads() {
         // a gate
         22 : "assets/gate.png",
 
+        // versus menu
+        23 : "assets/Versus.png",
+
+        // pause menu
+        24 : "assets/PauseMenu.png",
+
+        // game over screen
+        25 : "assets/GameOver.png",
+
+        // game win screen
+        26 : "assets/GameWin.png",
+
         // Powerups
-        23 : "assets/extraLife.png",
-        24 : "assets/extraBomb.png",
-        25 : "assets/Speed.png"
+        27 : "assets/extraLife.png",
+        28 : "assets/extraBomb.png",
+        29 : "assets/Speed.png"
+
+
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -159,8 +201,6 @@ var g_explOffset = g_playerSprites + g_enemySprites + 1;
 var g_explSprites = 22;
 var g_playerExplOffset = g_explOffset + g_explSprites;
 var g_playerExplSprites = 9;
-var g_startMenuOffset = g_playerExplOffset + g_playerExplSprites + 2;
-var g_startMenuSprites = 2;
 
 function preloadDone() {
 
@@ -220,8 +260,8 @@ function preloadDone() {
     }
 
     // Start menu sprite
-    g_sprites[g_startMenuOffset] = new Sprite(g_images[12]);
-    g_sprites[g_startMenuOffset + g_enemySprites] = new Sprite(g_images[13]);
+    g_sprites[43] = new Sprite(g_images[12]);
+    g_sprites[44] = new Sprite(g_images[13]);
 
     // collectable sprites
     g_sprites[45] = new Sprite(g_images[14]);
@@ -241,10 +281,22 @@ function preloadDone() {
     //key
     g_sprites[53] = new Sprite(g_images[22]);
 
-    // Powerups
+    //Versus menu sprite
     g_sprites[54] = new Sprite(g_images[23]);
+
+    //Pause menu sprite
     g_sprites[55] = new Sprite(g_images[24]);
+
+    //Game over sprite
     g_sprites[56] = new Sprite(g_images[25]);
+
+    //Game win sprite
+    g_sprites[57] = new Sprite(g_images[26]);
+
+    // Powerups
+    g_sprites[58] = new Sprite(g_images[27]);
+    g_sprites[59] = new Sprite(g_images[28]);
+    g_sprites[60] = new Sprite(g_images[29]);
 
     entityManager.init();
 

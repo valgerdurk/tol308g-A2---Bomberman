@@ -56,8 +56,12 @@ var KEY_STEP = 'O'.charCodeAt(0);
 var g_isUpdatePaused = false;
 
 function shouldSkipUpdate() {
-  if (eatKey(KEY_PAUSE)) {
-    g_isUpdatePaused = !g_isUpdatePaused;
+  //If game has started
+  if(entityManager._startGame){ 
+    if (eatKey(KEY_PAUSE)) {
+      g_isUpdatePaused = !g_isUpdatePaused;
+      g_sounds.playSelect2();
+    }
   }
   return g_isUpdatePaused && !eatKey(KEY_STEP);
 }

@@ -434,7 +434,7 @@ g_map.tileTypes = [{
     interactable: false,
     pickup: true,
     key: false,
-    imgID: 54
+    imgID: 58
   }, {
     id: 8,
     title: 'extraBomb',
@@ -443,7 +443,7 @@ g_map.tileTypes = [{
     interactable: false,
     pickup: true,
     key: false,
-    imgID: 55
+    imgID: 59
   }, {
     id: 9,
     title: 'speed',
@@ -452,7 +452,7 @@ g_map.tileTypes = [{
     interactable: false,
     pickup: true,
     key: false,
-    imgID: 56
+    imgID: 60
   }, {
     id: 10,
     title: 'banemask',
