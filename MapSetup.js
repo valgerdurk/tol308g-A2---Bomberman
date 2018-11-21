@@ -133,6 +133,10 @@ g_map.generateMap = function() {
       }
     }
   }
+  
+  // Enemy map tile is always empty
+  this.mapTiles[13][1] = 0;
+  
   //smallst room possible
   /*
     1,1,1
