@@ -13,6 +13,8 @@ g_camera = {
 		var hw = g_canvas.width/2;
 		var hh = g_canvas.height/2;
 
+        if(!pl) return;
+
 		// negative player position and halfwidth of canvas
 		var xEdge = (-pl.cx+hw);
 		var yEdge = (-pl.cy+hh);
