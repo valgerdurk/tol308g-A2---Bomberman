@@ -32,11 +32,9 @@ Bomb.prototype.exploded = false;
 // Sound
 Bomb.prototype.explodeNOOP = function (){
     var exploding = false;
-    return function() {
-      if(!exploding) {
-        exploding = true;
-        g_sounds.playExplosion();
-      }
+    if(!exploding) {
+      exploding = true;
+      g_sounds.playExplosion();
     }
 };
 //Bomb.prototype.bombExplosion = new Audio("Sound effects/bombexplosion.mp3");
@@ -54,6 +52,7 @@ Bomb.prototype.update = function (du) {
     this.soundTimer -= du;
     if (this.soundTimer > 0) {
       this.explodeNOOP();
+      
       //this.bombExplosion.play();
     }
  
