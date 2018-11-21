@@ -1,5 +1,7 @@
 // sounds
 
+var hasPlayed = false;
+
 var g_sounds = {
 
 	// counter for the sounds
@@ -74,7 +76,20 @@ var g_sounds = {
 	playDamage: function() {
 	    var audio = new Audio('Sound effects/damage.mp3');
 	    audio.play();
-    },
+	},
+	
+	playWin: function() {
+		if(!hasPlayed){ 
+		var audio = new Audio('Sound effects/win.mp3');		
+		audio.play();
+		hasPlayed = !hasPlayed;
+		}
+	},
+
+	playGameOver: function() {
+		var audio = new Audio('Sound effects/gameover.mp3');
+		audio.play();
+	},
 
 	playSteps: function() {
 	    var random = [

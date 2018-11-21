@@ -102,7 +102,6 @@ Player.prototype.update = function (du) {
 
   if (this.ctdTimer < 0) {
     this.explTimer -= du;
-    console.log(this.explTimer)
     this.sprite = g_sprites[this.nextSprite];
 
     this.nextSprite = g_playerExplOffset + (Math.floor(g_playerExplSprites -

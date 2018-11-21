@@ -330,7 +330,19 @@ g_map._breakBlock = function (col, row) {
     row < 0 || row > g_map.width) {}*/
   if (this.tileTypes[this.mapTiles[col][row]].breakeable) {
     this.mapTiles[col][row] = 0;
-    this.mapTiles[col][row] = 7;
+    var rn = Math.floor(Math.random() * (10 - 6) + 6);
+    if (rn == 6) {
+      // Nothing found.
+    }
+    if (rn == 7) {
+      this.mapTiles[col][row] = 7;
+    }
+    if (rn == 8) {
+      this.mapTiles[col][row] = 8;
+    }
+    if (rn == 9) {
+      this.mapTiles[col][row] = 9;
+    }
     g_sounds.playRockBreak();
     //todo make posible to take multiple hits
     //var findCenter = this.tileCenter(row, col);
@@ -416,24 +428,33 @@ g_map.tileTypes = [{
     imgID: 6
   }, {
     id: 7,
-    title: 'pickup01',
+    title: 'extraLife',
     passable: true,
     breakeable: false,
     interactable: false,
     pickup: true,
     key: false,
-    imgID: 7
+    imgID: 58
   }, {
     id: 8,
-    title: 'pickup02',
+    title: 'extraBomb',
     passable: true,
     breakeable: false,
     interactable: false,
     pickup: true,
     key: false,
-    imgID: 8
+    imgID: 59
   }, {
     id: 9,
+    title: 'speed',
+    passable: true,
+    breakeable: false,
+    interactable: false,
+    pickup: true,
+    key: false,
+    imgID: 60
+  }, {
+    id: 10,
     title: 'banemask',
     passable: true,
     breakeable: false,
@@ -443,7 +464,7 @@ g_map.tileTypes = [{
     imgID: 45
   }
   , {
-    id: 10,
+    id: 11,
     title: 'gladmask',
     passable: true,
     breakeable: false,
@@ -453,7 +474,7 @@ g_map.tileTypes = [{
     imgID: 46
   }
   , {
-    id: 11,
+    id: 12,
     title: 'sawmask',
     passable: true,
     breakeable: false,
@@ -462,7 +483,7 @@ g_map.tileTypes = [{
     key: true,
     imgID: 47
   }, {
-    id: 12,
+    id: 13,
     title: 'vmask',
     passable: true,
     breakeable: false,
@@ -471,7 +492,7 @@ g_map.tileTypes = [{
     key: true,
     imgID: 48
   }, {
-    id: 13,
+    id: 14,
     title: 'finish',
     passable: true,
     breakeable: false,
@@ -480,7 +501,7 @@ g_map.tileTypes = [{
     key: true,
     imgID: 48
   }, {
-    id: 14,
+    id: 15,
     title: 'key',
     passable: true,
     breakeable: false,
