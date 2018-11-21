@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /** Enemy **/ 
 
 /** A pac-man ghost like enemy that goes around the map
@@ -646,4 +645,3 @@ Enemy.prototype.render = function (ctx) {
 
     this.sprite.drawCentredAt(ctx, this.cx, this.cy);
 };
->>>>>>> bbfe18db94272327eadad247a25187b7ea6d2c6c
