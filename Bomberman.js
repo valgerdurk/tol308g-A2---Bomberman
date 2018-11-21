@@ -84,9 +84,10 @@ function renderSimulation(ctx) {
         //translate magic
         g_camera.camera(ctx);
 
-        //If the game is paused we inhibit rendering of other entities
+        //If the game is paused, lost or won we inhibit rendering of other entities
         if(!g_isUpdatePaused){
             if(!g_winGame){ 
+                if(g_lives >= 0){
 
                 //added g_map to render
                 g_map.render(ctx);
@@ -96,15 +97,18 @@ function renderSimulation(ctx) {
                 if (g_renderSpatialDebug) spatialManager.render(ctx);
             }
         }
+    }
 
         // after everything is drawn, restore the ctx
         ctx.restore();
 
         if(!g_isUpdatePaused){
             if(!g_winGame){ 
+                if(g_lives >= 0){
                 g_ui.render(ctx);
             }
         }
+    }
 
     } else {
         // Render start entities

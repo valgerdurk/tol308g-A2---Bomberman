@@ -1,6 +1,7 @@
 // sounds
 
-var hasPlayed = false;
+var hasWon = false;
+var hasLost = false;
 
 var g_sounds = {
 
@@ -80,16 +81,19 @@ var g_sounds = {
 	},
 	
 	playWin: function() {
-		if(!hasPlayed){ 
+		if(!hasWon){ 
 		var audio = new Audio('Sound effects/win.mp3');		
 		audio.play();
-		hasPlayed = !hasPlayed;
+		hasWon = !hasWon;
 		}
 	},
 
 	playGameOver: function() {
+		if(!hasLost){ 
 		var audio = new Audio('Sound effects/gameover.mp3');
 		audio.play();
+		hasLost = !hasLost;
+		}
 	},
 
 	playSteps: function() {
