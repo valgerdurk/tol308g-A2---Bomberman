@@ -146,7 +146,7 @@ g_map.generateMap = function() {
   while(roomD) {
     var smallRoom = [
         [4,2,2,2],
-        [0,3,14,2],
+        [0,3,15,2],
         [4,2,2,2]
         ];
         sLength = smallRoom.length;
@@ -178,9 +178,9 @@ g_map.generateMap = function() {
   while(bd || sd || vd || gd) {
     var rx = Math.floor(util.randRange(3,this.mapTilesX-3));
     var ry = Math.floor(util.randRange(3,this.mapTilesY-3));
-    var rs = Math.floor(util.randRange(8,13));
+    var rs = Math.floor(util.randRange(9,15));
 
-    if(!(this.mapTiles[rx][ry] === 14) && !(this.mapTiles[rx][ry] === 2)) {
+    if(!(this.mapTiles[rx][ry] === 15) && !(this.mapTiles[rx][ry] === 2)) {
       switch(rs) {
         case 9:
           if(bCount >= g_sounds.baneArr.length) {
