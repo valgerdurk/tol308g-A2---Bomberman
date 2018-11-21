@@ -46,8 +46,6 @@ var g_ui = {
 		//if(!this._inMenu) return;
 
 		var pl = entityManager._player[0];
-		
-		if(!pl)  return;
 		//get player position
 		var pos = this.getPlayerPos(pl);
 		//get updated variabls

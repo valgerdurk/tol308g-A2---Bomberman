@@ -276,7 +276,7 @@ function preloadDone() {
 
     //key
     g_sprites[52] = new Sprite(g_images[21]);
-    //gate
+    //key
     g_sprites[53] = new Sprite(g_images[22]);
     //Versus menu sprite
     g_sprites[54] = new Sprite(g_images[23]);

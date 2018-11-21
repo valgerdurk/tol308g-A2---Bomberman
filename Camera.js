@@ -14,8 +14,6 @@ g_camera = {
 		var hh = g_canvas.height/2;
 
 		// negative player position and halfwidth of canvas
-        if(!pl) return;
-
 		var xEdge = (-pl.cx+hw);
 		var yEdge = (-pl.cy+hh);
 		// these prob wont change but now they scale properly
@@ -29,10 +27,10 @@ g_camera = {
                 //lock both x and y axix
                 ctx.translate(0,0);
             }
-            else if(yEdge <= -1.664) {
+            else if(yEdge <= Hmargin) {
                 // in this case the -448 needs be something else
                 //lock in both x and y axis
-                ctx.translate(0, -1.664);
+                ctx.translate(0, Hmargin);
             }
             else {
                 //continue moving up or down

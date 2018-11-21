@@ -59,7 +59,7 @@ var g_map = {
   tileHeight: 64,
   mapTilesX: mapTilesX,
   mapTilesY: mapTilesY,
-  breakableDensity: 0.9,
+  breakableDensity: 0.3,
   mapTiles: genMap,
 
   colors: [
@@ -134,6 +134,94 @@ g_map.generateMap = function() {
     }
   }
   
+  // Enemy map tile is always empty
+  this.mapTiles[13][1] = 0;
+  
+  //smallst room possible
+  /*
+    1,1,1
+    3,0,1
+    1,1,1
+  */
+  while(roomD) {
+    var smallRoom = [
+        [4,2,2,2],
+        [0,3,14,2],
+        [4,2,2,2]
+        ];
+        sLength = smallRoom.length;
+        sHeight = smallRoom[0].length;
+    var rx = Math.floor(util.randRange(5,this.mapTilesX-5));
+    var ry = Math.floor(util.randRange(5,this.mapTilesY-5));
+
+    if(g_gates.totalGates-1 >= roomCount) {
+      for(var i = 0; i < sLength; i++) {
+        for(var j = 0; j <sHeight; j++) {
+          //prevent rooms from overlapping
+          if((this.mapTiles[rx+2][ry+1] == 14) ||
+              (this.mapTiles[rx+3][ry+1] == 14) ||
+              (this.mapTiles[rx+2][ry+2] == 14))
+          {
+            //key found we can't build here
+          }else {
+            this.mapTiles[rx+i][ry+j] = smallRoom[i][j];
+          }
+        }
+      }
+      roomCount++;
+    } else {
+      roomD = false;
+    }
+
+  }
+  // generate keys on the map
+  while(bd || sd || vd || gd) {
+    var rx = Math.floor(util.randRange(3,this.mapTilesX-3));
+    var ry = Math.floor(util.randRange(3,this.mapTilesY-3));
+    var rs = Math.floor(util.randRange(8,13));
+
+    if(!(this.mapTiles[rx][ry] === 14) && !(this.mapTiles[rx][ry] === 2)) {
+      switch(rs) {
+        case 9:
+          if(bCount >= g_sounds.baneArr.length) {
+            bd = false;
+            break;
+          }
+          this.mapTiles[rx][ry] = rs;
+          bCount++;
+          break;
+        case 10:
+          if(sCount >= g_sounds.sawArr.length) {
+            sd = false;
+            break;
+          }
+          this.mapTiles[rx][ry] = rs;
+          sCount++;
+          break;
+        case 11:
+          if(vCount >= g_sounds.vArr.length) {
+            vd = false;
+            break;
+          }
+          this.mapTiles[rx][ry] = rs;
+          vCount++;
+          break;
+        case 12:
+          if(gCount >= g_sounds.gArr.length) {
+            gd = false;
+            break;
+          }
+          this.mapTiles[rx][ry] = rs;
+          gCount++;
+          break;
+        default:
+          console.log("defaulted map generation");
+
+      }
+    }
+  }
+};
+
 
 g_map.update = function (du) {
   //no updates
@@ -508,96 +596,3 @@ g_map.collectable = function(keyID) {
   }
 
 }
-// Enemy map tile is always empty
-  this.mapTiles[13][1] = 0;
-  
-  //smallst room possible
-  /*
-    1,1,1
-    3,0,1
-    1,1,1
-  */
-  while(roomD) {
-    var smallRoom = [
-        [4,2,2,2],
-        [0,3,15,2],
-        [4,2,2,2]
-        ];
-        sLength = smallRoom.length;
-        sHeight = smallRoom[0].length;
-    var rx = Math.floor(util.randRange(5,this.mapTilesX-5));
-    var ry = Math.floor(util.randRange(5,this.mapTilesY-5));
-
-    if(g_gates.totalGates-1 >= roomCount) {
-      for(var i = 0; i < sLength; i++) {
-        for(var j = 0; j <sHeight; j++) {
-          //prevent rooms from overlapping
-          // should make a function that checks
-          // the entire block the room is going to be in
-          if((this.mapTiles[rx+2][ry+1] == 14) ||
-              (this.mapTiles[rx+3][ry+1] == 14) ||
-              (this.mapTiles[rx+2][ry+2] == 14))
-          {
-            //key found we can't build here
-          }else {
-            this.mapTiles[rx+i][ry+j] = smallRoom[i][j];
-          }
-        }
-      }
-      roomCount++;
-    } else {
-      roomD = false;
-    }
-
-  }
-  // generate masks on the map
-  while(bd || sd || vd || gd) {
-    var rx = Math.floor(util.randRange(3,this.mapTilesX-3));
-    var ry = Math.floor(util.randRange(3,this.mapTilesY-3));
-    var rs = Math.floor(util.randRange(9,14));
-
-    //can't be 15, the key, or 2, the walls aroudn the room
-    // or 3, the gate
-    if((!(this.mapTiles[rx][ry] === 15) &&
-       !(this.mapTiles[rx][ry] === 2)) && 
-       !(this.mapTiles[rx][ry] === 3)) {
-      switch(rs) {
-        case 9:
-          if(bCount >= g_sounds.baneArr.length) {
-            bd = false;
-            break;
-          }
-          this.mapTiles[rx][ry] = rs;
-          bCount++;
-          break;
-        case 10:
-          if(sCount >= g_sounds.sawArr.length) {
-            sd = false;
-            break;
-          }
-          this.mapTiles[rx][ry] = rs;
-          sCount++;
-          break;
-        case 11:
-          if(vCount >= g_sounds.vArr.length) {
-            vd = false;
-            break;
-          }
-          this.mapTiles[rx][ry] = rs;
-          vCount++;
-          break;
-        case 12:
-          if(gCount >= g_sounds.gArr.length) {
-            gd = false;
-            break;
-          }
-          this.mapTiles[rx][ry] = rs;
-          gCount++;
-          break;
-        default:
-          console.log("defaulted map generation");
-
-      }
-    }
-  }
-};
