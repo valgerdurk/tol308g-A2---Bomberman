@@ -133,7 +133,12 @@ function requestPreloads() {
         21 : "assets/key.png",
 
         // a gate
-        22 : "assets/gate.png"
+        22 : "assets/gate.png",
+
+        // Powerups
+        23 : "assets/extraLife.png",
+        24 : "assets/extraBomb.png",
+        25 : "assets/Speed.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -235,6 +240,11 @@ function preloadDone() {
     g_sprites[52] = new Sprite(g_images[21]);
     //key
     g_sprites[53] = new Sprite(g_images[22]);
+
+    // Powerups
+    g_sprites[54] = new Sprite(g_images[23]);
+    g_sprites[55] = new Sprite(g_images[24]);
+    g_sprites[56] = new Sprite(g_images[25]);
 
     entityManager.init();
 
