@@ -141,8 +141,7 @@ var g_sounds = {
 		}
 	},
 
-	playGlad: functi
-	on(id){
+	playGlad: function(id){
 		if(!id) {
 			var gSound = new Audio(this.gArr[this.gid]);
 			gSound.play();
