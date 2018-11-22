@@ -25,10 +25,10 @@ var g_sounds = {
 	vid:0,
 	vArr: [
 	    'Sound effects/VforVendetta/itstime_Portman.mp3',
-	    'Sound effects/VforVendetta/stage_hugo.mp3',
-	    'Sound effects/VforVendetta/perfectstage_Hugo.wav',
+	    'Sound effects/VforVendetta/onlytruth_Hugo.mp3',
+	    'Sound effects/VforVendetta/quiteenough_Portman.mp3',
 	    'Sound effects/VforVendetta/serveyouwell_Hugo.wav',
-	    'Sound effects/VforVendetta/quiteenough_Portman.mp3'
+	    'Sound effects/VforVendetta/stage_hugo.wav'
 	],
 	gid:0,
 	gArr: [
@@ -141,11 +141,12 @@ var g_sounds = {
 		}
 	},
 
-	playGlad: function(id){
+	playGlad: functi
+	on(id){
 		if(!id) {
-			var gSound = new Audio(this.gArr[this.vid]);
+			var gSound = new Audio(this.gArr[this.gid]);
 			gSound.play();
-			this.vid++;
+			this.gid++;
 		} else  {
 			var gSound = new Audio(this.gArr[id]);+
 			gSound.play();
