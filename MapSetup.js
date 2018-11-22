@@ -584,14 +584,14 @@ g_map.collectable = function(keyID) {
       //code
       break;
     case "sawmask":
-      g_sounds.playSaw();
       console.log("found a key! It was a : " + keyID);
+      g_sounds.playSaw();
       g_ui._collectables++;
       //code
       break;
     case "vmask":
-      g_sounds.playV();
       console.log("found a key! It was a : " + keyID);
+      g_sounds.playV();
       g_ui._collectables++;
       //code
       break;
