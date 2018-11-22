@@ -2,8 +2,14 @@
 
 //this is a scale-able map generator, just change the maptileX and Y's
 var	mapTileWidth = 64,
-	mapTileHeight = 64,
+  mapTileHeight = 64,
 
+  mapTileHalfWidth = mapTileWidth / 2,  
+  mapTileHalfHeigth = mapTileHeight / 2,
+
+  // Number of enemies that will spawn on map 
+  maxEnemies = 8;
+  enemiesOnMap = 0;
 
 	mapWidth = g_canvas.width,
 	mapHeight = g_canvas.height,
@@ -134,9 +140,6 @@ g_map.generateMap = function() {
     }
   }
   
-  // Enemy map tile is always empty
-  this.mapTiles[13][1] = 0;
-  
   //smallst room possible
   /*
     1,1,1
@@ -220,6 +223,22 @@ g_map.generateMap = function() {
       }
     }
   }
+
+  // Enemies generated
+  for (var i = 6; i < g_mapRows; ++i) {
+    for (var j = 1; j < g_mapColumns; j++) {
+      var rand = Math.random();
+      var id = this.mapTiles[j][i];
+      // Enemies have a 5% chance of appearing at an empty tile
+      if (enemiesOnMap < maxEnemies && rand < 0.05) {
+        if(id === 0) {
+            entityManager.generateEnemy(i*mapTileWidth+mapTileHalfWidth,
+            j*mapTileHeight+mapTileHalfHeigth);
+          enemiesOnMap++;
+        }
+      }
+    }
+  }
 };
 
 
@@ -239,7 +258,6 @@ g_map.render = function (ctx) {
       }
     }
   }
-
 };
 
 // not actually used right
@@ -363,6 +381,7 @@ g_map._breakBlock = function (col, row) {
   return false;
 
 }
+
 
 //todo decide how to format this
 g_map.tileTypes = [{

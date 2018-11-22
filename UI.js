@@ -55,9 +55,9 @@ var g_ui = {
 		//set the font
 		this.setFont(ctx,"30px Arial");
 		//begin drawing
-		ctx.fillText("bombs: " + this._bomb
+		ctx.fillText("Bombs: " + this._bomb
 					+ " Masks: " + this._collectables
-					+ " keys: " + this._key,
+					+ " Keys: " + this._key + " Lives: " + g_lives,
 					100,
 					50);
 	},

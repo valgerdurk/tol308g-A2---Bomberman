@@ -33,8 +33,11 @@ var entityManager = {
     }));
   },
 
-  generateEnemy: function (descr) {
-    this._enemy.push(new Enemy(descr));
+  generateEnemy: function (cx, cy) {
+    this._enemy.push(new Enemy({
+      cx: cx,
+      cy: cy
+    }));
   },
 
   generateBomb: function (cx, cy, range, owner) {
@@ -83,7 +86,6 @@ var entityManager = {
     this.generateStart();
     this.generateGame();
     this.generatePlayer(100, 100);
-    this.generateEnemy();
   },
 
   gameStart: function () {
