@@ -113,6 +113,7 @@ Player.prototype.update = function (du) {
       this.kill();
       this.newLife();
       this.isDying = false;
+      g_lives -= 1; 
     }
 
   }
@@ -252,16 +253,23 @@ Player.prototype.mapCollision = function () {
 
 };
 
+// Handle enemy collision with player
+Player.prototype.takeEnemyHit = function () {
+  this.isDying = true;
+  g_sounds.playLifeLost();
+};
+
+// Handle bomb collision with player
 Player.prototype.takeExplosionHit = function () {
   this.isDying = true;
-  g_lives -= 1;
+  g_sounds.playLifeLost();
 };
 
 // Resets the player and starts a new life
 Player.prototype.newLife = function () {
   if (g_lives >= 0) {
     entityManager.generatePlayer(this.cx, this.cy);
-    console.log("Now there are " + g_lives + " lives left");
+    console.log("Now there are " + (g_lives-1) + " lives left");
   } else {
     console.log("Game over");
   }

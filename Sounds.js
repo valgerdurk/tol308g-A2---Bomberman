@@ -79,6 +79,11 @@ var g_sounds = {
 	    var audio = new Audio('Sound effects/damage.mp3');
 	    audio.play();
 	},
+
+	playLifeLost: function() {
+		var audio = new Audio('Sound effects/lifelost.mp3');
+		audio.play();
+	},
 	
 	playWin: function() {
 		if(!hasWon){ 

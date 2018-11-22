@@ -23,8 +23,8 @@ function Enemy(descr) {
 Enemy.prototype = new Entity();
 
 // Initial values
-Enemy.prototype.cx = 100;
-Enemy.prototype.cy = 860;
+Enemy.prototype.cx;
+Enemy.prototype.cy;
 
 Enemy.prototype.ctdTimer = (500 / NOMINAL_UPDATE_INTERVAL);
 Enemy.prototype.enemyExplTime = (1500 / NOMINAL_UPDATE_INTERVAL);
@@ -60,24 +60,23 @@ Enemy.prototype.update = function (du) {
 
         if (this.explTimer <= 0) {
             this.kill();
-            //this.isDying = false;
+            this.isDying = false;
         }
     }
 
     // Handle collisions with player
-    /*var _hitEntities = this.findHitEntities(this.range);
+    var _hitEntities = this.findHitEntities(0);
     if (_hitEntities != []) {
       for (var i = 0; i < _hitEntities.length; i++) {
         var hitEntity = _hitEntities[i];
-        var canTakeHit = hitEntity.takeExplosionHit;
-        if (canTakeHit) {
-          canTakeHit.call(hitEntity, du)
-          // Stop if player is hit
-          this.xVel = 0;
-          this.yVel = 0;
+        if (hitEntity && g_lives >= 0) {
+            var canTakeHit = hitEntity.takeEnemyHit;
+            if (canTakeHit) {
+                canTakeHit.call(hitEntity, du)
+            }
         }
       }
-    }*/
+    }
     
     // (Re-) register
     spatialManager.register(this);
@@ -204,29 +203,6 @@ Enemy.prototype.path = function (du) {
             }
         }
     }
-        
-    /*if (this.mapCollision()) {
-        this.isColliding = true;
-    }
-        if (this.mapCollision() && rand <= 0.25) {
-            console.log("hit a wall, going down");
-            this.cy += this.yVel*du;
-        } 
-        
-        if (this.mapCollision() && rand <= 0.5 && rand > 0.25) {
-            console.log("hit a wall, going right");
-            this.cx += this.xVel*du;
-        } 
-        
-        if (this.mapCollision() && rand <= 0.75 && rand > 0.5) {
-            console.log("hit a wall, going up");
-            this.cy -= this.yVel*du;
-        } 
-        
-        if (this.mapCollision() && rand <= 1 && rand > 0.75) {
-            console.log("hit a wall, going left");
-            this.cx -= this.xVel*du; 
-        }*/
     
 };
 
