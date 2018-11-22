@@ -182,7 +182,7 @@ g_map.generateMap = function() {
 
     if(!(this.mapTiles[rx][ry] === 15) && !(this.mapTiles[rx][ry] === 2)) {
       switch(rs) {
-        case 9:
+        case 10:
           if(bCount >= g_sounds.baneArr.length) {
             bd = false;
             break;
@@ -190,7 +190,7 @@ g_map.generateMap = function() {
           this.mapTiles[rx][ry] = rs;
           bCount++;
           break;
-        case 10:
+        case 11:
           if(sCount >= g_sounds.sawArr.length) {
             sd = false;
             break;
@@ -198,7 +198,7 @@ g_map.generateMap = function() {
           this.mapTiles[rx][ry] = rs;
           sCount++;
           break;
-        case 11:
+        case 12:
           if(vCount >= g_sounds.vArr.length) {
             vd = false;
             break;
@@ -206,7 +206,7 @@ g_map.generateMap = function() {
           this.mapTiles[rx][ry] = rs;
           vCount++;
           break;
-        case 12:
+        case 13:
           if(gCount >= g_sounds.gArr.length) {
             gd = false;
             break;
