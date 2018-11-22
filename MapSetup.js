@@ -532,7 +532,6 @@ g_map.nextIn = function (val) {
 
 g_map.collectKey = function (col, row) {
 
-  // i think pickups should be an entity
   var tile = this.mapTiles[col][row];
   if (tile === undefined) {
     return false;
@@ -542,8 +541,19 @@ g_map.collectKey = function (col, row) {
     return false;
   }
   //return this.tileTypes[tile].passable;
-  //console.log(pickup);
   if (pickup) {
+    var powerUp = this.tileTypes[tile].id;
+    var player = entityManager._player[0];
+    if (powerUp == 7) {
+      g_lives++;
+    }
+    if (powerUp == 8) {
+      player.incrMaxBombCount(1);
+    }
+    if (powerUp == 9) {
+      player.step++;
+    }
+
     this.mapTiles[col][row] = 0;
     g_sounds.playSelect();
     //check what the pick up is

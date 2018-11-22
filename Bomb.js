@@ -72,7 +72,6 @@ Bomb.prototype.update = function (du) {
         }
       }
 
-      console.log(`bombEXPLODE- x: ${this.cx}, y: ${this.cy}`);
       var placeInGrid = g_map.tileMapLocation(this.cy, this.cx);
 
       //todo add animation to afected squares

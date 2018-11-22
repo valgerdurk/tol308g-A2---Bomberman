@@ -275,7 +275,7 @@ Player.prototype.render = function (ctx) {
 
 // controles the number
 Player.prototype._ownedBombsCount = 0;
-Player.prototype._maxBombCount = 3;
+Player.prototype._maxBombCount = 1;
 
 // increases the number of bombs a player owns
 Player.prototype.addBomb = function () {
