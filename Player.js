@@ -3,7 +3,7 @@
 "use strict";
 
 
-// We use generic contructor which accepts an arbitrary descriptor object 
+// We use generic contructor which accepts an arbitrary descriptor object
 // So it's possible to create more players if needed
 function Player(descr) {
 
@@ -38,7 +38,7 @@ Player.prototype.KEY_DROP_BOMB = ' '.charCodeAt();
 //Interact with gate
 Player.prototype.KEY_USE = 'E'.charCodeAt(0);
 
- // Select answer
+// Select answer
 Player.prototype.KEY_ONE = '1'.charCodeAt(0);
 Player.prototype.KEY_TWO = '2'.charCodeAt(0);
 Player.prototype.KEY_THREE = '3'.charCodeAt(0);
@@ -51,7 +51,7 @@ Player.prototype.step = 4;
 Player.prototype.cx;
 Player.prototype.cy;
 
- // Player explosion lifespan
+// Player explosion lifespan
 Player.prototype.ctdTimer = (500 / NOMINAL_UPDATE_INTERVAL);
 Player.prototype.playerExplTime = (1500 / NOMINAL_UPDATE_INTERVAL);
 Player.prototype.explTimer = Player.prototype.playerExplTime;
@@ -96,30 +96,29 @@ Player.prototype.update = function (du) {
   }
 
   // Handle death
-  if(this.isDying) {
+  if (this.isDying) {
     this.step = 0;
     this.ctdTimer -= du;
 
-   if (this.ctdTimer < 0) {
-    this.explTimer -= du;
-    this.sprite = g_sprites[this.nextSprite];
+    if (this.ctdTimer < 0) {
+      this.explTimer -= du;
+      this.sprite = g_sprites[this.nextSprite];
 
-    this.nextSprite = g_playerExplOffset + (Math.floor(g_playerExplSprites -
-        this.explTimer / this.playerExplTime * g_playerExplSprites) %
-      g_playerExplSprites);
-  }
+      this.nextSprite = g_playerExplOffset + (Math.floor(g_playerExplSprites -
+          this.explTimer / this.playerExplTime * g_playerExplSprites) %
+        g_playerExplSprites);
+    }
 
-   if (this.explTimer <= 0) {
+    if (this.explTimer <= 0) {
       this.kill();
       this.newLife();
       this.isDying = false;
-      g_lives -= 1; 
     }
 
   }
 
-   if(eatKey(this.KEY_USE)){
-    this.checkGate(this.cx,this.cy);
+  if (eatKey(this.KEY_USE)) {
+    this.checkGate(this.cx, this.cy);
   }
 
   // Let the enemy know of my position
@@ -136,7 +135,7 @@ Player.prototype.getRadius = function () {
 
 Player.prototype.playerMovement = function (du) {
 
-  // The Player changes sprites depending on the direction he is going 
+  // The Player changes sprites depending on the direction he is going
   if (keys[this.KEY_RIGHT]) {
     if (g_step) {
       this.sprite = g_sprites[0];
@@ -144,8 +143,12 @@ Player.prototype.playerMovement = function (du) {
       this.sprite = g_sprites[1];
     }
     this.cx += this.step * du;
-    if (this.mapCollision())
+    if (this.mapCollision()) {
       this.cx -= this.step * du;
+      this.slide({
+        x: 1
+      });
+    }
   }
 
   if (keys[this.KEY_LEFT]) {
@@ -155,8 +158,12 @@ Player.prototype.playerMovement = function (du) {
       this.sprite = g_sprites[3];
     }
     this.cx -= this.step * du;
-    if (this.mapCollision())
+    if (this.mapCollision()) {
       this.cx += this.step * du;
+      this.slide({
+        x: -1
+      });
+    }
   }
 
   if (keys[this.KEY_UP]) {
@@ -166,8 +173,12 @@ Player.prototype.playerMovement = function (du) {
       this.sprite = g_sprites[5];
     }
     this.cy -= this.step * du;
-    if (this.mapCollision())
+    if (this.mapCollision()) {
       this.cy += this.step * du;
+      this.slide({
+        y: -1
+      });
+    }
   }
 
   if (keys[this.KEY_DOWN]) {
@@ -177,10 +188,14 @@ Player.prototype.playerMovement = function (du) {
       this.sprite = g_sprites[7];
     }
     this.cy += this.step * du;
-    if (this.mapCollision())
+    if (this.mapCollision()) {
       this.cy -= this.step * du;
+      this.slide({
+        y: 1
+      });
+    }
   }
-  
+
 };
 
 //create bounding around sprite, takes in player
@@ -215,6 +230,89 @@ Player.prototype.bounding = function (ax, dx, wy, sy, sw, sh) {
 
 };
 
+// gets the tile a player is in
+Player.prototype.getPlayerTile = function () {
+  var tileX = Math.floor(this.cx / 64);
+  var tileY = Math.floor(this.cy / 64);
+  return {
+    x: tileX,
+    y: tileY
+  };
+}
+
+//gets the postition of the player in a tile
+Player.prototype.postitionInTile = function () {
+  var curTile = this.getPlayerTile();
+  var posInTileX = this.cx - curTile.x * 64;
+  var posInTileY = this.cy - curTile.y * 64;
+  return {
+    x: posInTileX,
+    y: posInTileY
+  };
+
+}
+
+//gets if player is within bounds of the tile
+Player.prototype.inCenterOfTile = function () {
+  const BOUNDS_LEFT = 10;
+  const BOUNDS_RIGHT = 52;
+  const BOUNDS_TOP = 10;
+  const BOUNDS_BOT = 52;
+  var pos = this.postitionInTile();
+  var res = {
+    x: false,
+    y: false
+  };
+  if (pos.x > BOUNDS_LEFT && pos.x < BOUNDS_RIGHT) {
+    //console.log('midx');
+    res.x = true;
+  }
+  if (pos.y > BOUNDS_TOP && pos.y < BOUNDS_BOT) {
+    //console.log('midY');
+    res.y = true;
+  }
+  //console.log(res);
+  return res;
+
+}
+
+// detects if player is more than 50% beond the edge of the tile in front of it
+Player.prototype.slide = function (dir = {
+  x: 0,
+  y: 0
+}) {
+
+
+  if (dir.x !== undefined)
+    dir.y = 0;
+  else if (dir.y !== undefined)
+    dir.x = 0;
+  if (dir.x === 0 && dir.y === 0) {
+    return false;
+  }
+  var tile = this.getPlayerTile();
+  var pos = this.postitionInTile();
+  if (dir.x != 0) {
+
+    if (this.inCenterOfTile().y)
+      return false;
+    var top = false;
+    if (pos.y < 32) {
+      //console.log('topp')
+      top = true;
+    }
+
+    //console.log(tile.x, tile.y - dir.y);
+    var nextTilePassable = g_map.tilePassable(tile.x, tile.y - dir.y);
+    //console.log(nextTilePassable);
+  }
+  //console.log(this.cy - curTileY * 64)
+
+
+  //console.log(curTileX);
+  //console.log(curTileY);
+}
+
 // collision with map objects
 Player.prototype.mapCollision = function () {
 
@@ -230,8 +328,8 @@ Player.prototype.mapCollision = function () {
   var nextX = this.cx;
   var nextY = this.cy;
   //width and height
-  var width = this.sprite.width/2;
-  var height = this.sprite.height/2;
+  var width = this.sprite.width / 2;
+  var height = this.sprite.height / 2;
   //get bounding vectors
   //var playerBound = this.bounding(nextX,nextY,width,height);
   var playerBound = this.bounding(nextXA, nextXD, nextYW, nextYS, width, height);
@@ -253,23 +351,16 @@ Player.prototype.mapCollision = function () {
 
 };
 
-// Handle enemy collision with player
-Player.prototype.takeEnemyHit = function () {
-  this.isDying = true;
-  g_sounds.playLifeLost();
-};
-
-// Handle bomb collision with player
 Player.prototype.takeExplosionHit = function () {
   this.isDying = true;
-  g_sounds.playLifeLost();
+  g_lives -= 1;
 };
 
 // Resets the player and starts a new life
 Player.prototype.newLife = function () {
   if (g_lives >= 0) {
     entityManager.generatePlayer(this.cx, this.cy);
-    console.log("Now there are " + (g_lives-1) + " lives left");
+    console.log("Now there are " + g_lives + " lives left");
   } else {
     console.log("Game over");
   }
@@ -330,11 +421,11 @@ Player.prototype.incrMaxBombCount = function (incrAmount) {
   return this._maxBombCount;
 };
 
-Player.prototype.getFourDirections = function (x,y) {
-  var tileUP = g_map.mapTiles[x][y-1];
-  var tileLEFT = g_map.mapTiles[x-1][y];
-  var tileRIGHT = g_map.mapTiles[x+1][y];
-  var tileDOWN = g_map.mapTiles[x][y+1];
+Player.prototype.getFourDirections = function (x, y) {
+  var tileUP = g_map.mapTiles[x][y - 1];
+  var tileLEFT = g_map.mapTiles[x - 1][y];
+  var tileRIGHT = g_map.mapTiles[x + 1][y];
+  var tileDOWN = g_map.mapTiles[x][y + 1];
   return {
     up: tileUP,
     down: tileDOWN,
@@ -344,24 +435,24 @@ Player.prototype.getFourDirections = function (x,y) {
 };
 
 
- Player.prototype.checkGate = function (x,y) {
-  var ps = g_map.tileMapLocation(x,y);
-  var dir = this.getFourDirections(ps.row,ps.column);
+Player.prototype.checkGate = function (x, y) {
+  var ps = g_map.tileMapLocation(x, y);
+  var dir = this.getFourDirections(ps.row, ps.column);
   //check if interactable
-   if(dir.up === 3){
-     g_map.mapTiles[ps.row][ps.column-1] = 0;
+  if (dir.up === 3) {
+    g_map.mapTiles[ps.row][ps.column - 1] = 0;
   }
-   if(dir.down === 3){
-    g_map.mapTiles[ps.row][ps.column+1] = 0;
+  if (dir.down === 3) {
+    g_map.mapTiles[ps.row][ps.column + 1] = 0;
   }
-     
-  if(dir.left === 3) {
-    g_map.mapTiles[ps.row-1][ps.column] = 0;
+
+  if (dir.left === 3) {
+    g_map.mapTiles[ps.row - 1][ps.column] = 0;
   }
-     
-  if(dir.right === 3) {
-    g_map.mapTiles[ps.row+1][ps.column] = 0;
+
+  if (dir.right === 3) {
+    g_map.mapTiles[ps.row + 1][ps.column] = 0;
     g_sounds.playDamage();
   }
 
- };
+};

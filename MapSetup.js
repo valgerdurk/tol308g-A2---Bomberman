@@ -4,10 +4,10 @@
 var	mapTileWidth = 64,
   mapTileHeight = 64,
 
-  mapTileHalfWidth = mapTileWidth / 2,  
+  mapTileHalfWidth = mapTileWidth / 2,
   mapTileHalfHeigth = mapTileHeight / 2,
 
-  // Number of enemies that will spawn on map 
+  // Number of enemies that will spawn on map
   maxEnemies = 8;
   enemiesOnMap = 0;
 
@@ -17,13 +17,13 @@ var	mapTileWidth = 64,
   // needs to be an odd number
 	mapTilesX = 31,
 	mapTilesY = 31,
-	
+
   genMap = new Array(mapTilesX);
 
   for(var i = 0; i < mapTilesX; i++) {
     // create row in map of y length
-    genMap[i] = new Array(mapTilesY); 
-    
+    genMap[i] = new Array(mapTilesY);
+
     for(var j = 0; j < mapTilesY; j++) {
       // check first and last layer
       // then check second and secnd last layers
@@ -112,7 +112,7 @@ g_map.generateMap = function() {
       vd = true,
       gd = true,
       roomD = true;
-      
+
 
 
   //generate breakable blocks
@@ -127,7 +127,7 @@ g_map.generateMap = function() {
           //nothing
         }else {
           var id = this.mapTiles[i][j];
-        
+
           if(!id){
             var rn = Math.random();
             if(rn > this.breakableDensity)
@@ -135,11 +135,11 @@ g_map.generateMap = function() {
           }
         }
 
-        
+
       }
     }
   }
-  
+
   //smallst room possible
   /*
     1,1,1
@@ -288,7 +288,7 @@ g_map.tileMapLocation = function (x, y) {
   // Out of bounds calc - do we need this?
   if (x < 0 || x > g_mapColumns * g_map.tileWidth ||
   	y < 0 || y > g_mapRows * g_map.tileHeight) {
-  	
+
   }
   */
   let rowLocation = Math.floor(y / g_map.tileHeight);
@@ -375,7 +375,7 @@ g_map._breakBlock = function (col, row) {
     return false;
   }
   if (this.tileTypes[this.mapTiles[col][row]].passable) {
-    //todo, decide if and how invisable walls / hidden path should block 
+    //todo, decide if and how invisable walls / hidden path should block
     return true;
   }
   return false;
