@@ -576,7 +576,7 @@ g_map.collectKey = function (col, row) {
       player.incrMaxBombCount(1);
     }
     if (powerUp == 9) {
-      player.step++;
+      player.incrSpeed();
     }
 
     this.mapTiles[col][row] = 0;

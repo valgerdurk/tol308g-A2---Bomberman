@@ -46,6 +46,16 @@ Player.prototype.KEY_FOUR = '4'.charCodeAt(0);
 
 // player step
 Player.prototype.step = 4;
+Player.prototype.MAX_SPEED = 8;
+
+//increases player speed
+Player.prototype.incrSpeed = function (incr = 1) {
+  this.step += incr;
+  if (this.step > this.MAX_SPEED)
+    this.step = this.MAX_SPEED;
+  console.log(`Player speed increased: is now ${this.step}`);
+}
+
 
 // Initial values
 Player.prototype.cx;
@@ -471,7 +481,7 @@ Player.prototype.getEightDirectionsPassablePrint = function (x, y) {
   var up = '';
   if (ret.upLeft)
     up += '_';
-    else
+  else
     up += 'x';
 
   if (ret.up)
