@@ -292,6 +292,8 @@ Player.prototype.slide = function (dir = {
   }
   var tile = this.getPlayerTile();
   var pos = this.postitionInTile();
+  var next = this.getEightDirections(tile.x, tile.y);
+  //console.log(next);
   if (dir.x != 0) {
 
     if (this.inCenterOfTile().y)
@@ -304,6 +306,7 @@ Player.prototype.slide = function (dir = {
 
     //console.log(tile.x, tile.y - dir.y);
     var nextTilePassable = g_map.tilePassable(tile.x, tile.y - dir.y);
+    //this.getEightDirectionsPassablePrint(tile.x, tile.y);
     //console.log(nextTilePassable);
   }
   //console.log(this.cy - curTileY * 64)
@@ -351,6 +354,7 @@ Player.prototype.mapCollision = function () {
 
 };
 
+// damages player in explotion
 Player.prototype.takeExplosionHit = function () {
   this.isDying = true;
   g_lives -= 1;
@@ -421,6 +425,7 @@ Player.prototype.incrMaxBombCount = function (incrAmount) {
   return this._maxBombCount;
 };
 
+// gets the type of the four tiles surounding a player
 Player.prototype.getFourDirections = function (x, y) {
   var tileUP = g_map.mapTiles[x][y - 1];
   var tileLEFT = g_map.mapTiles[x - 1][y];
@@ -434,7 +439,87 @@ Player.prototype.getFourDirections = function (x, y) {
   }
 };
 
+// gets the type of the eight tiles surounding a player
+Player.prototype.getEightDirections = function (x, y) {
+  var ret = this.getFourDirections(x, y);
+  ret.upLeft = g_map.mapTiles[x - 1][y - 1];
+  ret.upRight = g_map.mapTiles[x + 1][y - 1];
+  ret.downLeft = g_map.mapTiles[x - 1][y + 1];
+  ret.downRight = g_map.mapTiles[x + 1][y + 1];
+  ret.current = g_map.mapTiles[x][y];
+  return ret;
+};
 
+// if the eight tiles surounding a player are passable
+Player.prototype.getEightDirectionsPassable = function (x, y) {
+  var ret = this.getEightDirections(x, y);
+  ret.up = g_map.tileTypePassable(ret.up);
+  ret.down = g_map.tileTypePassable(ret.down);
+  ret.left = g_map.tileTypePassable(ret.left);
+  ret.right = g_map.tileTypePassable(ret.right);
+  ret.upLeft = g_map.tileTypePassable(ret.upLeft);
+  ret.upRight = g_map.tileTypePassable(ret.upRight);
+  ret.downLeft = g_map.tileTypePassable(ret.downLeft);
+  ret.downRight = g_map.tileTypePassable(ret.downRight);
+  ret.current = g_map.tileTypePassable(ret.current);
+  return ret;
+};
+
+// prints the eight tiles surounding a player are passable
+Player.prototype.getEightDirectionsPassablePrint = function (x, y) {
+  var ret = this.getEightDirectionsPassable(x, y);
+  var up = '';
+  if (ret.upLeft)
+    up += '_';
+    else
+    up += 'x';
+
+  if (ret.up)
+    up += '_';
+  else
+    up += 'x';
+
+  if (ret.upRight)
+    up += '_';
+  else
+    up += 'x';
+
+  var mid = '';
+  if (ret.left)
+    mid += '_';
+  else
+    mid += 'x';
+
+  if (ret.current)
+    mid += '_';
+  else
+    mid += 'x';
+
+  if (ret.right)
+    mid += '_';
+  else
+    mid += 'x';
+
+  var bot = '';
+  if (ret.downLeft)
+    bot += '_';
+  else
+    bot += 'x';
+
+  if (ret.down)
+    bot += '_';
+  else
+    bot += 'x';
+
+  if (ret.downRight)
+    bot += '_';
+  else
+    bot += 'x';
+
+  console.log(up + "\n" + mid + "\n" + bot);
+};
+
+// cheks if a gate can be opened
 Player.prototype.checkGate = function (x, y) {
   var ps = g_map.tileMapLocation(x, y);
   var dir = this.getFourDirections(ps.row, ps.column);
