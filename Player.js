@@ -145,7 +145,7 @@ Player.prototype.getRadius = function () {
 
 Player.prototype.playerMovement = function (du) {
 
-  // The Player changes sprites depending on the direction he is going 
+  // The Player changes sprites depending on the direction he is going
   if (keys[this.KEY_RIGHT]) {
     if (g_step) {
       this.sprite = g_sprites[0];
@@ -168,8 +168,12 @@ Player.prototype.playerMovement = function (du) {
       this.sprite = g_sprites[3];
     }
     this.cx -= this.step * du;
-    if (this.mapCollision())
+    if (this.mapCollision()) {
       this.cx += this.step * du;
+      this.slide({
+        x: -1
+      });
+    }
   }
 
   if (keys[this.KEY_UP]) {
@@ -180,9 +184,9 @@ Player.prototype.playerMovement = function (du) {
     }
     this.cy -= this.step * du;
     if (this.mapCollision()) {
-      this.cx += this.step * du;
+      this.cy += this.step * du;
       this.slide({
-        x: -1
+        y: -1
       });
     }
   }
@@ -201,7 +205,7 @@ Player.prototype.playerMovement = function (du) {
       });
     }
   }
-  
+
 };
 
 //create bounding around sprite, takes in player
